@@ -11,8 +11,8 @@ uses
   dataform in 'dataform.pas' {dataformm},
   remproc in 'remproc.pas',
   frame in 'frame.pas' {Frame2: TFrame},
-  helpdict in 'D:\программки\установочник словаря\ver 3.1\helpdict.pas' {Form2},
-  thread2 in 'D:\программки\установочник словаря\ver 3.1\thread2.pas';
+  helpdict in 'helpdict.pas' {Form2},
+  thread2 in 'thread2.pas';
 
 {$R *.res}
 
