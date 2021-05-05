@@ -470,9 +470,6 @@ Coordinates=10,706,73,36
 [search]
 Coordinates=128,570,53,58
 
-[L1]
-Coordinates=1216,10,49,58
-
 [Frame28.panel1]
 Coordinates=1285,298,108,58
 
@@ -542,9 +539,6 @@ Coordinates=1224,638,40,36
 [m5]
 Coordinates=10,434,64,58
 
-[l2]
-Coordinates=954,570,49,58
-
 [m10]
 Coordinates=1473,502,64,58
 
@@ -552,5 +546,5 @@ Coordinates=1473,502,64,58
 Coordinates=131,502,53,58
 
 []
-Coordinates=1640,434,59,58
+Coordinates=954,570,49,58
 

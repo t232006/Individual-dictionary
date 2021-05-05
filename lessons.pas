@@ -13,7 +13,11 @@ type
     date:TDate;
     reit:byte;
   end;
- otv=array[0..6] of string; //массив,отвечающий за ответы
+  SlPerSl=record
+    slovo:string;
+    perevod:string;
+  end;
+ otv=array[0..6] of SlPerSl; //массив,отвечающий за ответы
 
 var
 v:array of worded;  //заполнение массива отдельной процедурой
@@ -158,9 +162,9 @@ begin
     randomize;
     j:=[]; jj:=j;
     l:=random(length(v)); //загаданное слово (индекс)
-    w[0]:=v[l].perevod; //загаданное слово
+    w[0].perevod:=v[l].perevod; //загаданное слово
       g:=random(6)+1;  //любому варианту
-       w[g]:=v[l].slovo;  // даем верный ответ
+       w[g].slovo:=v[l].slovo;  // даем верный ответ
     ind:=g;
       j:=j+[g];  jj:=jj+[l];
     for i:=2 to 6 do  //остальным даем неверные
@@ -173,13 +177,14 @@ begin
         l:=random(length(v));//генерим любой вариант
       until not(l in jj);
       jj:=jj+[l];      //чтобы не было повторов
-      w[g]:=v[l].slovo; //кладем в неверный вариант
+      w[g].slovo:=v[l].slovo; //кладем в неверный вариант
+      w[g].perevod:=v[l].perevod;
     end;
 end;
 
 
 
-procedure slovoPer(var w:otv; var ind:byte); //ind-верный вариант;w по сути string
+procedure slovoPer(var w:otv; var ind:byte); //ind-верный вариант;w record со словом-переводом
 var l:integer;
     i,g:byte;
     j:set of byte; //распределение ответов
@@ -188,9 +193,9 @@ begin
     randomize;
     j:=[]; jj:=j;
     l:=random(length(v)); //загаданное слово (индекс)
-    w[0]:=v[l].slovo; //загаданное слово
+    w[0].slovo:=v[l].slovo; //загаданное слово
       g:=random(6)+1;  //любому варианту
-       w[g]:=v[l].perevod;  // даем верный ответ
+       w[g].perevod:=v[l].perevod;  // даем верный ответ
     ind:=g;
       j:=j+[g];  jj:=jj+[l];
     for i:=2 to 6 do  //остальным даем неверные
@@ -203,7 +208,8 @@ begin
         l:=random(length(v));//генерим любой вариант
       until not(l in jj);
       jj:=jj+[l];      //чтобы не было повторов
-      w[g]:=v[l].perevod //кладем в неверный вариант
+      w[g].perevod:=v[l].perevod; //кладем в неверный вариант
+      w[g].slovo:=v[l].slovo; //put wrong word
     end;
 end;
 

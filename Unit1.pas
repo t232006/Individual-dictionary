@@ -1,4 +1,4 @@
-unit Unit1;
+п»їunit Unit1;
 
 interface
 
@@ -42,12 +42,10 @@ type
     rg: TRadioGroup;
     CheckBox1: TCheckBox;
     TabSheet2: TTabSheet;
-    L1: TLabel;
     Label2: TLabel;
     rg1: TRadioGroup;
     st1: TStaticText;
     TabSheet3: TTabSheet;
-    l2: TLabel;
     Label3: TLabel;
     st2: TStaticText;
     rg2: TRadioGroup;
@@ -156,6 +154,8 @@ type
     StaticText2: TStaticText;
     StaticText3: TStaticText;
     Button2: TSpeedButton;
+    Memo1: TMemo;
+    Memo2: TMemo;
     procedure rg1Click(Sender: TObject);
     procedure rg2Click(Sender: TObject);
     procedure InitSlovoPer;
@@ -215,7 +215,6 @@ type
     procedure ComboBox1KeyPress(Sender: TObject; var Key: Char);
     procedure ComboBox1DropDown(Sender: TObject);
     procedure ChangeColrigth(p:boolean);
-    procedure RadioGroup1Click(Sender: TObject);
     procedure Action4Execute(Sender: TObject);
     procedure SpeedButton4Click(Sender: TObject);
     procedure SpeedButton1Click(Sender: TObject);
@@ -266,8 +265,8 @@ type
 var
   Form1: TForm1;
   pravotv:byte;
-   sl1,per1:string;  //правильные ответы (слово-перевод и номер)
-  i:byte;   //ОСТОРОЖНО!
+   sl1,per1:string;  //РїСЂР°РІРёР»СЊРЅС‹Рµ РѕС‚РІРµС‚С‹ (СЃР»РѕРІРѕ-РїРµСЂРµРІРѕРґ Рё РЅРѕРјРµСЂ)
+  i:byte;   //РћРЎРўРћР РћР–РќРћ!
   gg:integer;
   s, filtr:string;
   koor:Tpoint;
@@ -331,9 +330,9 @@ begin
     else
         kolright:=0;
     case kolright mod 10 of
-    1:    StatusBar1.Panels[2].Text:='безошибочная серия '+inttostr(kolright)+' слово';
-    2..4: StatusBar1.Panels[2].Text:='безошибочная серия '+inttostr(kolright)+' слова';
-    else StatusBar1.Panels[2].Text:='безошибочная серия '+inttostr(kolright)+' слов';
+    1:    StatusBar1.Panels[2].Text:='Р±РµР·РѕС€РёР±РѕС‡РЅР°СЏ СЃРµСЂРёСЏ '+inttostr(kolright)+' СЃР»РѕРІРѕ';
+    2..4: StatusBar1.Panels[2].Text:='Р±РµР·РѕС€РёР±РѕС‡РЅР°СЏ СЃРµСЂРёСЏ '+inttostr(kolright)+' СЃР»РѕРІР°';
+    else StatusBar1.Panels[2].Text:='Р±РµР·РѕС€РёР±РѕС‡РЅР°СЏ СЃРµСЂРёСЏ '+inttostr(kolright)+' СЃР»РѕРІ';
     end;
 end;
 
@@ -358,28 +357,28 @@ procedure Tform1.InitSlovoPer;
 var k:byte;
 begin
   slovoper(o,pravotv);
-  st1.Caption:=o[0];
+  st1.Caption:=o[0].slovo;
   Rg1.ItemIndex:=-1;
   //try st1.SetFocus;
   //finally
   for i:=0 to 5 do
   begin
     //rg1.Buttons[i].WordWrap:=true;
-    rg1.Items[i]:=o[i+1];
+    rg1.Items[i]:=o[i+1].perevod;
   end;
 end;// end;
 
 procedure Tform1.InitPerevodSlo;
 begin
   PerevodSlo(o,pravotv);
-  st2.Caption:=o[0];
+  st2.Caption:=o[0].perevod;
   Rg2.ItemIndex:=-1;
   //try st2.SetFocus;
   //finally
     for i:=0 to 5 do
     begin
      // rg2.Buttons[i].WordWrap:=true;
-      Rg2.Items[i]:=o[i+1];
+      Rg2.Items[i]:=o[i+1].slovo;
     end;
 
 end; //end;
@@ -387,13 +386,13 @@ end; //end;
 procedure TForm1.InitPobukvam;
 var ii,jj:byte;
 begin
-    writeslovo(gg,sl1,per1);//загаданные слово и перевод
+    writeslovo(gg,sl1,per1);//Р·Р°РіР°РґР°РЅРЅС‹Рµ СЃР»РѕРІРѕ Рё РїРµСЂРµРІРѕРґ
     pobukvam(per1);
     for jj:=0 to sg.RowCount-1 do
     for ii:=0 to sg.ColCount-1 do
       if  (sg.colcount*jj+ii)<length(bmas) then SG.Cells[ii,jj]:=bmas[sg.colcount*jj+ii]
       else SG.Cells[ii,jj]:='';
-  if not(CheckBox2.Checked) then st3.Caption:=sl1;//писать, если не стоит галочка
+  if not(CheckBox2.Checked) then st3.Caption:=sl1;//РїРёСЃР°С‚СЊ, РµСЃР»Рё РЅРµ СЃС‚РѕРёС‚ РіР°Р»РѕС‡РєР°
 
 end;
 
@@ -403,18 +402,36 @@ procedure TForm1.rg1Click(Sender: TObject);
 begin
   if pravotv-1=Rg1.ItemIndex then
   begin
-    try L1.Caption:='правильно:'+' '+st1.Caption+'  ==>  '+rg1.Items[rg1.ItemIndex];
+    try
+      Memo1.Font.Color:=clgreen;
+      Memo1.Clear;
+      With Memo1.Lines do
+      begin
+        Add('РїСЂР°РІРёР»СЊРЅРѕ:');
+        Add(st1.Caption);
+        Add('  в†’  ');
+        Add(rg1.Items[rg1.ItemIndex]);
+      end;
     except
 
     end;
-    searchandcor(true,'word',o[0]);
-    ChangeColrigth(true); //пишет в статусе
+    searchandcor(true,'word',o[0].slovo);
+    ChangeColrigth(true); //РїРёС€РµС‚ РІ СЃС‚Р°С‚СѓСЃРµ
     InitSlovoPer;
   end else
   begin
-    l1.Caption:='неправильно';
-    searchandcor(false,'word',o[0]);
-    ChangeColrigth(false); //пишет в статусе
+    Memo1.Clear;
+    Memo1.font.Color:=clred;
+    With Memo1.Lines do
+    begin
+      Add('РЅРµРїСЂР°РІРёР»СЊРЅРѕ:');
+      Add(rg1.Items[rg1.ItemIndex]);
+      Add(' в†’ ');
+      Add(o[rg1.ItemIndex+1].slovo);
+    end;
+    //l1.Caption:='РЅРµРїСЂР°РІРёР»СЊРЅРѕ';
+    searchandcor(false,'word',o[0].slovo);
+    ChangeColrigth(false); //РїРёС€РµС‚ РІ СЃС‚Р°С‚СѓСЃРµ
   end;
   rg1.ItemIndex:=-1;
 
@@ -423,13 +440,13 @@ end;
 procedure TForm1.PageControl1Change(Sender: TObject);
 var t,t1:byte; //parentcontrol:TWinControl;
 begin
-//    statusbar1.panels[0].Text:='Всего слов: '+inttostr(DataModule2.vokab.RecordCount);
-//  DataModule2.topicquerly.SQL.Text:='UPDATE vokab SET usersel=true';//если слова не выбраны, то выбрать все слова}
+//    statusbar1.panels[0].Text:='Р’СЃРµРіРѕ СЃР»РѕРІ: '+inttostr(DataModule2.vokab.RecordCount);
+//  DataModule2.topicquerly.SQL.Text:='UPDATE vokab SET usersel=true';//РµСЃР»Рё СЃР»РѕРІР° РЅРµ РІС‹Р±СЂР°РЅС‹, С‚Рѕ РІС‹Р±СЂР°С‚СЊ РІСЃРµ СЃР»РѕРІР°}
   case  PageControl1.ActivePageIndex of
   0:
   begin
     edittable(true);
-    edittable(false); //обновление таблицы
+    edittable(false); //РѕР±РЅРѕРІР»РµРЅРёРµ С‚Р°Р±Р»РёС†С‹
   end;
   1:
   begin
@@ -449,7 +466,7 @@ begin
   4:
   begin
     read1(6);
-    sootv; //заполняет 2 массива ответами
+    sootv; //Р·Р°РїРѕР»РЅСЏРµС‚ 2 РјР°СЃСЃРёРІР° РѕС‚РІРµС‚Р°РјРё
     for t:=1 to 6 do
     begin
         TMemo(FindComponent('m'+IntToStr(t))).lines.text:=o1[t].slovo;
@@ -472,7 +489,7 @@ begin
     end
        else
     begin
-       t1:=12;//12 карточек или 9
+       t1:=12;//12 РєР°СЂС‚РѕС‡РµРє РёР»Рё 9
        Frame210.Visible:=true;
             Frame211.Visible:=true;
                   Frame212.Visible:=true;
@@ -509,33 +526,49 @@ begin
   end;
   6:
   begin
-    WebBrowser1.Navigate(ExtractFileDir(Application.ExeName)+'\словарь.htm');
+    WebBrowser1.Navigate(ExtractFileDir(Application.ExeName)+'\СЃР»РѕРІР°СЂСЊ.htm');
   end;
   
   end;
 end;
 
 procedure TForm1.rg2Click(Sender: TObject);
-
   begin
-         if pravotv-1=Rg2.ItemIndex then
+  if pravotv-1=Rg2.ItemIndex then
   begin
-    try L2.Caption:='правильно:'+' '+st2.Caption+'  ==>  '+rg2.Items[rg2.ItemIndex];
+    try
+      Memo2.Font.Color:=clgreen;
+      Memo2.Clear;
+      With Memo2.Lines do
+      begin
+        Add('РїСЂР°РІРёР»СЊРЅРѕ:');
+        Add(st2.Caption);
+        Add('  в†’  ');
+        Add(rg2.Items[rg2.ItemIndex]);
+      end;
     except
 
     end;
-    searchandcor(true,'translate',st2.Caption);
-    ChangeColrigth(true); //пишет в статусе
+    searchandcor(true,'translate',o[0].perevod);
+    ChangeColrigth(true); //РїРёС€РµС‚ РІ СЃС‚Р°С‚СѓСЃРµ
     InitPerevodSlo;
   end else
   begin
-    l2.Caption:='неправильно';
-    searchandcor(false,'translate',st2.Caption);
-    ChangeColrigth(false); //пишет в статусе
+    Memo2.Clear;
+    Memo2.font.Color:=clred;
+    With Memo2.Lines do
+    begin
+      Add('РЅРµРїСЂР°РІРёР»СЊРЅРѕ:');
+      Add(rg2.Items[rg2.ItemIndex]);
+      Add(' в†’ ');
+      Add(o[rg2.ItemIndex+1].perevod);
+    end;
+    //l1.Caption:='РЅРµРїСЂР°РІРёР»СЊРЅРѕ';
+    searchandcor(false,'translate',o[0].perevod);
+    ChangeColrigth(false); //РїРёС€РµС‚ РІ СЃС‚Р°С‚СѓСЃРµ
   end;
-
+  rg2.ItemIndex:=-1;
 end;
-
 
 procedure TForm1.m1MouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
@@ -543,7 +576,7 @@ var ch:char; na:byte;
 begin
    if not (fsstrikeout in (sender as Tmemo).Font.Style) then
   begin
-    (sender as Tmemo).BeginDrag(false,15); //перенос после 15 пик
+    (sender as Tmemo).BeginDrag(false,15); //РїРµСЂРµРЅРѕСЃ РїРѕСЃР»Рµ 15 РїРёРє
     //ch:=chr(9);
     //if not(left1.Visible) then
     na:=memonumber(Tmemo(sender).Name);
@@ -580,14 +613,14 @@ procedure TForm1.m7DragDrop(Sender, Source: TObject; X, Y: Integer);
 var komp:byte;
 begin
   komp:=strtoint(copy((sender as tmemo).Name,2,2));
-  if source<>sender then //чтобы не закидывать в себя
+  if source<>sender then //С‡С‚РѕР±С‹ РЅРµ Р·Р°РєРёРґС‹РІР°С‚СЊ РІ СЃРµР±СЏ
   if ((source as tmemo).Lines.Text=o2[komp-6].slovo) then
   begin
     (sender as tmemo).Lines.Text:=o2[komp-6].slovo+ ' = ' +(sender as tmemo).Lines.Text;
     (source as tmemo).Lines.Text:='';
     // (source as tmemo).Color:=clMoneyGreen;
       (sender as tmemo).Color:=clMoneyGreen;
-    searchandcor(true,'word',o2[komp-6].slovo); //если правильно,добавить балл
+    searchandcor(true,'word',o2[komp-6].slovo); //РµСЃР»Рё РїСЂР°РІРёР»СЊРЅРѕ,РґРѕР±Р°РІРёС‚СЊ Р±Р°Р»Р»
     ChangeColrigth(true);
   end else
   begin
@@ -597,7 +630,7 @@ begin
      //(source as tmemo).Color:=clMoneyGreen;
     (sender as tmemo).Color:=8421631;
 
-    determ; determ; //нужно вычесть 2 очка всем
+    determ; determ; //РЅСѓР¶РЅРѕ РІС‹С‡РµСЃС‚СЊ 2 РѕС‡РєР° РІСЃРµРј
     ChangeColrigth(false);
   end;
     pb.Canvas.FillRect(pb.Canvas.ClipRect);
@@ -611,8 +644,8 @@ end;
 procedure TForm1.m1DragDrop(Sender, Source: TObject; X, Y: Integer);
 var komp:byte;
 begin
-    komp:=strtoint(copy((sender as tmemo).Name,2,2));//номер компонента (без имени)
-    if source<>sender then //чтобы не закидывать в себя
+    komp:=strtoint(copy((sender as tmemo).Name,2,2));//РЅРѕРјРµСЂ РєРѕРјРїРѕРЅРµРЅС‚Р° (Р±РµР· РёРјРµРЅРё)
+    if source<>sender then //С‡С‚РѕР±С‹ РЅРµ Р·Р°РєРёРґС‹РІР°С‚СЊ РІ СЃРµР±СЏ
     if ((source as tmemo).Lines.Text=o1[komp].perevod) then
   begin
       (sender as tmemo).Lines.Text:=(sender as tmemo).Lines.Text+' = '+o1[komp].perevod;
@@ -620,7 +653,7 @@ begin
      // (source as tmemo).Color:=clMoneyGreen;
       (sender as tmemo).Color:=clMoneyGreen;
 
-      searchandcor(true,'translate',o1[komp].perevod);//добавить 1 балл
+      searchandcor(true,'translate',o1[komp].perevod);//РґРѕР±Р°РІРёС‚СЊ 1 Р±Р°Р»Р»
       ChangeColrigth(true);
   end else
   begin
@@ -630,7 +663,7 @@ begin
     //(source as tmemo).Color:=clMoneyGreen;
     (sender as tmemo).Color:=8421631;
 
-    determ; determ; //нужно вычесть 2 очка всем
+    determ; determ; //РЅСѓР¶РЅРѕ РІС‹С‡РµСЃС‚СЊ 2 РѕС‡РєР° РІСЃРµРј
           ChangeColrigth(false);
   end;
        pb.Canvas.FillRect(pb.Canvas.ClipRect);
@@ -686,8 +719,8 @@ end;
 procedure TForm1.searchKeyPress(Sender: TObject; var Key: Char);
 begin
   if ord(key)<128 then
-  DataModule2.vokab.IndexName:='transind' else //если русская буква
-  DataModule2.vokab.IndexName:='wordind'; //если латинская буква
+  DataModule2.vokab.IndexName:='transind' else //РµСЃР»Рё СЂСѓСЃСЃРєР°СЏ Р±СѓРєРІР°
+  DataModule2.vokab.IndexName:='wordind'; //РµСЃР»Рё Р»Р°С‚РёРЅСЃРєР°СЏ Р±СѓРєРІР°
 
   if (DataModule2.vokab.FindKey([search.Text]))=false then
   DataModule2.vokab.FindNearest([search.Text]);
@@ -702,7 +735,7 @@ begin
 with DataModule2.topicquerly do
 begin
   if SQL.Text<>'update vokab set usersel=true where'#$D#$A
-  then if CheckBox1.Checked then SQL.Add('and')//для добавления сложных условий
+  then if CheckBox1.Checked then SQL.Add('and')//РґР»СЏ РґРѕР±Р°РІР»РµРЅРёСЏ СЃР»РѕР¶РЅС‹С… СѓСЃР»РѕРІРёР№
   else SQL.Add('or');
   case combobox1.ItemIndex of
     0: SQL.Add('rate<6');
@@ -745,7 +778,7 @@ begin
     DataModule2.vokab.Fields[7].AsBoolean:=true;
     DataModule2.vokab.Post;
         edittable(false);
-        {stringselect(false); //чтобы можно было нажимать несколько раз
+        {stringselect(false); //С‡С‚РѕР±С‹ РјРѕР¶РЅРѕ Р±С‹Р»Рѕ РЅР°Р¶РёРјР°С‚СЊ РЅРµСЃРєРѕР»СЊРєРѕ СЂР°Р·
         stringselect(true);}
    Action3Execute(column);
   end;
@@ -771,18 +804,18 @@ procedure TForm1.Button1Click(Sender: TObject);
 begin
   if per1=trim(edit1.Text) then
     begin
-      Label1.Caption:='правильно';
+      Label1.Caption:='РїСЂР°РІРёР»СЊРЅРѕ';
       searchandcor(true,'word',sl1);
-      ChangeColrigth(true); //пишет в статусе
+      ChangeColrigth(true); //РїРёС€РµС‚ РІ СЃС‚Р°С‚СѓСЃРµ
       InitPobukvam;
       Edit1.Text:='';
     end else
     begin
-      Label1.Caption:='неправильно';
+      Label1.Caption:='РЅРµРїСЂР°РІРёР»СЊРЅРѕ';
       searchandcor(false,'word',sl1);
-      searchandcor(false,'word',sl1); //вычесть 2 балла
-      edit1.Text:=per1; //написать правильный ответ
-      ChangeColrigth(false); //пишет в статусе
+      searchandcor(false,'word',sl1); //РІС‹С‡РµСЃС‚СЊ 2 Р±Р°Р»Р»Р°
+      edit1.Text:=per1; //РЅР°РїРёСЃР°С‚СЊ РїСЂР°РІРёР»СЊРЅС‹Р№ РѕС‚РІРµС‚
+      ChangeColrigth(false); //РїРёС€РµС‚ РІ СЃС‚Р°С‚СѓСЃРµ
     end;
     edit1.SetFocus;
 
@@ -798,7 +831,7 @@ end;
 procedure TForm1.sgDblClick(Sender: TObject);
 //var ac,ar:integer;
 begin
-    if length(sg.Cells[posi.x,posi.y])>1 then //если фраза,то пробел
+    if length(sg.Cells[posi.x,posi.y])>1 then //РµСЃР»Рё С„СЂР°Р·Р°,С‚Рѕ РїСЂРѕР±РµР»
     Edit1.Text:=edit1.Text+s+' ' else
     Edit1.Text:=edit1.Text+s;
     sg.Cells[posi.X,posi.Y]:='';
@@ -806,7 +839,7 @@ end;
 
 procedure TForm1.Edit1DragDrop(Sender, Source: TObject; X, Y: Integer);
 begin
-  if length(sg.Cells[posi.x,posi.y])>1 then //если фраза,то пробел
+  if length(sg.Cells[posi.x,posi.y])>1 then //РµСЃР»Рё С„СЂР°Р·Р°,С‚Рѕ РїСЂРѕР±РµР»
     Edit1.Text:=edit1.Text+s+' ' else
     Edit1.Text:=edit1.Text+s;
   sg.Cells[posi.x,posi.Y]:='';
@@ -998,12 +1031,12 @@ procedure delfilt(t:boolean);
 begin
   with DataModule2.vokab do
   begin
-  filtr:=Filter; //отдали полномочия
+  filtr:=Filter; //РѕС‚РґР°Р»Рё РїРѕР»РЅРѕРјРѕС‡РёСЏ
   //Filtered:=true;
   if rg.ItemIndex=0 then
   begin
       delfilt(true);
-      if trim(filtr)<>''  then //если уже что-то есть
+      if trim(filtr)<>''  then //РµСЃР»Рё СѓР¶Рµ С‡С‚Рѕ-С‚Рѕ РµСЃС‚СЊ
        filtr:=filtr+ ' and fraza=false' else
       filtr:='fraza=false'
   end else
@@ -1011,7 +1044,7 @@ begin
   if rg.ItemIndex=1 then
   begin
       delfilt(false);
-      if trim(filtr)<>'' then //если уже что-то есть
+      if trim(filtr)<>'' then //РµСЃР»Рё СѓР¶Рµ С‡С‚Рѕ-С‚Рѕ РµСЃС‚СЊ
       filtr:=filtr+ ' and fraza=true' else
       filtr:='fraza=true'
   end else
@@ -1023,7 +1056,7 @@ begin
 
 
   end;
-    DataModule2.vokab.filter:=filtr; ////забрали полномочия
+    DataModule2.vokab.filter:=filtr; ////Р·Р°Р±СЂР°Р»Рё РїРѕР»РЅРѕРјРѕС‡РёСЏ
     
   end;
 
@@ -1049,7 +1082,7 @@ begin
     rgClick(sender);
     lb.Visible:=true;
     lb.Font.Color:=clblue;
-    lb.Caption:='операция И';
+    lb.Caption:='РѕРїРµСЂР°С†РёСЏ Р';
     Image1.Visible:=true;
     Image2.Visible:=false;
   end else
@@ -1058,7 +1091,7 @@ begin
     rgClick(sender);
     lb.Visible:=true;
     lb.Font.Color:=clMaroon;
-    lb.Caption:='операция ИЛИ';
+    lb.Caption:='РѕРїРµСЂР°С†РёСЏ РР›Р';
     Image2.Visible:=true;
     Image1.Visible:=false;
 
@@ -1095,7 +1128,7 @@ begin
   with DataModule2.selectsel do
   begin
     Open;// ExecSQL;
-    statusbar1.Panels[1].text:='Выделено слов: '+ inttostr(RecordCount);
+    statusbar1.Panels[1].text:='Р’С‹РґРµР»РµРЅРѕ СЃР»РѕРІ: '+ inttostr(RecordCount);
   end;
 end;
 
@@ -1268,7 +1301,7 @@ end;
 
   end;  //===============================================
   end;
-  except  //showmessage ('идите на хуй');
+  except  //showmessage ('РёРґРёС‚Рµ РЅР° С…СѓР№');
 //  finally
 
 end;
@@ -1283,14 +1316,8 @@ end;
 
 procedure TForm1.ComboBox1DropDown(Sender: TObject);
 begin
-ComboBox1.ItemIndex:=-1; //чтобы можно было закрыть без выбора
+ComboBox1.ItemIndex:=-1; //С‡С‚РѕР±С‹ РјРѕР¶РЅРѕ Р±С‹Р»Рѕ Р·Р°РєСЂС‹С‚СЊ Р±РµР· РІС‹Р±РѕСЂР°
 CheckBox1Click(sender);
-end;
-
-
-procedure TForm1.RadioGroup1Click(Sender: TObject);
-begin
-   l2.Caption:=l2.Caption+ '1';
 end;
 
 procedure TForm1.Action4Execute(Sender: TObject);
@@ -1453,7 +1480,7 @@ begin
 if od1.Execute then
   begin
     DataModule2.synch.SQL.Clear;
-    dirbase:=ExtractFilePath(od1.FileName);  //открываем
+    dirbase:=ExtractFilePath(od1.FileName);  //РѕС‚РєСЂС‹РІР°РµРј
     DataModule2.synch.SQL.Add({'SELECT * FROM "'+od1.filename+'" WHERE word NOT IN (SELECT word FROM vokab)'}
     'SELECT "'+od1.filename+'".word, "'+od1.filename+'".translate, "'+dirbase+'top.db".name, "'+od1.filename+'".daterec, "'+od1.filename+'".topic, "'+od1.FileName+'".rate, "'+od1.FileName+'".fraza FROM "'+od1.filename+'" LEFT JOIN "'+dirbase+'top.db" ON "' +od1.filename+'".topic="'+dirbase+'top.db".Id WHERE word NOT IN (SELECT word FROM vokab)');
   end;
@@ -1466,7 +1493,7 @@ if od1.Execute then
       synch1.Open; }
       //dbgrid4.DataSource:=DataModule2.dssynch;
     end;
-    statusbar1.panels[0].Text:='Найдено новых слов: '+inttostr(DataModule2.synch.RecordCount);
+    statusbar1.panels[0].Text:='РќР°Р№РґРµРЅРѕ РЅРѕРІС‹С… СЃР»РѕРІ: '+inttostr(DataModule2.synch.RecordCount);
   finally
   end;
 
@@ -1487,7 +1514,7 @@ end;
 procedure TForm1.DBGrid2CellClick(Column: TColumn);
 begin
   SpeedButton9.Enabled:=true;
-  statusbar1.panels[1].Text:='Выделено слов: '+inttostr(DBGrid2.SelectedRows.Count);
+  statusbar1.panels[1].Text:='Р’С‹РґРµР»РµРЅРѕ СЃР»РѕРІ: '+inttostr(DBGrid2.SelectedRows.Count);
 
 end;
 
@@ -1566,13 +1593,13 @@ begin
    if PageControl1.ActivePageIndex=7 then
    begin
      try
-     statusbar1.panels[0].Text:='Найдено новых слов: '+inttostr(DataModule2.synch.RecordCount);
+     statusbar1.panels[0].Text:='РќР°Р№РґРµРЅРѕ РЅРѕРІС‹С… СЃР»РѕРІ: '+inttostr(DataModule2.synch.RecordCount);
      except end;
-     statusbar1.panels[1].Text:='Выделено слов: '+inttostr(DBGrid2.SelectedRows.Count);
+     statusbar1.panels[1].Text:='Р’С‹РґРµР»РµРЅРѕ СЃР»РѕРІ: '+inttostr(DBGrid2.SelectedRows.Count);
    end else
    begin
-   statusbar1.panels[0].Text:='Всего слов: '+inttostr(DataModule2.vokab.RecordCount);
-   statusbar1.Panels[1].text:='Выделено слов: '+ inttostr(DataModule2.selectsel.RecordCount);
+   statusbar1.panels[0].Text:='Р’СЃРµРіРѕ СЃР»РѕРІ: '+inttostr(DataModule2.vokab.RecordCount);
+   statusbar1.Panels[1].text:='Р’С‹РґРµР»РµРЅРѕ СЃР»РѕРІ: '+ inttostr(DataModule2.selectsel.RecordCount);
    end;
 
 end;
@@ -1592,8 +1619,8 @@ begin
       sh.columns[3].columnwidth:=16;
       first;
       ij:=2;
-      sh.cells[1,2]:='слово';
-      sh.cells[1,3]:='перевод';
+      sh.cells[1,2]:='СЃР»РѕРІРѕ';
+      sh.cells[1,3]:='РїРµСЂРµРІРѕРґ';
       while not(eof) do
       begin
           sh.cells[ij,2]:=FieldByName('word').AsString;
@@ -1746,7 +1773,7 @@ end;
 
 procedure TForm1.N1Click(Sender: TObject);
 begin
-if Application.MessageBox('Вы действительно хотите обнулить все оценки?','Внимание',MB_YESNO+MB_ICONEXCLAMATION+MB_TASKMODAL)=IDYES then
+if Application.MessageBox('Р’С‹ РґРµР№СЃС‚РІРёС‚РµР»СЊРЅРѕ С…РѕС‚РёС‚Рµ РѕР±РЅСѓР»РёС‚СЊ РІСЃРµ РѕС†РµРЅРєРё?','Р’РЅРёРјР°РЅРёРµ',MB_YESNO+MB_ICONEXCLAMATION+MB_TASKMODAL)=IDYES then
      begin
       DataModule2.droprate.ExecSQL;
       DataModule2.vokab.Refresh;
