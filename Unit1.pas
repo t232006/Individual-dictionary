@@ -252,6 +252,8 @@ type
     procedure DBGrid1TitleClick(Column: TColumn);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure nexttackExecute(Sender: TObject);
+    procedure DBMemo1KeyPress(Sender: TObject; var Key: Char);
+    procedure DBMemo2KeyPress(Sender: TObject; var Key: Char);
 
   private
     { Private declarations }
@@ -1440,6 +1442,9 @@ then
       Post
       else Edit;
 end;
+if (key=#9) then
+  DBMemo1.SetFocus;
+
 end;
 
 procedure TForm1.DBGrid1TitleClick(Column: TColumn);
@@ -1517,48 +1522,6 @@ begin
   statusbar1.panels[1].Text:='Выделено слов: '+inttostr(DBGrid2.SelectedRows.Count);
 
 end;
-
-{procedure tform1.mousewheelhandler(var message:Tmessage);
-var
-p:TPoint; kb:byte;
-begin
-GetCursorPos(p);
-
-if WindowFromPoint(p)=DBGrid1.Handle then
-begin
-  If Message.WParam<0
- then
-  DBGrid1.DataSource.DataSet.Next //Perform(WM_VSCROLL, SB_LINEDOWN, 0)
- else
-  DBGrid1.DataSource.DataSet.Prior; //Perform(WM_VSCROLL, SB_LINEUP, 0);
-end else
-
-if WindowFromPoint(p)=DBGrid2.Handle then
-begin
-  If Message.WParam<0
-    then
-      DBGrid2.DataSource.DataSet.Next
-    else
-  DBGrid2.DataSource.DataSet.Prior
-end else
-
-if WindowFromPoint(p)=DBGrid3.Handle then
-begin
-If Message.WParam<0
- then
-  DBGrid3.DataSource.DataSet.Next
- else
-  DBGrid3.DataSource.DataSet.Prior;
-end else
- if WindowFromPoint(p)=ComboBox1.Handle then
-  begin
-  kb:=combobox1.ItemIndex;
-  ComboBox1.ItemIndex:=kb;
-  end;
-
-end;  }
-
-
 
 procedure TForm1.spb4Click(Sender: TObject);
 begin
@@ -1674,17 +1637,17 @@ begin
 end;
 
 
-{procedure TForm1.PageControl1MouseMove(Sender: TObject; Shift: TShiftState;
-  X, Y: Integer);
+procedure TForm1.DBMemo1KeyPress(Sender: TObject; var Key: Char);
 begin
-if DataModule2.vokab.RecordCount>=6 then
-begin
-    PageControl1.Pages[1].Enabled:=true;
-        PageControl1.Pages[2].Enabled:=true;
-            PageControl1.Pages[3].Enabled:=true;
-                PageControl1.Pages[4].Enabled:=true;
+if key=#9 then DBMemo2.SetFocus;
+
 end;
-end;}
+
+procedure TForm1.DBMemo2KeyPress(Sender: TObject; var Key: Char);
+begin
+if key=#9 then DBGrid1.SetFocus;
+
+end;
 
 procedure TForm1.rg3Click(Sender: TObject);
 begin
@@ -1694,14 +1657,6 @@ end;
 procedure TForm1.FormResize(Sender: TObject);
 begin
  DBGrid1.Height:=Form1.Height-311;
- //dbgrid1.Width:=form1.Width;
-   {Gauge1.Height:=Form1.Height-311;
-   DBMemo1.Top:=form1.Height-172;
-   DBMemo2.Top:=form1.Height-172;
-   DBNavigator1.Top:=form1.Height-172;
-   button3.Top:=form1.Height-172;
-   canedit.Top:=form1.Height-172;
-   DBGrid1.Width:=Form1.Width-DBGrid1.Left;}
    if (search.Width<=297) and (search.Width>60) then
    begin
     search.Width:=Form1.Width-search.Left-32;
