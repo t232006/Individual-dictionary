@@ -153,9 +153,9 @@ type
     nexttack: TAction;
     StaticText2: TStaticText;
     StaticText3: TStaticText;
-    Button2: TSpeedButton;
     Memo1: TMemo;
     Memo2: TMemo;
+    Button2: TSpeedButton;
     procedure rg1Click(Sender: TObject);
     procedure rg2Click(Sender: TObject);
     procedure InitSlovoPer;
@@ -636,7 +636,8 @@ begin
     ChangeColrigth(false);
   end;
     pb.Canvas.FillRect(pb.Canvas.ClipRect);
-    button2.Visible:=true;
+    //button2.BringToFront;
+    //button2.Visible:=true;
 
 end;
 
@@ -669,7 +670,8 @@ begin
           ChangeColrigth(false);
   end;
        pb.Canvas.FillRect(pb.Canvas.ClipRect);
-       button2.Visible:=true;
+       //button2.BringToFront;
+       //button2.Visible:=true;
 end;
 
 
