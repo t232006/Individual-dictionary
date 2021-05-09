@@ -306,7 +306,9 @@ begin
 end;
 
 procedure TForm1.Keynottab (var msg:TCMDialogKey);
-label lab;
+//label lab;
+const activpos:shortint=0;
+var keypressed:char;
 begin
   if msg.Charcode<>VK_TAB then inherited;
 
@@ -342,9 +344,27 @@ begin
         (FindComponent('left'+inttostr(i))as Tlabel).visible:=false;
         (FindComponent('right'+inttostr(i))as Tlabel).visible:=true;
       end;
+    if msg.CharCode=VK_DOWN then
+      begin
+        inc(activpos);
+        KeyPressed:=chr((activpos mod 6)+ 49);
+        KeyPress(KeyPressed);
+        KeyPressed:=chr(VK_TAB);
+        KeyPress(KeyPressed);
+      end;
+    if msg.CharCode=VK_UP then
+      begin
+        dec(activpos);
+        KeyPressed:=chr((activpos mod 6)+ 49);
+        KeyPress(KeyPressed);
+        KeyPressed:=chr(VK_TAB);
+        KeyPress(KeyPressed);
+      end;
+
+
 
   end;
- lab:;
+// lab:;
 end;
 
 procedure Tform1.ChangeColrigth(p:boolean);
@@ -1138,14 +1158,14 @@ end;
 
 procedure TForm1.SpeedButton5Click(Sender: TObject);
 begin
-if ColorDialog1.Execute then DBGrid1.Color:=ColorDialog1.Color;
+if (ColorDialog1.Execute) then DBGrid1.Color:=ColorDialog1.Color;
 
 //label7.Caption:=inttostr(ColorDialog1.Color);
 end;
 
 procedure TForm1.Action2Execute(Sender: TObject);
 begin
-  if canedit.Down then canedit.Down:=false else canedit.Down:=true;
+  if (canedit.Down) then canedit.Down:=false else canedit.Down:=true;
   caneditClick(sender);
 end;
 
