@@ -254,6 +254,8 @@ type
     procedure nexttackExecute(Sender: TObject);
     procedure DBMemo1KeyPress(Sender: TObject; var Key: Char);
     procedure DBMemo2KeyPress(Sender: TObject; var Key: Char);
+    procedure DBGrid1KeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
 
   private
     { Private declarations }
@@ -314,13 +316,33 @@ begin
     SelectNextpage(false);
     Pages[ActivePageIndex].SetFocus;
     //pagecontrol1.Focused
-    goto lab;
-  end;
+    //goto lab;
+  end else
   if (msg.CharCode=VK_TAB) and (GetKeyState(VK_CONTROL)<0) then
   with pagecontrol1 do
   begin
     SelectNextPage(true);
     Pages[ActivePageIndex].SetFocus;
+  end else
+  if (msg.CharCode=VK_TAB) then
+      if PageControl1.ActivePageIndex=0 then
+      dbgrid1.SetFocus;
+//------------------------------------------------------
+  if PageControl1.ActivePageIndex=4 then
+  begin
+    if msg.CharCode=VK_LEFT then
+    for I := 1 to 6 do
+      begin
+        (FindComponent('left'+inttostr(i))as Tlabel).visible:=true;
+        (FindComponent('right'+inttostr(i))as Tlabel).visible:=false;
+      end;
+    if msg.CharCode=VK_RIGHT then
+    for I := 1 to 6 do
+      begin
+        (FindComponent('left'+inttostr(i))as Tlabel).visible:=false;
+        (FindComponent('right'+inttostr(i))as Tlabel).visible:=true;
+      end;
+
   end;
  lab:;
 end;
@@ -1228,13 +1250,11 @@ var mem:Tmemo; charr:char;
 begin
 try
   begin
-  if PageControl1.ActivePageIndex=1 then
-        rg1.ItemIndex:=strtoint(key)-1
-    else
-  if pagecontrol1.activePageIndex=2 then
-        rg2.ItemIndex:=strtoint(key)-1
-  else  if pageControl1.ActivePageIndex=4 then
-
+  case PageControl1.ActivePageIndex of
+  //0: dbgrid1.SetFocus;
+  1: rg1.ItemIndex:=strtoint(key)-1;
+  2: rg2.ItemIndex:=strtoint(key)-1;
+  4:
   begin  //==============================================
 case ord(key) of
 49..54:
@@ -1304,6 +1324,7 @@ end;
 
 
   end;  //===============================================
+  end;
   end;
   except  //showmessage ('идите на хуй');
 //  finally
@@ -1435,6 +1456,21 @@ begin
 end;
 
 
+procedure TForm1.DBGrid1KeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+   if (key=VK_TAB) then
+     if (ssCtrl in Shift) then
+      with pagecontrol1 do
+        begin
+          SelectNextpage(true);
+          Pages[ActivePageIndex].SetFocus;
+        end
+     else
+
+    DBMemo1.SetFocus;
+end;
+
 procedure TForm1.DBGrid1KeyPress(Sender: TObject; var Key: Char);
 begin
 with DataModule2.vokab do begin
@@ -1444,8 +1480,7 @@ then
       Post
       else Edit;
 end;
-if (key=#9) then
-  DBMemo1.SetFocus;
+
 
 end;
 
@@ -1637,7 +1672,6 @@ begin
    posgrid:=posgridnew;
    end;
 end;
-
 
 procedure TForm1.DBMemo1KeyPress(Sender: TObject; var Key: Char);
 begin
