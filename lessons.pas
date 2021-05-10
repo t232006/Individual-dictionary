@@ -22,27 +22,27 @@ type
  TYesNo=class
  public
 
-    trueanswer:string;
+    //trueanswer:boolean;
 
     promptcolor:Tcolor;
 
  private
-    _answer:string;
+    //_answer:boolean;
     _serial:byte;
     _prompt:string;
     _GetString:string;
-    _word1:string;
-    _word2:string;
-    _IsItTrue:boolean;
+    word1:string;
+    word2:string;
+    IsItTrue:boolean;
  public
-    property IsItTrue:boolean read _IsItTrue;
-    property word1:string read _word1;
-    property word2:string read _word2;
+    {property IsItTrue:boolean read _IsItTrue;
+    {property word1:string read _word1;
+    property word2:string read _word2;}
     property serial:byte read _serial;
     property prompt:string read _prompt;
     property GetString:string read _GetString;
-    procedure GiveAnswer(answer:string);
-    constructor Init;
+    procedure GiveAnswer(answer:boolean);
+    procedure Init;
  end;
 
 var
@@ -64,61 +64,48 @@ implementation
 uses DB, DBTables;
 
 
-procedure TYesNo.GiveAnswer(answer:string);
+procedure TYesNo.GiveAnswer(answer: boolean);
 begin
-
-
-
-end;
-procedure TForm1.YesNoAnswer(answer: Boolean);
-var w1,w2:string; trueanswer:boolean;
-begin
-    trueanswer:=YesNoImplementation(w1,w2);
-    if answer=trueanswer then
+    if answer=IsItTrue then
   begin
-    inc(serial); //serial of true answers
-    Memo4.Font.Color:=clgreen;
-    Memo4.Text:='верно';
-    if trueanswer=true then
+    inc(_serial); //serial of true answers
+    PromptColor:=clgreen;
+    _prompt:='вы правы';
+    if IsItTrue=true then
     begin
-      searchandcor(true,'word',w1);
-      searchandcor(true,'translate',w2);
+      searchandcor(true,'word',word1);
+      searchandcor(true,'translate',word2);
     end;
   end else
   begin
-    serial:=0;
-    Memo4.Font.Color:=clred;
-    Memo4.Text:='Неверно';
+    _serial:=0;
+    PromptColor:=clred;
+    _prompt:='вы неправы';
   end;
-  StatusBar1.Panels.Items[3].Text:=IntToStr(serial);
 end;
 
-function TForm1.YesNoImplementation(var w1:string; var w2:string):boolean;
-begin
-  Memo4.Clear;
-  result:=YesNo(w1,w2);
-  memo3.Text:=w1+' = '+w2;
-end;
-
-constructor TYesNo.Init;
+procedure TYesNo.Init;
 var giveTrue:byte;
     l,ll:integer;
 begin
   randomize;
   giveTrue:=random(2);
   l:=random(length(v)); //conjectived word
-  ll:=random(length(v)); //wrong answer
+  repeat
+    ll:=random(length(v)); //wrong answer
+  until l<>ll;
   if giveTrue=1 then
   begin
-    _word1:=v[l].slovo;
-    _word2:=v[l].perevod;
-    _IsItTrue:=true;
+    word1:=v[l].slovo;
+    word2:=v[l].perevod;
+    IsItTrue:=true;
   end else
   begin
-    _word1:=v[l].slovo;
-    _word2:=v[ll].perevod;
-    _IsItTrue:=false;
+    word1:=v[l].slovo;
+    word2:=v[ll].perevod;
+    IsItTrue:=false;
   end;
+  _GetString:=word1+' = '+word2;
 
 
 end;

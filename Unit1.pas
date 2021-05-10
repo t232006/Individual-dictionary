@@ -158,12 +158,12 @@ type
     Button2: TSpeedButton;
     TabSheet9: TTabSheet;
     ProgressBar1: TProgressBar;
-    Memo3: TMemo;
     YesB: TBitBtn;
     NoB: TBitBtn;
     Timer1: TTimer;
     TB: TSpeedButton;
     Memo4: TMemo;
+    Memo3: TMemo;
     procedure rg1Click(Sender: TObject);
     procedure rg2Click(Sender: TObject);
     procedure InitSlovoPer;
@@ -266,16 +266,16 @@ type
       Shift: TShiftState);
     procedure Timer1Timer(Sender: TObject);
     //procedure YesNoImplementation;
-    procedure YesNoAnswer(answer: boolean);
+    //procedure YesNoAnswer(answer: boolean);
     procedure YesBClick(Sender: TObject);
     procedure NoBClick(Sender: TObject);
     procedure TBClick(Sender: TObject);
-    function YesNoImplementation(var w1:string; var w2:string):boolean;
-
   private
     { Private declarations }
+    procedure YesNoContinue(b:boolean);
     procedure Keynottab (var msg:TCMDialogKey); message CM_DialogKey;
     function memonumber (name:string):byte;
+    //procedure YesNoInit;
    // procedure mousewheelhandler(var message:Tmessage); override;
   public
     { Public declarations }
@@ -297,7 +297,8 @@ var
   posgrid:word;
   //color_backgrd, color_font,
   color_scale:TColor;
-  serial:byte;   //for YesNo quizz
+  YesNo:TYesNo;
+  //serial:byte;   //for YesNo quizz
   //answer:boolean; //for YesNo quizz
 
   flag:record
@@ -316,35 +317,13 @@ uses dialogtopic;
 
 {$R *.dfm}
 
-procedure TForm1.YesNoAnswer(answer: Boolean);
-var w1,w2:string; trueanswer:boolean;
-begin
-    trueanswer:=YesNoImplementation(w1,w2);
-    if answer=trueanswer then
-  begin
-    inc(serial); //serial of true answers
-    Memo4.Font.Color:=clgreen;
-    Memo4.Text:='верно';
-    if trueanswer=true then
-    begin
-      searchandcor(true,'word',w1);
-      searchandcor(true,'translate',w2);
-    end;
-  end else
-  begin
-    serial:=0;
-    Memo4.Font.Color:=clred;
-    Memo4.Text:='Неверно';
-  end;
-  StatusBar1.Panels.Items[3].Text:=IntToStr(serial);
-end;
 
-function TForm1.YesNoImplementation(var w1:string; var w2:string):boolean;
+{procedure Tform1.YesNoInit;
 begin
-  Memo4.Clear;
-  result:=YesNo(w1,w2);
-  memo3.Text:=w1+' = '+w2;
-end;
+  YesNo.Init;
+  Memo4.Text:=YesNo.GetString;
+
+end;}
 
 function Tform1.memonumber (name:string):byte;
 begin
@@ -579,7 +558,7 @@ begin
   end;
   5:
   begin
-
+     read1(1);
   end;
   6:
   begin
@@ -1462,11 +1441,19 @@ begin
    end;
 end;
 
+
+
+
 procedure TForm1.TBClick(Sender: TObject);
 begin
  timer1.Enabled:=true;
  TB.Enabled:=false;
- YesNoImplementation();
+ YesB.Enabled:=true;
+ NoB.Enabled:=true;
+ YesNo:=TYesNo.Create;
+ YesNo.Init;
+ Memo3.Text:=YesNo.GetString;
+
 end;
 
 procedure TForm1.SpeedButton6Click(Sender: TObject);
@@ -1729,14 +1716,25 @@ begin
    BitBtn1.Visible:=false;
 end;
 
+procedure TForm1.YesNoContinue(b:boolean);
+begin
+    YesNo.GiveAnswer(b);
+    memo4.Font.Color:=YesNo.promptcolor;
+    memo4.Text:=YesNo.prompt;
+    YesNo.Init;
+    Memo3.Text:=YesNo.GetString;
+end;
+
 procedure TForm1.YesBClick(Sender: TObject);
 begin
-    YesNoAnswer(true);
+    YesNoContinue(true);
+
 end;
 
 procedure TForm1.NoBClick(Sender: TObject);
 begin
-   YesNoAnswer(false);
+   YesNoContinue(false);
+
 end;
 
 procedure TForm1.DBGrid2MouseUp(Sender: TObject; Button: TMouseButton;
