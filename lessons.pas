@@ -23,7 +23,7 @@ var
 v:array of worded;  //заполнение массива отдельной процедурой
 bmas,buf: array of string; //массив букв или слов
 
-function YesNo(var res:boolean):string;
+function YesNo(var word1:string; var word2:string):boolean;
 procedure slovoPer(var w:otv; var ind:byte); //ind-верный вариант
 procedure PerevodSlo(var w:otv; var ind:byte); //ind-верный вариант
 procedure read1(countrec:byte);
@@ -151,7 +151,7 @@ if fraza(st) then
 
 end;
 
-function YesNo(var res:boolean):string;
+function YesNo(var word1:string; var word2:string):boolean;
 var giveTrue:byte;
     l,ll:integer;
 begin
@@ -161,12 +161,14 @@ begin
   ll:=random(length(v)); //wrong answer
   if giveTrue=1 then
   begin
-    res:=true;
-    result:=v[l].slovo+" = "+v[l].perevod;
+    word1:=v[l].slovo;
+    word2:=v[l].perevod;
+    result:=true;
   end else
   begin
-    res:=false;
-    result:=v[l].slovo+" = "+v[ll].perevod;
+    word1:=v[l].slovo;
+    word2:=v[ll].perevod;
+    result:=false;
   end;
 
 
