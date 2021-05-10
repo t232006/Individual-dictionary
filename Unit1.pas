@@ -156,6 +156,12 @@ type
     Memo1: TMemo;
     Memo2: TMemo;
     Button2: TSpeedButton;
+    TabSheet9: TTabSheet;
+    ProgressBar1: TProgressBar;
+    Memo3: TMemo;
+    BitBtn2: TBitBtn;
+    BitBtn3: TBitBtn;
+    Timer1: TTimer;
     procedure rg1Click(Sender: TObject);
     procedure rg2Click(Sender: TObject);
     procedure InitSlovoPer;
@@ -256,6 +262,7 @@ type
     procedure DBMemo2KeyPress(Sender: TObject; var Key: Char);
     procedure DBGrid1KeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
+    procedure Timer1Timer(Sender: TObject);
 
   private
     { Private declarations }
@@ -397,6 +404,13 @@ else
   end;
 end;
 
+procedure TForm1.Timer1Timer(Sender: TObject);
+begin
+  inc(timer1.Tag);
+  if tag=15 then timer1.Enabled=false;
+
+end;
+
 procedure Tform1.InitSlovoPer;
 var k:byte;
 begin
@@ -524,6 +538,10 @@ begin
   end;
   5:
   begin
+
+  end;
+  6:
+  begin
     if DataModule2.selectsel.RecordCount<12 then
     begin
       t1:=9;
@@ -574,6 +592,14 @@ begin
   end;
   
   end;
+end;
+
+procedure TForm1.YesNoImplementation;
+var b:boolean;
+begin
+      repeat
+          memo3.Text:=YesNo(b);
+      until not(timer1.Enabled);
 end;
 
 procedure TForm1.rg2Click(Sender: TObject);

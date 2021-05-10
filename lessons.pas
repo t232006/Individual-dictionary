@@ -23,7 +23,7 @@ var
 v:array of worded;  //заполнение массива отдельной процедурой
 bmas,buf: array of string; //массив букв или слов
 
-
+function YesNo(var res:boolean):string;
 procedure slovoPer(var w:otv; var ind:byte); //ind-верный вариант
 procedure PerevodSlo(var w:otv; var ind:byte); //ind-верный вариант
 procedure read1(countrec:byte);
@@ -151,6 +151,26 @@ if fraza(st) then
 
 end;
 
+function YesNo(var res:boolean):string;
+var giveTrue:byte;
+    l,ll:integer;
+begin
+  randomize;
+  giveTrue:=random(2);
+  l:=random(length(v)); //conjectived word
+  ll:=random(length(v)); //wrong answer
+  if giveTrue=1 then
+  begin
+    res:=true;
+    result:=v[l].slovo+" = "+v[l].perevod;
+  end else
+  begin
+    res:=false;
+    result:=v[l].slovo+" = "+v[ll].perevod;
+  end;
+
+
+end;
 
 
 procedure PerevodSlo(var w:otv; var ind:byte); //ind-верный вариант; w по сути string
