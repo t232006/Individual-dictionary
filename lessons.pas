@@ -2,7 +2,7 @@ unit lessons;
 
 interface
 
-uses       SysUtils,  Controls, database, Dialogs;
+uses       SysUtils,  Controls, database, Dialogs, Graphics;
 
 type
   worded=record
@@ -19,11 +19,37 @@ type
   end;
  otv=array[0..6] of SlPerSl; //массив,отвечающий за ответы
 
+ TYesNo=class
+ public
+
+    trueanswer:string;
+
+    promptcolor:Tcolor;
+
+ private
+    _answer:string;
+    _serial:byte;
+    _prompt:string;
+    _GetString:string;
+    _word1:string;
+    _word2:string;
+    _IsItTrue:boolean;
+ public
+    property IsItTrue:boolean read _IsItTrue;
+    property word1:string read _word1;
+    property word2:string read _word2;
+    property serial:byte read _serial;
+    property prompt:string read _prompt;
+    property GetString:string read _GetString;
+    procedure GiveAnswer(answer:string);
+    constructor Init;
+ end;
+
 var
 v:array of worded;  //заполнение массива отдельной процедурой
 bmas,buf: array of string; //массив букв или слов
 
-function YesNo(var word1:string; var word2:string):boolean;
+
 procedure slovoPer(var w:otv; var ind:byte); //ind-верный вариант
 procedure PerevodSlo(var w:otv; var ind:byte); //ind-верный вариант
 procedure read1(countrec:byte);
@@ -37,6 +63,65 @@ implementation
 
 uses DB, DBTables;
 
+
+procedure TYesNo.GiveAnswer(answer:string);
+begin
+
+
+
+end;
+procedure TForm1.YesNoAnswer(answer: Boolean);
+var w1,w2:string; trueanswer:boolean;
+begin
+    trueanswer:=YesNoImplementation(w1,w2);
+    if answer=trueanswer then
+  begin
+    inc(serial); //serial of true answers
+    Memo4.Font.Color:=clgreen;
+    Memo4.Text:='верно';
+    if trueanswer=true then
+    begin
+      searchandcor(true,'word',w1);
+      searchandcor(true,'translate',w2);
+    end;
+  end else
+  begin
+    serial:=0;
+    Memo4.Font.Color:=clred;
+    Memo4.Text:='Неверно';
+  end;
+  StatusBar1.Panels.Items[3].Text:=IntToStr(serial);
+end;
+
+function TForm1.YesNoImplementation(var w1:string; var w2:string):boolean;
+begin
+  Memo4.Clear;
+  result:=YesNo(w1,w2);
+  memo3.Text:=w1+' = '+w2;
+end;
+
+constructor TYesNo.Init;
+var giveTrue:byte;
+    l,ll:integer;
+begin
+  randomize;
+  giveTrue:=random(2);
+  l:=random(length(v)); //conjectived word
+  ll:=random(length(v)); //wrong answer
+  if giveTrue=1 then
+  begin
+    _word1:=v[l].slovo;
+    _word2:=v[l].perevod;
+    _IsItTrue:=true;
+  end else
+  begin
+    _word1:=v[l].slovo;
+    _word2:=v[ll].perevod;
+    _IsItTrue:=false;
+  end;
+
+
+end;
 
 
 procedure read1(countrec:byte);
@@ -151,28 +236,7 @@ if fraza(st) then
 
 end;
 
-function YesNo(var word1:string; var word2:string):boolean;
-var giveTrue:byte;
-    l,ll:integer;
-begin
-  randomize;
-  giveTrue:=random(2);
-  l:=random(length(v)); //conjectived word
-  ll:=random(length(v)); //wrong answer
-  if giveTrue=1 then
-  begin
-    word1:=v[l].slovo;
-    word2:=v[l].perevod;
-    result:=true;
-  end else
-  begin
-    word1:=v[l].slovo;
-    word2:=v[ll].perevod;
-    result:=false;
-  end;
 
-
-end;
 
 
 procedure PerevodSlo(var w:otv; var ind:byte); //ind-верный вариант; w по сути string
