@@ -164,6 +164,7 @@ type
     TB: TSpeedButton;
     Memo4: TMemo;
     Memo3: TMemo;
+    SmallTimer: TTimer;
     procedure rg1Click(Sender: TObject);
     procedure rg2Click(Sender: TObject);
     procedure InitSlovoPer;
@@ -270,6 +271,7 @@ type
     procedure YesBClick(Sender: TObject);
     procedure NoBClick(Sender: TObject);
     procedure TBClick(Sender: TObject);
+    procedure SmallTimerTimer(Sender: TObject);
   private
     { Private declarations }
     procedure YesNoContinue(b:boolean);
@@ -429,6 +431,7 @@ begin
     TB.Enabled:=true;
     YesB.Enabled:=false;
     NoB.Enabled:=false;
+    SmallTimer.Enabled:=false;
 end;
 
 procedure Tform1.InitSlovoPer;
@@ -940,6 +943,11 @@ begin
   //  sg.DragMode:=dmAutomatic;
 end;
 
+procedure TForm1.SmallTimerTimer(Sender: TObject);
+begin
+  ProgressBar1.StepIt;
+end;
+
 procedure TForm1.Edit1DragOver(Sender, Source: TObject; X, Y: Integer;
   State: TDragState; var Accept: Boolean);
 begin
@@ -1447,12 +1455,14 @@ end;
 procedure TForm1.TBClick(Sender: TObject);
 begin
  timer1.Enabled:=true;
+ SmallTimer.Enabled:=true;
  TB.Enabled:=false;
  YesB.Enabled:=true;
  NoB.Enabled:=true;
  YesNo:=TYesNo.Create;
  YesNo.Init;
  Memo3.Text:=YesNo.GetString;
+ ProgressBar1.Position:=0;
 
 end;
 
