@@ -161,10 +161,13 @@ type
     YesB: TBitBtn;
     NoB: TBitBtn;
     Timer1: TTimer;
-    TB: TSpeedButton;
     Memo4: TMemo;
     Memo3: TMemo;
     SmallTimer: TTimer;
+    Label5: TLabel;
+    Label29: TLabel;
+    StaticText4: TStaticText;
+    TB: TBitBtn;
     procedure rg1Click(Sender: TObject);
     procedure rg2Click(Sender: TObject);
     procedure InitSlovoPer;
@@ -270,7 +273,7 @@ type
     //procedure YesNoAnswer(answer: boolean);
     procedure YesBClick(Sender: TObject);
     procedure NoBClick(Sender: TObject);
-    procedure TBClick(Sender: TObject);
+    procedure TB1Click(Sender: TObject);
     procedure SmallTimerTimer(Sender: TObject);
   private
     { Private declarations }
@@ -946,6 +949,7 @@ end;
 procedure TForm1.SmallTimerTimer(Sender: TObject);
 begin
   ProgressBar1.StepIt;
+  StatusBar1.Parent:=ProgressBar1;
 end;
 
 procedure TForm1.Edit1DragOver(Sender, Source: TObject; X, Y: Integer;
@@ -1322,74 +1326,80 @@ try
   2: rg2.ItemIndex:=strtoint(key)-1;
   4:
   begin  //==============================================
-case ord(key) of
-49..54:
-begin
-  if left1.Visible then
-    mem:=(FindComponent('m'+key) as tmemo) else
-    mem:=(FindComponent('m'+inttostr(strtoint(key)+6)) as tmemo);
+    case ord(key) of
+      49..54:
+      begin
+        if left1.Visible then
+          mem:=(FindComponent('m'+key) as tmemo) else
+          mem:=(FindComponent('m'+inttostr(strtoint(key)+6)) as tmemo);
 
-  if mem.Tag<>clmoneygreen then
+        if mem.Tag<>clmoneygreen then
+        begin
+          rectt(clmoneygreen,mem);
+          with conteiner do
+          begin
+              //prevtext:=currenttext;
+              {prevnum:=currentnum;
+              currentnum:=memonumber(mem.Name);//strtoint(key);}
+              //currenttext:=mem.Text;
+              if left1.visible then
+              leftnum:=memonumber(mem.Name) else
+              rightnum:=memonumber(mem.Name);
+          end;
+        end  else
+        begin
+          rectt(color, mem);
+          with conteiner do
+          begin
+            if left1.Visible then leftnum:=0 else rightnum:=0;
+          end;
+        end;
+         {label30.Caption:=inttostr(conteiner.leftnum);
+         label31.Caption:=inttostr(conteiner.rightnum);}
+        if not(left1.Visible) then
+        radiorect(7,mem) else
+        radiorect(1,mem);
+        charr:=chr(9);
+        FormKeyPress(sender, charr);
+
+      end;
+      9:  //selects columns by bevel
+      begin
+        if not(left1.Visible) then
+        begin
+          for I := 1 to 6 do
+            begin
+            (FindComponent('left'+inttostr(i))as Tlabel).visible:=true;
+            (FindComponent('right'+inttostr(i))as Tlabel).visible:=false;
+            end ;
+        end else
+            for I := 1 to 6 do
+            begin
+            (FindComponent('left'+inttostr(i))as Tlabel).visible:=false;
+            (FindComponent('right'+inttostr(i))as Tlabel).visible:=true;
+            end;
+      end;
+      13:
+      begin
+          with conteiner do
+          begin
+            if left1.Visible then
+                m7DragDrop(findcomponent('m'+inttostr(rightnum)),findcomponent('m'+inttostr(leftnum)),0,0)
+          else  m1DragDrop(findcomponent('m'+inttostr(leftnum)),findcomponent('m'+inttostr(rightnum)),0,0);
+          rightnum:=0; leftnum:=0;
+          end;
+
+      end;
+  end;
+  end;  //===============================================
+  5:
   begin
-    rectt(clmoneygreen,mem);
-    with conteiner do
-    begin
-        //prevtext:=currenttext;
-        {prevnum:=currentnum;
-        currentnum:=memonumber(mem.Name);//strtoint(key);}
-        //currenttext:=mem.Text;
-        if left1.visible then
-        leftnum:=memonumber(mem.Name) else
-        rightnum:=memonumber(mem.Name);
-    end;
-  end  else
-  begin
-    rectt(color, mem);
-    with conteiner do
-    begin
-      if left1.Visible then leftnum:=0 else rightnum:=0;
+    case ord(key) of
+    49:YesB.OnClick(Sender);
+    48:NoB.OnClick(Sender);
+    13:TB.OnClick(Sender);
     end;
   end;
-   {label30.Caption:=inttostr(conteiner.leftnum);
-   label31.Caption:=inttostr(conteiner.rightnum);}
-  if not(left1.Visible) then
-  radiorect(7,mem) else
-  radiorect(1,mem);
-  charr:=chr(9);
-  FormKeyPress(sender, charr);
-
-end;
-9:  //selects columns by bevel
-begin
-  if not(left1.Visible) then
-  begin
-    for I := 1 to 6 do
-      begin
-      (FindComponent('left'+inttostr(i))as Tlabel).visible:=true;
-      (FindComponent('right'+inttostr(i))as Tlabel).visible:=false;
-      end ;
-  end else
-      for I := 1 to 6 do
-      begin
-      (FindComponent('left'+inttostr(i))as Tlabel).visible:=false;
-      (FindComponent('right'+inttostr(i))as Tlabel).visible:=true;
-      end;
-end;
-13:
-begin
-    with conteiner do
-    begin
-      if left1.Visible then
-          m7DragDrop(findcomponent('m'+inttostr(rightnum)),findcomponent('m'+inttostr(leftnum)),0,0)
-    else  m1DragDrop(findcomponent('m'+inttostr(leftnum)),findcomponent('m'+inttostr(rightnum)),0,0);
-    rightnum:=0; leftnum:=0;
-    end;
-
-end;
-end;
-
-
-  end;  //===============================================
   end;
   end;
   except  //showmessage ('идите на хуй');
@@ -1452,7 +1462,7 @@ end;
 
 
 
-procedure TForm1.TBClick(Sender: TObject);
+procedure TForm1.TB1Click(Sender: TObject);
 begin
  timer1.Enabled:=true;
  SmallTimer.Enabled:=true;
@@ -1729,6 +1739,7 @@ end;
 procedure TForm1.YesNoContinue(b:boolean);
 begin
     YesNo.GiveAnswer(b);
+    Statusbar1.Panels[2].Text:='серия '+inttostr(YesNo.serial);
     memo4.Font.Color:=YesNo.promptcolor;
     memo4.Text:=YesNo.prompt;
     YesNo.Init;
