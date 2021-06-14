@@ -271,9 +271,6 @@ Coordinates=1303,706,60,36
 [DataModule2.top]
 Coordinates=260,10,112,102
 
-[st3]
-Coordinates=1253,706,40,36
-
 [SpeedButton7]
 Coordinates=1147,706,96,36
 
@@ -546,5 +543,5 @@ Coordinates=1473,502,64,58
 Coordinates=131,502,53,58
 
 []
-Coordinates=954,570,49,58
+Coordinates=1253,706,40,36
 

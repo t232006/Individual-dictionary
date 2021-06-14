@@ -100,7 +100,7 @@ object addneword: Taddneword
     Top = 32
     Width = 545
     Height = 31
-    EditLabel.Width = 95
+    EditLabel.Width = 93
     EditLabel.Height = 20
     EditLabel.Caption = 'Translation'
     EditLabel.Font.Charset = DEFAULT_CHARSET

@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, Grids, ValEdit, ComCtrls, DB, StdCtrls, DBGrids, DBTables,
-  ExtCtrls, lessons, lesson4, database, DBCtrls, addnewword, dataform,
+  ExtCtrls, lessons, PoBukvam, lesson4, database, DBCtrls, addnewword, dataform,
   Buttons, frame, helpdict, Mask, ActnList, ActnMan, ActnColorMaps, ImgList,
   OleCtrls, SHDocVw, Gauges, thread2, DdeMan, Menus, comobj, System.Actions;
 
@@ -53,7 +53,6 @@ type
     protv: TLabel;
     Label1: TLabel;
     Label4: TLabel;
-    st3: TStaticText;
     Edit1: TEdit;
     Button1: TButton;
     CheckBox2: TCheckBox;
@@ -168,6 +167,7 @@ type
     Label29: TLabel;
     StaticText4: TStaticText;
     TB: TBitBtn;
+    st3: TLabel;
     procedure rg1Click(Sender: TObject);
     procedure rg2Click(Sender: TObject);
     procedure InitSlovoPer;
@@ -189,7 +189,6 @@ type
     procedure InitPobukvam;
     procedure Button1Click(Sender: TObject);
     procedure Edit1KeyPress(Sender: TObject; var Key: Char);
-    procedure sgDblClick(Sender: TObject);
     procedure Edit1DragDrop(Sender, Source: TObject; X, Y: Integer);
     procedure sgMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
@@ -275,6 +274,9 @@ type
     procedure NoBClick(Sender: TObject);
     procedure TB1Click(Sender: TObject);
     procedure SmallTimerTimer(Sender: TObject);
+    procedure sgMouseUp(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure sgMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
   private
     { Private declarations }
     procedure YesNoContinue(b:boolean);
@@ -291,7 +293,6 @@ var
   pravotv:byte;
    sl1,per1:string;  //правильные ответы (слово-перевод и номер)
   i:byte;   //ОСТОРОЖНО!
-  gg:integer;
   s, filtr:string;
   koor:Tpoint;
   o:otv;
@@ -303,13 +304,14 @@ var
   //color_backgrd, color_font,
   color_scale:TColor;
   YesNo:TYesNo;
+  //flag:boolean;
   //serial:byte;   //for YesNo quizz
   //answer:boolean; //for YesNo quizz
 
-  flag:record
+  {flag:record
     press:boolean;
     x,y:integer;
-    end;
+    end;  }
 
   conteiner:record
     leftnum:byte;
@@ -438,7 +440,7 @@ begin
 end;
 
 procedure Tform1.InitSlovoPer;
-var k:byte;
+//var k:byte;
 begin
   slovoper(o,pravotv);
   st1.Caption:=o[0].slovo;
@@ -468,16 +470,15 @@ begin
 end; //end;
 
 procedure TForm1.InitPobukvam;
-var ii,jj:byte;
+var poBukv:TPoBukvam;
+    ii, jj: integer;
 begin
-    writeslovo(gg,sl1,per1);//загаданные слово и перевод
-    pobukvam(per1);
-    for jj:=0 to sg.RowCount-1 do
-    for ii:=0 to sg.ColCount-1 do
-      if  (sg.colcount*jj+ii)<length(bmas) then SG.Cells[ii,jj]:=bmas[sg.colcount*jj+ii]
-      else SG.Cells[ii,jj]:='';
-  if not(CheckBox2.Checked) then st3.Caption:=sl1;//писать, если не стоит галочка
-
+  poBukv:=TPoBukvam.create;
+  for ii := 0 to 4 do
+  for jj := 0 to 4 do
+    sg.Cells[ii,jj] :=poBukv.table[ii,jj];
+  if not(CheckBox2.Checked) then st3.Caption:=poBukv.sl;//писать, если не стоит галочка
+  poBukv.Destroy;
 end;
 
 
@@ -918,20 +919,13 @@ begin
 if ord(key)=13 then Button1Click(sender);
 end;
 
-procedure TForm1.sgDblClick(Sender: TObject);
-//var ac,ar:integer;
-begin
-    if length(sg.Cells[posi.x,posi.y])>1 then //если фраза,то пробел
-    Edit1.Text:=edit1.Text+s+' ' else
-    Edit1.Text:=edit1.Text+s;
-    sg.Cells[posi.X,posi.Y]:='';
-end;
-
 procedure TForm1.Edit1DragDrop(Sender, Source: TObject; X, Y: Integer);
+var ss:string;
 begin
-  if length(sg.Cells[posi.x,posi.y])>1 then //если фраза,то пробел
-    Edit1.Text:=edit1.Text+s+' ' else
-    Edit1.Text:=edit1.Text+s;
+  if pos(' ',st3.Caption)<>0 then s:=s+' ';//если фраза,то пробел
+  ss:=Edit1.Text;
+  Insert(ss,s,Edit1.SelStart);
+  Edit1.Text:=ss;
   sg.Cells[posi.x,posi.Y]:='';
 
 end;
@@ -941,9 +935,22 @@ procedure TForm1.sgMouseDown(Sender: TObject; Button: TMouseButton;
 begin
   sg.MouseToCell(x,y,posi.x,posi.y);
   s:=trim(sg.Cells[posi.x,posi.y]);
+  //flag:=true;
   //sg.DragMode:=dmmanual;
-  sg.BeginDrag(false,-1);
-  //  sg.DragMode:=dmAutomatic;
+  //sg.BeginDrag(false,-1);
+   sg.DragMode:=dmAutomatic;
+  //sg.Cells[4,4]:='Down';
+end;
+
+procedure TForm1.sgMouseUp(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+if pos(' ',st3.caption)<>0 then //если фраза,то пробел
+    Edit1.Text:=edit1.Text+s+' ' else
+    Edit1.Text:=edit1.Text+s;
+    sg.Cells[posi.X,posi.Y]:='';
+    //flag:=false;
+    //sg.Cells[3,3]:='up';
 end;
 
 procedure TForm1.SmallTimerTimer(Sender: TObject);

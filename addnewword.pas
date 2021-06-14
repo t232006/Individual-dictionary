@@ -28,6 +28,7 @@ type
     { Private declarations }
   public
     { Public declarations }
+    function fraza(sl:string):boolean;
   end;
 
 var
@@ -38,6 +39,21 @@ implementation
 uses DB, DBTables, dialogtopic, lessons, Unit1;
 
 {$R *.dfm}
+
+function Taddneword.fraza(sl:string):boolean; //отвечает фраза ли это или слово
+var j,z:byte;
+begin
+      z:=0;
+     for j:=0 to length(sl)-1 do
+     begin
+      if sl[j]=' ' then inc(z);
+      if z>=3 then        //3 пробела - 4 словая
+        begin
+          fraza:=true;
+          break;
+        end else fraza:=false;
+     end;
+end;
 
 procedure Taddneword.BitBtn1Click(Sender: TObject);
 begin

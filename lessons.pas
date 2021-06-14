@@ -47,15 +47,15 @@ type
 
 var
 v:array of worded;  //заполнение массива отдельной процедурой
-bmas,buf: array of string; //массив букв или слов
+bmas: array of string; //массив букв или слов
 
 
 procedure slovoPer(var w:otv; var ind:byte); //ind-верный вариант
 procedure PerevodSlo(var w:otv; var ind:byte); //ind-верный вариант
 procedure read1(countrec:byte);
-procedure writeslovo(var ind:integer;var sl,per:string);
-procedure pobukvam(st:string); //строки на случай перемешивания слов
-function fraza(s:string):boolean; //отвечает фраза ли это или слово
+//procedure writeslovo(var ind:integer;var sl,per:string);
+//procedure pobukvam(st:string); //строки на случай перемешивания слов
+//function fraza(s:string):boolean; //отвечает фраза ли это или слово
 
 
 
@@ -151,77 +151,9 @@ begin
 
 end;
 
-procedure writeslovo(var ind:integer; var sl,per:string);//ind-индекс верного ответа
-begin
-  randomize;
-  ind:=random(length(v));
-  per:=v[ind].perevod;  sl:=v[ind].slovo;
-end;
-
-function fraza(s:string):boolean; //отвечает фраза ли это или слово
-var j,z:byte;
-begin
-      z:=0;
-     for j:=0 to length(s)-1 do
-     begin
-      if s[j]=' ' then inc(z);
-      if z>=3 then        //3 пробела - 4 словая
-        begin
-          fraza:=true;
-          break;
-        end else fraza:=false;
-     end;
-end;
-
-procedure pobukvam(st:string); //строки на случай перемешивания слов
-var st1:string;
-j,k:byte;
-
-         //..................................
-begin
-//setlength(buf,1);
-st1:='';
-if fraza(st) then
-  begin
-    j:=0; k:=0;
-    repeat
-      setlength(buf,length(buf)+1);
-      while (st[j]<>' ') and (j<=length(st)) do
-        begin
-          st1:=st1+st[j];
-          inc(j);
-        end;
-      buf[k]:=st1;  //накопление слов из фразы
-      inc(k); inc(j);
-      st1:='';
-    until j>length(st)-1;
-    //массив сформирован, теперь нужно его перемешать
 
 
-  end else  //------------------------------------
-  begin
-     setlength(buf,length(st));
-     for j:=0 to length(st)-1 do
-      buf[j]:=st[j+1];     //массив сформирован
-  end;
 
-  //---------------------------------
-  k:=0;
-    setlength(bmas,length(buf));
-    repeat
-      j:=random(length(buf));
-      bmas[k]:=buf[j];
-      inc(k);
-      while j<length(buf)-1 do
-      begin
-        buf[j]:=buf[j+1];
-        inc(j);
-      end;
-      setlength(buf,length(buf)-1);
-    until length(buf)=0;
-
-
-end;
 
 
 

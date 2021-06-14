@@ -12,7 +12,8 @@ uses
   remproc in 'remproc.pas',
   frame in 'frame.pas' {Frame2: TFrame},
   helpdict in 'helpdict.pas' {Form2},
-  thread2 in 'thread2.pas';
+  thread2 in 'thread2.pas',
+  PoBukvam in 'PoBukvam.pas';
 
 {$R *.res}
 
