@@ -195,23 +195,6 @@ type
     procedure Edit1DragOver(Sender, Source: TObject; X, Y: Integer;
       State: TDragState; var Accept: Boolean);
     procedure Frame21BitBtn1Click(Sender: TObject);
-    procedure Frame22BitBtn1Click(Sender: TObject);
-    procedure Frame23BitBtn1Click(Sender: TObject);
-    procedure Frame24BitBtn1Click(Sender: TObject);
-    procedure Frame25BitBtn1Click(Sender: TObject);
-    procedure Frame26BitBtn1Click(Sender: TObject);
-    procedure Frame27BitBtn1Click(Sender: TObject);
-    procedure Frame28BitBtn1Click(Sender: TObject);
-    procedure Frame29BitBtn1Click(Sender: TObject);
-    procedure Frame21BitBtn2Click(Sender: TObject);
-    procedure Frame22BitBtn2Click(Sender: TObject);
-    procedure Frame23BitBtn2Click(Sender: TObject);
-    procedure Frame24BitBtn2Click(Sender: TObject);
-    procedure Frame25BitBtn2Click(Sender: TObject);
-    procedure Frame26BitBtn2Click(Sender: TObject);
-    procedure Frame27BitBtn2Click(Sender: TObject);
-    procedure Frame28BitBtn2Click(Sender: TObject);
-    procedure Frame29BitBtn2Click(Sender: TObject);
     procedure rgClick(Sender: TObject);
     procedure FormConstrainedResize(Sender: TObject; var MinWidth,
       MinHeight, MaxWidth, MaxHeight: Integer);
@@ -231,12 +214,7 @@ type
     procedure SpeedButton1Click(Sender: TObject);
     procedure SpeedButton7Click(Sender: TObject);
     procedure SpeedButton6Click(Sender: TObject);
-    procedure Frame210BitBtn1Click(Sender: TObject);
-    procedure Frame211BitBtn1Click(Sender: TObject);
-    procedure Frame212BitBtn1Click(Sender: TObject);
-    procedure Frame210BitBtn2Click(Sender: TObject);
-    procedure Frame211BitBtn2Click(Sender: TObject);
-    procedure Frame212BitBtn2Click(Sender: TObject);
+    procedure Frame21BitBtn2Click(Sender: TObject);
     procedure CheckBox2Click(Sender: TObject);
     procedure Action5Execute(Sender: TObject);
     procedure DBGrid1KeyPress(Sender: TObject; var Key: Char);
@@ -279,6 +257,7 @@ procedure sgMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
     procedure Keynottab (var msg:TCMDialogKey); message CM_DialogKey;
     function memonumber (name:string):byte;
     procedure Ins;
+    procedure FrameGeneralization(Sender: TObject; bool:boolean);
   public
     { Public declarations }
   end;
@@ -942,141 +921,27 @@ begin
     Edit1.SelStart:=X div 7;
 end;
 
+procedure TForm1.FrameGeneralization(Sender:TObject; bool:boolean);
+var name:string;
+    digit:byte;
+begin
+  name:=(sender as TBitBtn).Parent.Name;
+  digit:=strtoint(copy(name,7,2)) ;
+  searchandcor(bool,'word',o1[digit].slovo);
+  (FindComponent(name) as TFrame2).panel2.Visible:=true;
+  (FindComponent(name) as TFrame2).BitBtn1.Enabled:=bool;
+  ChangeColrigth(bool);
+end;
+
 procedure TForm1.Frame21BitBtn1Click(Sender: TObject);
 begin
-  searchandcor(true,'word',o1[1].slovo);
-  frame21.Panel2.Visible:=true;
-  ChangeColrigth(true);
-end;
-
-procedure TForm1.Frame22BitBtn1Click(Sender: TObject);
-begin
-searchandcor(true,'word',o1[2].slovo);
-  frame22.Panel2.Visible:=true;
-    ChangeColrigth(true);
-end;
-
-procedure TForm1.Frame23BitBtn1Click(Sender: TObject);
-begin
-searchandcor(true,'word',o1[3].slovo);
-  frame23.Panel2.Visible:=true;
-    ChangeColrigth(true);
-end;
-
-procedure TForm1.Frame24BitBtn1Click(Sender: TObject);
-begin
-searchandcor(true,'word',o1[4].slovo);
-  frame24.Panel2.Visible:=true;
-    ChangeColrigth(true);
-end;
-
-procedure TForm1.Frame25BitBtn1Click(Sender: TObject);
-begin
-searchandcor(true,'word',o1[5].slovo);
-  frame25.Panel2.Visible:=true;
-    ChangeColrigth(true);
-end;
-
-procedure TForm1.Frame26BitBtn1Click(Sender: TObject);
-begin
-searchandcor(true,'word',o1[6].slovo);
-  frame26.Panel2.Visible:=true;
-    ChangeColrigth(true);
-end;
-
-procedure TForm1.Frame27BitBtn1Click(Sender: TObject);
-begin
-searchandcor(true,'word',o1[7].slovo);
-  frame27.Panel2.Visible:=true;
-    ChangeColrigth(true);
-end;
-
-procedure TForm1.Frame28BitBtn1Click(Sender: TObject);
-begin
-searchandcor(true,'word',o1[8].slovo);
-  frame28.Panel2.Visible:=true;
-    ChangeColrigth(true);
-end;
-
-procedure TForm1.Frame29BitBtn1Click(Sender: TObject);
-begin
-searchandcor(true,'word',o1[9].slovo);
-  frame29.Panel2.Visible:=true;
-    ChangeColrigth(true);
+  FrameGeneralization(sender, true);
 end;
 
 procedure TForm1.Frame21BitBtn2Click(Sender: TObject);
 begin
-searchandcor(false,'word',o1[1].slovo);
-  frame21.Panel2.Visible:=true;
-  frame21.BitBtn1.Enabled:=false;
-    ChangeColrigth(false);
+  FrameGeneralization(sender, false);
 end;
-
-procedure TForm1.Frame22BitBtn2Click(Sender: TObject);
-begin
-     searchandcor(false,'word',o1[2].slovo);
-  frame22.Panel2.Visible:=true;
-  frame22.BitBtn1.Enabled:=false;
-      ChangeColrigth(false);
-end;
-
-procedure TForm1.Frame23BitBtn2Click(Sender: TObject);
-begin
-searchandcor(false,'word',o1[3].slovo);
-  frame23.Panel2.Visible:=true;
-  frame23.BitBtn1.Enabled:=false;
-      ChangeColrigth(false);
-end;
-
-procedure TForm1.Frame24BitBtn2Click(Sender: TObject);
-begin
-searchandcor(false,'word',o1[4].slovo);
-  frame24.Panel2.Visible:=true;
-  frame24.BitBtn1.Enabled:=false;
-      ChangeColrigth(false);
-end;
-
-procedure TForm1.Frame25BitBtn2Click(Sender: TObject);
-begin
-searchandcor(false,'word',o1[5].slovo);
-  frame25.Panel2.Visible:=true;
-  frame25.BitBtn1.Enabled:=false;
-      ChangeColrigth(false);
-end;
-
-procedure TForm1.Frame26BitBtn2Click(Sender: TObject);
-begin
-searchandcor(false,'word',o1[6].slovo);
-  frame26.Panel2.Visible:=true;
-  frame26.BitBtn1.Enabled:=false;
-      ChangeColrigth(false);
-end;
-
-procedure TForm1.Frame27BitBtn2Click(Sender: TObject);
-begin
-searchandcor(false,'word',o1[7].slovo);
-  frame27.Panel2.Visible:=true;
-  frame27.BitBtn1.Enabled:=false;
-      ChangeColrigth(false);
-end;
-
-procedure TForm1.Frame28BitBtn2Click(Sender: TObject);
-begin
-searchandcor(false,'word',o1[8].slovo);
-  frame28.Panel2.Visible:=true;
-  frame28.BitBtn1.Enabled:=false;
-      ChangeColrigth(false);
-end;
-
-procedure TForm1.Frame29BitBtn2Click(Sender: TObject);
-begin
-searchandcor(false,'word',o1[9].slovo);
-  frame29.Panel2.Visible:=true;
-  frame29.BitBtn1.Enabled:=false;
-      ChangeColrigth(false);
-end;
-
 
 procedure TForm1.rgClick(Sender: TObject);
 procedure delfilt(t:boolean);
@@ -1457,51 +1322,6 @@ begin
    end;
 end;
 
-procedure TForm1.Frame210BitBtn1Click(Sender: TObject);
-begin
-    searchandcor(true,'word',o1[10].slovo);
-  frame210.Panel2.Visible:=true;
-    ChangeColrigth(true);
-end;
-
-procedure TForm1.Frame211BitBtn1Click(Sender: TObject);
-begin
-searchandcor(true,'word',o1[11].slovo);
-  frame211.Panel2.Visible:=true;
-    ChangeColrigth(true);
-end;
-
-procedure TForm1.Frame212BitBtn1Click(Sender: TObject);
-begin
-searchandcor(true,'word',o1[12].slovo);
-  frame212.Panel2.Visible:=true;
-    ChangeColrigth(true);
-end;
-
-procedure TForm1.Frame210BitBtn2Click(Sender: TObject);
-begin
-searchandcor(false,'word',o1[10].slovo);
-  frame210.Panel2.Visible:=true;
-  frame210.BitBtn1.Enabled:=false;
-      ChangeColrigth(false);
-end;
-
-procedure TForm1.Frame211BitBtn2Click(Sender: TObject);
-begin
-searchandcor(false,'word',o1[11].slovo);
-  frame211.Panel2.Visible:=true;
-  frame211.BitBtn1.Enabled:=false;
-      ChangeColrigth(false);
-end;
-
-procedure TForm1.Frame212BitBtn2Click(Sender: TObject);
-begin
-searchandcor(false,'word',o1[12].slovo);
-  frame212.Panel2.Visible:=true;
-  frame212.BitBtn1.Enabled:=false;
-      ChangeColrigth(false);
-end;
-
 procedure TForm1.CheckBox2Click(Sender: TObject);
 begin
 if CheckBox2.Checked then st3.Caption:='' else st3.Caption:=Pobukv.sl;
@@ -1839,7 +1659,6 @@ if gdselected in state then
            TDBGrid(sender).Canvas.TextOut(rect2.Left+20,rect2.Top+3,column.Field.AsString);
         end;
     end;
-
 end;
 
 procedure TForm1.N1Click(Sender: TObject);
@@ -1864,7 +1683,6 @@ begin
   else IndexName:='rateind';
   First;
 end;
-
 end;
 
 procedure TForm1.nexttackExecute(Sender: TObject);
@@ -1876,8 +1694,6 @@ procedure TForm1.N6Click(Sender: TObject);
 begin
   DBGrid1.Repaint;
 end;
-
-
 end.
 
 
