@@ -50,7 +50,7 @@ begin
      for j:=0 to length(per)-1 do
      begin
       if per[j]=' ' then inc(z);
-      if z>=3 then        //3 пробела - 4 словая
+      if z>=3 then        //3 пробела - 4 слова
         begin
           fraza:=true;
           break;
@@ -64,13 +64,11 @@ j:byte;
 
          //..................................
 begin
-//setlength(buf,1);
 st1:='';
 if fraza then
   begin
     j:=0;
     repeat
-      //setlength(buf,length(buf)+1);
       while (per[j]<>' ') and (j<=length(per)) do
         begin
           st1:=st1+per[j];
@@ -85,20 +83,15 @@ if fraza then
 
   end else  //------------------------------------
   begin
-     //setlength(buf,length(per));
      for j:=0 to length(per)-1 do
       buf.Add(per[j+1]);     //массив сформирован
   end;
 
   //---------------------------------
-  //k:=0;
-    //setlength(bmas,length(buf));
     repeat
       j:=random(buf.Count);
       bmas.Add(buf[j]);
-      //inc(k);
       buf.Delete(j);
-      //setlength(buf,length(buf)-1);
     until buf.Count=0;
 
 
