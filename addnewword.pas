@@ -128,10 +128,11 @@ Const
   USKeyboard = 1033;
   RusKeyboard = 1049;
 begin
-  KK := GetKeyboardLayout(0);
+  {KK := GetKeyboardLayout(0);
   KBid := LOWORD(KK);
   If KBid = USKeyboard Then
-    ActivateKeyboardLayout(HKL_NEXT, 0);
+    ActivateKeyboardLayout(HKL_NEXT, 0);   }
+    LoadKeyboardLayout('00000419',KLF_ACTIVATE)
 end;
 
 end.
