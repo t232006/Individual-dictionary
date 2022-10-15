@@ -38,12 +38,14 @@ procedure Tdataformm.FormShow(Sender: TObject);
 begin
     tag:=0;
     if Form1.checkbox1.Checked then
-    if dateq.SQL.Count=2 then dateq.SQL.Insert(1,'where usersel=true') else
-    if dateq.sql.Count=3 then dateq.sql.delete(1);
+    begin
+      if dateq.SQL.Count=2 then dateq.SQL.Insert(1,'where usersel=true')
+    end else
+    begin
+      if dateq.sql.Count=3 then dateq.sql.delete(1);
+    end;
     dateq.Close;
     dateq.open;
-
-
 end;
 
 procedure Tdataformm.BitBtn1Click(Sender: TObject);
@@ -63,15 +65,13 @@ begin
           smyday:=datetostring(myday);//вставляет нужный разделитель
           datamodule2.topicquerly.SQL.Add('DateRec= '''+smyday +'''');
           datamodule2.topicquerly.SQL.Add('or');
-
-
         end;
       topicquerly.SQL.Delete(topicquerly.SQL.Count-1);//удаляем крайний and
       topicquerly.SQL.Add(')');
     end;
  end;
 
-procedure Tdataformm.BitBtn3Click(Sender: TObject);
+{procedure Tdataformm.BitBtn3Click(Sender: TObject);
 var  da:Tdate; r:word;
 begin
    with datamodule2.vokab do
@@ -89,10 +89,10 @@ begin
 
 
    end;
-  { dateq.SQL:=memo1.Lines;
-   dateq.open; }
+   dateq.SQL:=memo1.Lines;
+   dateq.open;
 
-end;
+end;    }
 
 procedure Tdataformm.DBGrid1TitleClick(Column: TColumn);
 begin
@@ -107,14 +107,10 @@ begin
     begin
       sql.add('order by daterec ');
       tag:=1;
-
     end;
     open;
     // memo1.Lines:=sql;
-
-
-
-   end;
+ end;
 
 
 end;
