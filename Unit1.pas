@@ -22,7 +22,6 @@ type
     Action5: TAction;
     PageControl1: TPageControl;
     TabSheet1: TTabSheet;
-    Gauge1: TGauge;
     canedit: TSpeedButton;
     SpeedButton2: TSpeedButton;
     SpeedButton3: TSpeedButton;
@@ -291,7 +290,6 @@ uses dialogtopic;
 
 function Tform1.memonumber (name:string):byte;
 begin
-  //poss:=pos(name, 't');
   result:=strtoint(copy(name,2,2));
 end;
 
@@ -395,11 +393,8 @@ begin
   slovoper(o,pravotv);
   st1.Caption:=o[0].slovo;
   Rg1.ItemIndex:=-1;
-  //try st1.SetFocus;
-  //finally
   for i:=0 to 5 do
   begin
-    //rg1.Buttons[i].WordWrap:=true;
     rg1.Items[i]:=o[i+1].perevod;
   end;
 end;// end;
@@ -409,14 +404,11 @@ begin
   PerevodSlo(o,pravotv);
   st2.Caption:=o[0].perevod;
   Rg2.ItemIndex:=-1;
-  //try st2.SetFocus;
-  //finally
     for i:=0 to 5 do
     begin
      // rg2.Buttons[i].WordWrap:=true;
       Rg2.Items[i]:=o[i+1].slovo;
     end;
-
 end; //end;
 
 procedure TForm1.InitPobukvam;
@@ -430,8 +422,6 @@ begin
   if not(CheckBox2.Checked) then st3.Caption:=poBukv.sl;//писать, если не стоит галочка
   //if poBukv.fraza then sg.Tag:=1 else sg.Tag:=0;
 end;
-
-
 
 procedure TForm1.rg1Click(Sender: TObject);
 begin
@@ -533,7 +523,6 @@ begin
             Frame211.Visible:=true;
                   Frame212.Visible:=true;
     end;
-
     read1(t1);
     card(t1);
     for t:=1 to t1 do
@@ -541,18 +530,12 @@ begin
         //parentcontrol:=(TFrame(FindComponent('frame2'+inttostr(t))));
         if rg3.ItemIndex=0 then
         begin
-        {(parentcontrol.FindComponent('panel2') as tmemo).Lines.Text:=o1[t].perevod;
-        (parentcontrol.FindComponent('panel2') as tmemo).Hide;
-        (parentcontrol.FindComponent('panel1') as tmemo).Lines.Text:=o1[t].slovo;}
         (FindComponent('frame2'+inttostr(t))as tframe2).panel2.lines.text:=o1[t].perevod;
         (FindComponent('frame2'+inttostr(t))as tframe2).panel2.hide;
         (FindComponent('frame2'+inttostr(t))as tframe2).panel1.lines.text:=o1[t].slovo;
 
         end else
         begin
-        {(parentcontrol.FindComponent('panel2') as tmemo).Lines.Text:=o1[t].slovo;
-        (parentcontrol.FindComponent('panel2') as tmemo).Hide;
-        (parentcontrol.FindComponent('panel1') as tmemo).Lines.Text:=o1[t].perevod;}
         (FindComponent('frame2'+inttostr(t))as tframe2).panel2.lines.text:=o1[t].slovo;
         (FindComponent('frame2'+inttostr(t))as tframe2).panel2.hide;
         (FindComponent('frame2'+inttostr(t))as tframe2).panel1.lines.text:=o1[t].perevod;
@@ -616,8 +599,6 @@ begin
    if not (fsstrikeout in (sender as Tmemo).Font.Style) then
   begin
     (sender as Tmemo).BeginDrag(false,15); //перенос после 15 пик
-    //ch:=chr(9);
-    //if not(left1.Visible) then
     na:=memonumber(Tmemo(sender).Name);
 
     if na>6 then
@@ -657,8 +638,7 @@ begin
   begin
     (sender as tmemo).Lines.Text:=o2[komp-6].slovo+ ' = ' +(sender as tmemo).Lines.Text;
     (source as tmemo).Lines.Text:='';
-    // (source as tmemo).Color:=clMoneyGreen;
-      (sender as tmemo).Color:=clMoneyGreen;
+    (sender as tmemo).Color:=clMoneyGreen;
     searchandcor(true,'word',o2[komp-6].slovo); //если правильно,добавить балл
     ChangeColrigth(true);
   end else
@@ -666,15 +646,12 @@ begin
     (sender as tmemo).Lines.Text:=(sender as tmemo).Lines.Text+' = '+(source as tmemo).Lines.Text;
     (source as tmemo).Lines.Text:='';
     (sender as tmemo).Font.Style:=(source as tmemo).Font.Style+[fsstrikeout];
-     //(source as tmemo).Color:=clMoneyGreen;
     (sender as tmemo).Color:=8421631;
-
     determ; determ; //нужно вычесть 2 очка всем
     ChangeColrigth(false);
   end;
     pb.Canvas.FillRect(pb.Canvas.ClipRect);
-    //button2.BringToFront;
-    //button2.Visible:=true;
+
 
 end;
 
@@ -690,7 +667,6 @@ begin
   begin
       (sender as tmemo).Lines.Text:=(sender as tmemo).Lines.Text+' = '+o1[komp].perevod;
       (source as tmemo).Lines.Text:='';
-     // (source as tmemo).Color:=clMoneyGreen;
       (sender as tmemo).Color:=clMoneyGreen;
 
       searchandcor(true,'translate',o1[komp].perevod);//добавить 1 балл
@@ -700,26 +676,17 @@ begin
     (sender as tmemo).Lines.Text:=(sender as tmemo).Lines.Text+' = '+(source as tmemo).Lines.Text;
     (source as tmemo).Lines.Text:='';
     (sender as tmemo).Font.Style:=(source as tmemo).Font.Style+[fsstrikeout];
-    //(source as tmemo).Color:=clMoneyGreen;
     (sender as tmemo).Color:=8421631;
-
     determ; determ; //нужно вычесть 2 очка всем
           ChangeColrigth(false);
   end;
        pb.Canvas.FillRect(pb.Canvas.ClipRect);
-       //button2.BringToFront;
-       //button2.Visible:=true;
 end;
 
 
 procedure TForm1.Button3Click(Sender: TObject);
 begin
-  {AutoSize:=false;
-  while Height>200 do
-  begin
-    height:=height-10;
-    Width:=width-20; left:=left+20;
-    sleep(5);} WindowState:=wsMinimized;
+   WindowState:=wsMinimized;
   //end;
   addneword.ShowModal;
 end;
@@ -738,37 +705,24 @@ writeln(f,inttostr(  dbgrid1.Font.color));
 writeln(f,inttostr(  dbgrid1.color));
 writeln(f,inttostr(color_scale));
 writeln(f,inttostr(Frame21.Panel1.Color ));
-
 writeln(f,inttostr(Frame21.Panel1.Font.Color  ));
 writeln(f,inttostr(Frame21.Panel1.Font.size  ));
 writeln(f,(Frame21.Panel1.Font.name  ));
-
 writeln(f,inttostr(Frame21.Panel2.Font.Color  ));
 writeln(f,inttostr(Frame21.Panel2.Font.size  ));
 writeln(f,(Frame21.Panel2.Font.name  ));
 writeln(f,booltostr(n5.Checked));
 writeln(f,booltostr(n6.Checked));
-
-
 closefile(f);
 end;
-
-
-
-
 
 procedure TForm1.searchKeyPress(Sender: TObject; var Key: Char);
 begin
   if ord(key)<128 then
   DataModule2.vokab.IndexName:='transind' else //если русская буква
   DataModule2.vokab.IndexName:='wordind'; //если латинская буква
-
   if (DataModule2.vokab.FindKey([search.Text]))=false then
   DataModule2.vokab.FindNearest([search.Text]);
-  {DataModule2.vokab.SetKey;
-  DataModule2.vokab.FieldByName('translate').AsString:=;
-  if (DataModule2.vokab.GotoKey)=false then DataModule2.vokab.GotoNearest;
-  // Filter:='word ='+ +'*';}
 end;
 
 procedure TForm1.ComboBox1CloseUp(Sender: TObject);
@@ -795,10 +749,13 @@ begin
   end;
 
   if SQL.Text<>'update vokab set usersel=true where'#$D#$A
-                     then try
-                     DataModule2.dropch.ExecSQL;
-                     ExecSQL;
-  except sql.Delete(sql.Count-1);
+                     then
+  try
+     DataModule2.dropch.ExecSQL;
+     ExecSQL;
+  except
+      sql.Delete(sql.Count-1);
+      ExecSQL;
   end;
 end;
 DataModule2.vokab.Refresh;
@@ -811,7 +768,6 @@ begin
  if column.FieldName='usersel' then
   begin
     edittable(true);
-
     DataModule2.vokab.Edit;
     if DataModule2.vokab.fields[7].AsBoolean=true then
     DataModule2.vokab.Fields[7].AsBoolean:=false
@@ -819,16 +775,9 @@ begin
     DataModule2.vokab.Fields[7].AsBoolean:=true;
     DataModule2.vokab.Post;
         edittable(false);
-        {stringselect(false); //чтобы можно было нажимать несколько раз
-        stringselect(true);}
    Action3Execute(column);
   end;
 end;
-
-
-
-
-
 
 procedure TForm1.caneditClick(Sender: TObject);
 begin
@@ -861,8 +810,6 @@ begin
   end;
     edit1.SetFocus;
 end;
-
-
 
 procedure TForm1.Edit1KeyPress(Sender: TObject; var Key: Char);
 begin
@@ -944,48 +891,40 @@ begin
 end;
 
 procedure TForm1.rgClick(Sender: TObject);
-procedure delfilt(t:boolean);
- begin
-
-  if t then system.Delete(filtr,pos('fraza=true',filtr),10 ) else
-  system.Delete(filtr,pos('fraza=false',filtr),11 );
-  system.Delete(filtr,pos('and',filtr),4);
-
- end;
+  procedure delfilt(t:boolean);
+   begin
+    if t then system.Delete(filtr,pos('fraza=true',filtr),10 ) else
+    system.Delete(filtr,pos('fraza=false',filtr),11 );
+    system.Delete(filtr,pos('and',filtr),4);
+   end;
 
 
 begin
   with DataModule2.vokab do
   begin
-  filtr:=Filter; //отдали полномочия
-  //Filtered:=true;
-  if rg.ItemIndex=0 then
-  begin
+    filtr:=Filter; //отдали полномочия
+    //Filtered:=true;
+    if rg.ItemIndex=0 then
+    begin
+        delfilt(true);
+        if trim(filtr)<>''  then //если уже что-то есть
+         filtr:=filtr+ ' and fraza=false' else
+        filtr:='fraza=false'
+    end else
+
+    if rg.ItemIndex=1 then
+    begin
+        delfilt(false);
+        if trim(filtr)<>'' then //если уже что-то есть
+        filtr:=filtr+ ' and fraza=true' else
+        filtr:='fraza=true'
+    end else
+    begin
       delfilt(true);
-      if trim(filtr)<>''  then //если уже что-то есть
-       filtr:=filtr+ ' and fraza=false' else
-      filtr:='fraza=false'
-  end else
-
-  if rg.ItemIndex=1 then
-  begin
       delfilt(false);
-      if trim(filtr)<>'' then //если уже что-то есть
-      filtr:=filtr+ ' and fraza=true' else
-      filtr:='fraza=true'
-  end else
-  begin
-
-  delfilt(true);
-  delfilt(false);
-
-
-
+    end;
+    filter:=filtr; //забрали полномочия
   end;
-    DataModule2.vokab.filter:=filtr; ////забрали полномочия
-    
-  end;
-
 end;
 
 procedure TForm1.FormConstrainedResize(Sender: TObject; var MinWidth,
@@ -1074,8 +1013,6 @@ begin
   readln(f,sf);
    for fk:=1 to 12 do
    begin
-   {(FindComponent('frame2'+inttostr(fk)) as tframe2).Panel1.Color:=strtoint(sf);
-   (FindComponent('frame2'+inttostr(fk)) as tframe2).Panel2.Color:=strtoint(sf);}
     (FindComponent('frame2'+inttostr(fk)) as tframe2).panel.color:= strtoint(sf);
    end;
   readln(f,sf);
@@ -1110,15 +1047,11 @@ begin
 
   //-------------------------------
   Action3Execute(sender);
-
 PageControl1Change(sender);
 posgrid:=0;
 if (Screen.Width<form1.Width) or (Screen.Height<form1.Height)
 then form1.BorderStyle:=bsSizeable;
-
 end;
-
-
 
 procedure TForm1.FormKeyPress(Sender: TObject; var Key: Char);
 procedure rectt (col:Tcolor; var tecomp:Tmemo); //draws green bevel
@@ -1143,7 +1076,6 @@ begin
       rectt(color, tecomp);
     end;
   end;
-
 end;
 var mem:Tmemo; charr:char;
 //==================================
@@ -1162,16 +1094,11 @@ try
         if left1.Visible then
           mem:=(FindComponent('m'+key) as tmemo) else
           mem:=(FindComponent('m'+inttostr(strtoint(key)+6)) as tmemo);
-
         if mem.Tag<>clmoneygreen then
         begin
           rectt(clmoneygreen,mem);
           with conteiner do
           begin
-              //prevtext:=currenttext;
-              {prevnum:=currentnum;
-              currentnum:=memonumber(mem.Name);//strtoint(key);}
-              //currenttext:=mem.Text;
               if left1.visible then
               leftnum:=memonumber(mem.Name) else
               rightnum:=memonumber(mem.Name);
@@ -1184,14 +1111,11 @@ try
             if left1.Visible then leftnum:=0 else rightnum:=0;
           end;
         end;
-         {label30.Caption:=inttostr(conteiner.leftnum);
-         label31.Caption:=inttostr(conteiner.rightnum);}
         if not(left1.Visible) then
         radiorect(7,mem) else
         radiorect(1,mem);
         charr:=chr(9);
         FormKeyPress(sender, charr);
-
       end;
       9:  //selects columns by bevel
       begin
@@ -1218,7 +1142,6 @@ try
           else  m1DragDrop(findcomponent('m'+inttostr(leftnum)),findcomponent('m'+inttostr(rightnum)),0,0);
           rightnum:=0; leftnum:=0;
           end;
-
       end;
   end;
   end;  //===============================================
@@ -1233,17 +1156,13 @@ try
   end;
   end;
   except  //showmessage ('идите на хуй');
-//  finally
-
 end;
-
 end;
 
 procedure TForm1.ComboBox1KeyPress(Sender: TObject; var Key: Char);
 begin
  combobox1.itemindex:=-1;
 end;
-
 
 procedure TForm1.ComboBox1DropDown(Sender: TObject);
 begin
@@ -1267,10 +1186,8 @@ begin
 if ColorDialog1.Execute then
   for fk:=1 to 12 do
    begin
-   //(FindComponent('frame2'+inttostr(fk)) as tframe2).Panel1.Color:=ColorDialog1.Color;
    (FindComponent('frame2'+inttostr(fk)) as tframe2).Panel.Color:=ColorDialog1.Color; //.Panel2.Color:=ColorDialog1.Color;
    end;
-
 end;
 
 procedure TForm1.SpeedButton7Click(Sender: TObject);
@@ -1288,9 +1205,6 @@ begin
      end;
    end;
 end;
-
-
-
 
 procedure TForm1.TB1Click(Sender: TObject);
 begin
@@ -1333,7 +1247,6 @@ begin
   DataModule2.vokab.Delete;
 end;
 
-
 procedure TForm1.DBGrid1KeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
@@ -1345,7 +1258,6 @@ begin
           Pages[ActivePageIndex].SetFocus;
         end
      else
-
     DBMemo1.SetFocus;
 end;
 
@@ -1358,8 +1270,6 @@ then
       Post
       else Edit;
 end;
-
-
 end;
 
 procedure TForm1.DBGrid1TitleClick(Column: TColumn);
@@ -1375,13 +1285,6 @@ begin
       else IndexName:='dateind';
       3: begin
     //
-    {mousepos.canmod:=false;
-    Application.CreateForm(TPopup_Menu, Popup_menu);
-    popup_menu.Show;}
-    {instruction for including form-menu as popup-menu:
-    1) include form "popup_Menu"
-    2) activate variable mousepos and type
-    3) activate event "addmessage"}
           nil_menu.Popup(mouse.CursorPos.X, mouse.CursorPos.Y);
       end;
       4: if IndexName='topicind' then IndexName:='TopicIndD'
@@ -1407,16 +1310,11 @@ if od1.Execute then
   try
     with DataModule2 do
     begin
-      
       synch.Open;
-      {bmove.Execute;
-      synch1.Open; }
-      //dbgrid4.DataSource:=DataModule2.dssynch;
     end;
     statusbar1.panels[0].Text:='Найдено новых слов: '+inttostr(DataModule2.synch.RecordCount);
   finally
   end;
-
 end;
 
 procedure TForm1.SpeedButton9Click(Sender: TObject);
@@ -1427,7 +1325,6 @@ begin
    DBGrid2.Tag:=0; //resume
   BitBtn1.Visible:=true;
   synchtr.Resume;
-
 end;
 
 
@@ -1440,15 +1337,20 @@ end;
 
 procedure TForm1.spb4Click(Sender: TObject);
 begin
-with dbgrid2.DataSource.DataSet do
-begin
-    first;
-    while not EOF do
+  if search.Focused then
+    search.SelectAll
+  else
     begin
-      DBGrid2.SelectedRows.CurrentRowSelected:=true;
-      next;
+      with dbgrid2.DataSource.DataSet do
+      begin
+          first;
+          while not EOF do
+          begin
+            DBGrid2.SelectedRows.CurrentRowSelected:=true;
+            next;
+          end;
+      end;
     end;
-end;
 end;
 
 procedure TForm1.spb6Click(Sender: TObject);
@@ -1463,7 +1365,6 @@ begin
     end;
 end;
 end;
-
 
 procedure TForm1.FormPaint(Sender: TObject);
 begin
@@ -1511,11 +1412,9 @@ begin
 
 end;
 
-
 procedure TForm1.BitBtn1Click(Sender: TObject);
 begin
    BitBtn1.Visible:=false;
-
    DBGrid2.Tag:=1; //suspend;
    synchtr.Terminate;
    BitBtn1.Visible:=false;
@@ -1540,7 +1439,6 @@ end;
 procedure TForm1.NoBClick(Sender: TObject);
 begin
    YesNoContinue(false);
-
 end;
 
 procedure TForm1.DBGrid2MouseUp(Sender: TObject; Button: TMouseButton;

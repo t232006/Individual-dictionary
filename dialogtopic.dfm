@@ -104,24 +104,6 @@ object topicform: Ttopicform
     Columns = <
       item
         Expanded = False
-        FieldName = 'Id'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -19
-        Font.Name = 'MS UI Gothic'
-        Font.Style = [fsItalic]
-        Title.Caption = 'N'
-        Title.Font.Charset = DEFAULT_CHARSET
-        Title.Font.Color = clWindowText
-        Title.Font.Height = -16
-        Title.Font.Name = 'MS Sans Serif'
-        Title.Font.Pitch = fpFixed
-        Title.Font.Style = []
-        Width = 20
-        Visible = True
-      end
-      item
-        Expanded = False
         FieldName = 'Name'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -142,9 +124,10 @@ object topicform: Ttopicform
     Top = 272
     Width = 81
     Height = 25
+    Kind = bkOK
+    NumGlyphs = 2
     TabOrder = 2
     OnClick = BitBtn1Click
-    Kind = bkOK
   end
   object DBMemo1: TDBMemo
     Left = 392
