@@ -16,7 +16,6 @@ type
     dsdateq: TDataSource;
     procedure FormShow(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
-    procedure BitBtn3Click(Sender: TObject);
     procedure DBGrid1TitleClick(Column: TColumn);
   private
     { Private declarations }
