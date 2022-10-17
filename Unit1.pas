@@ -7,7 +7,8 @@ uses
   Dialogs, Grids, ValEdit, ComCtrls, DB, StdCtrls, DBGrids, DBTables,
   ExtCtrls, lessons, PoBukvam, lesson4, database, DBCtrls, addnewword, dataform,
   Buttons, frame, helpdict, Mask, ActnList, ActnMan, ActnColorMaps, ImgList,
-  OleCtrls, SHDocVw, Gauges, thread2, DdeMan, Menus, comobj, System.Actions;
+  OleCtrls, SHDocVw, Gauges, thread2, DdeMan, Menus, comobj, System.Actions,
+  basemanipulation, cards;
 
 type
   TForm1 = class(TForm)
@@ -257,6 +258,7 @@ procedure sgMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
     function memonumber (name:string):byte;
     procedure Ins;
     procedure FrameGeneralization(Sender: TObject; bool:boolean);
+    procedure DragDrop(sender, source: TObject; mm7: boolean);
   public
     { Public declarations }
   end;
@@ -276,6 +278,10 @@ var
   color_scale:TColor;
   YesNo:TYesNo;
   poBukv:TPoBukvam;
+  test:TTest;
+  complience:TComplience;
+  seAndCor:Tgrademanipulation;
+  cards:Tcards;
 
   conteiner:record
     leftnum:byte;
@@ -362,6 +368,7 @@ begin
     2..4: StatusBar1.Panels[3].Text:='безошибочная серия '+inttostr(kolright)+' слова';
     else StatusBar1.Panels[3].Text:='безошибочная серия '+inttostr(kolright)+' слов';
     end;
+    StatusBar1.Panels[4].Text:='потенциал '+seAndCor.potcount;
 end;
 
 procedure Tform1.stringselect(po:boolean);
@@ -390,7 +397,8 @@ end;
 procedure Tform1.InitSlovoPer;
 //var k:byte;
 begin
-  slovoper(o,pravotv);
+  test:=TTest.create(6);
+  test.slovoper(o,pravotv);
   st1.Caption:=o[0].slovo;
   Rg1.ItemIndex:=-1;
   for i:=0 to 5 do
@@ -401,7 +409,8 @@ end;// end;
 
 procedure Tform1.InitPerevodSlo;
 begin
-  PerevodSlo(o,pravotv);
+  test:=TTest.create(6);
+  test.PerevodSlo(o,pravotv);
   st2.Caption:=o[0].perevod;
   Rg2.ItemIndex:=-1;
     for i:=0 to 5 do
@@ -440,7 +449,7 @@ begin
     except
 
     end;
-    searchandcor(true,'word',o[0].slovo);
+    SeAndCor.searchandcor(true,'word',o[0].slovo);
     ChangeColrigth(true); //пишет в статусе
     InitSlovoPer;
   end else
@@ -455,7 +464,7 @@ begin
       Add(o[rg1.ItemIndex+1].slovo);
     end;
     //l1.Caption:='неправильно';
-    searchandcor(false,'word',o[0].slovo);
+    SeAndCor.searchandcor(false,'word',o[0].slovo);
     ChangeColrigth(false); //пишет в статусе
   end;
   rg1.ItemIndex:=-1;
@@ -475,27 +484,28 @@ begin
   end;
   1:
   begin
-      read1(6);
+      //read1(6);
       InitSlovoPer;
   end;
   2:
   begin
-    read1(6);
+    //read1(6);
      InitPerevodSlo;
   end;
   3:
   begin
-    read1(1);
+    //read1(1);
     InitPobukvam;
   end;
   4:
   begin
-    read1(6);
-    sootv; //заполняет 2 массива ответами
+    //read1(6);
+    complience:= Tcomplience.Create;
+    //complience.sootv; //заполняет 2 массива ответами
     for t:=1 to 6 do
     begin
-        TMemo(FindComponent('m'+IntToStr(t))).lines.text:=o1[t].slovo;
-        TMemo(FindComponent('m'+IntToStr(t+6))).lines.text:=o2[t].perevod;
+        TMemo(FindComponent('m'+IntToStr(t))).lines.text:=complience.o1[t].slovo;
+        TMemo(FindComponent('m'+IntToStr(t+6))).lines.text:=complience.o2[t].perevod;
     end;
     for t:=1 to 12 do
         begin
@@ -505,7 +515,8 @@ begin
   end;
   5:
   begin
-     read1(1);
+     //read1(1);
+     YesNo:=TYesNo.Create(1);
   end;
   6:
   begin
@@ -523,22 +534,23 @@ begin
             Frame211.Visible:=true;
                   Frame212.Visible:=true;
     end;
-    read1(t1);
-    card(t1);
+    {read1(t1);
+    card(t1);  }
+    cards:=Tcards.create(t1);
     for t:=1 to t1 do
     begin
         //parentcontrol:=(TFrame(FindComponent('frame2'+inttostr(t))));
         if rg3.ItemIndex=0 then
         begin
-        (FindComponent('frame2'+inttostr(t))as tframe2).panel2.lines.text:=o1[t].perevod;
+        (FindComponent('frame2'+inttostr(t))as tframe2).panel2.lines.text:=cards.o1[t].perevod;
         (FindComponent('frame2'+inttostr(t))as tframe2).panel2.hide;
-        (FindComponent('frame2'+inttostr(t))as tframe2).panel1.lines.text:=o1[t].slovo;
+        (FindComponent('frame2'+inttostr(t))as tframe2).panel1.lines.text:=cards.o1[t].slovo;
 
         end else
         begin
-        (FindComponent('frame2'+inttostr(t))as tframe2).panel2.lines.text:=o1[t].slovo;
+        (FindComponent('frame2'+inttostr(t))as tframe2).panel2.lines.text:=cards.o1[t].slovo;
         (FindComponent('frame2'+inttostr(t))as tframe2).panel2.hide;
-        (FindComponent('frame2'+inttostr(t))as tframe2).panel1.lines.text:=o1[t].perevod;
+        (FindComponent('frame2'+inttostr(t))as tframe2).panel1.lines.text:=cards.o1[t].perevod;
         end;
 
 
@@ -571,7 +583,7 @@ procedure TForm1.rg2Click(Sender: TObject);
     except
 
     end;
-    searchandcor(true,'translate',o[0].perevod);
+    SeAndCor.searchandcor(true,'translate',o[0].perevod);
     ChangeColrigth(true); //пишет в статусе
     InitPerevodSlo;
   end else
@@ -586,7 +598,7 @@ procedure TForm1.rg2Click(Sender: TObject);
       Add(o[rg2.ItemIndex+1].perevod);
     end;
     //l1.Caption:='неправильно';
-    searchandcor(false,'translate',o[0].perevod);
+    SeAndCor.searchandcor(false,'translate',o[0].perevod);
     ChangeColrigth(false); //пишет в статусе
   end;
   rg2.ItemIndex:=-1;
@@ -629,17 +641,19 @@ begin
 end;
 
 //-------------------------------------------------------
-procedure TForm1.m7DragDrop(Sender, Source: TObject; X, Y: Integer);
+procedure TForm1.DragDrop(sender, source: TObject; mm7: boolean);
 var komp:byte;
+    usword:string;
 begin
   komp:=strtoint(copy((sender as tmemo).Name,2,2));
+  usword := complience.outword(komp, mm7);
   if source<>sender then //чтобы не закидывать в себя
-  if ((source as tmemo).Lines.Text=o2[komp-6].slovo) then
+  if ((source as tmemo).Lines.Text=usword) then
   begin
-    (sender as tmemo).Lines.Text:=o2[komp-6].slovo+ ' = ' +(sender as tmemo).Lines.Text;
+    (sender as tmemo).Lines.Text:=usword+ ' = ' +(sender as tmemo).Lines.Text;
     (source as tmemo).Lines.Text:='';
     (sender as tmemo).Color:=clMoneyGreen;
-    searchandcor(true,'word',o2[komp-6].slovo); //если правильно,добавить балл
+    SeAndCor.searchandcor(true,'word',usword); //если правильно,добавить балл
     ChangeColrigth(true);
   end else
   begin
@@ -647,11 +661,16 @@ begin
     (source as tmemo).Lines.Text:='';
     (sender as tmemo).Font.Style:=(source as tmemo).Font.Style+[fsstrikeout];
     (sender as tmemo).Color:=8421631;
-    determ; determ; //нужно вычесть 2 очка всем
+    //determ; determ; //нужно вычесть 2 очка всем
+    SeAndCor.searchandcor(false,'word',usword);
     ChangeColrigth(false);
   end;
     pb.Canvas.FillRect(pb.Canvas.ClipRect);
+End;
 
+procedure TForm1.m7DragDrop(Sender, Source: TObject; X, Y: Integer);
+begin
+    DragDrop(sender, source, true);
 
 end;
 
@@ -659,28 +678,8 @@ end;
 //-----------------------------------------------------------
 
 procedure TForm1.m1DragDrop(Sender, Source: TObject; X, Y: Integer);
-var komp:byte;
 begin
-    komp:=strtoint(copy((sender as tmemo).Name,2,2));//номер компонента (без имени)
-    if source<>sender then //чтобы не закидывать в себя
-    if ((source as tmemo).Lines.Text=o1[komp].perevod) then
-  begin
-      (sender as tmemo).Lines.Text:=(sender as tmemo).Lines.Text+' = '+o1[komp].perevod;
-      (source as tmemo).Lines.Text:='';
-      (sender as tmemo).Color:=clMoneyGreen;
-
-      searchandcor(true,'translate',o1[komp].perevod);//добавить 1 балл
-      ChangeColrigth(true);
-  end else
-  begin
-    (sender as tmemo).Lines.Text:=(sender as tmemo).Lines.Text+' = '+(source as tmemo).Lines.Text;
-    (source as tmemo).Lines.Text:='';
-    (sender as tmemo).Font.Style:=(source as tmemo).Font.Style+[fsstrikeout];
-    (sender as tmemo).Color:=8421631;
-    determ; determ; //нужно вычесть 2 очка всем
-          ChangeColrigth(false);
-  end;
-       pb.Canvas.FillRect(pb.Canvas.ClipRect);
+   DragDrop(sender, source, false);
 end;
 
 
@@ -795,15 +794,15 @@ begin
     if per=trim(edit1.Text) then
       begin
         Label1.Caption:='правильно';
-        searchandcor(true,'word',sl);
+        SeAndCor.searchandcor(true,'word',sl);
         ChangeColrigth(true); //пишет в статусе
         InitPobukvam;
         Edit1.Text:='';
       end else
       begin
         Label1.Caption:='неправильно';
-        searchandcor(false,'word',sl);
-        searchandcor(false,'word',sl); //вычесть 2 балла
+        SeAndCor.searchandcor(false,'word',sl);
+        SeAndCor.searchandcor(false,'word',sl); //вычесть 2 балла
         edit1.Text:=per; //написать правильный ответ
         ChangeColrigth(false); //пишет в статусе
       end;
@@ -874,7 +873,7 @@ var name:string;
 begin
   name:=(sender as TBitBtn).Parent.Name;
   digit:=strtoint(copy(name,7,2)) ;
-  searchandcor(bool,'word',o1[digit].slovo);
+  SeAndCor.searchandcor(bool,'word',cards.o1[digit].slovo);
   (FindComponent(name) as TFrame2).panel2.Visible:=true;
   (FindComponent(name) as TFrame2).BitBtn1.Enabled:=bool;
   ChangeColrigth(bool);
@@ -1049,6 +1048,7 @@ begin
   Action3Execute(sender);
 PageControl1Change(sender);
 posgrid:=0;
+SeAndCor:=Tgrademanipulation.Create(DataModule2);
 if (Screen.Width<form1.Width) or (Screen.Height<form1.Height)
 then form1.BorderStyle:=bsSizeable;
 end;
@@ -1213,7 +1213,7 @@ begin
  TB.Enabled:=false;
  YesB.Enabled:=true;
  NoB.Enabled:=true;
- YesNo:=TYesNo.Create;
+
  YesNo.Init;
  Memo3.Text:=YesNo.GetString;
  ProgressBar1.Position:=0;

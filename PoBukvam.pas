@@ -3,7 +3,7 @@ unit PoBukvam;
 interface
 uses classes, lessons;
 type
-TPoBukvam=class
+TPoBukvam=class(TGeneral)
 private
   _sl, _per:string;
   buf, bmas:TStringList;
@@ -25,6 +25,7 @@ constructor TPoBukvam.Create;
 var
 ii,jj:byte;
 begin
+    inherited create(1);
     buf:=TStringList.Create;
     bmas:=TStringList.Create;
     writeslovo;//загаданные слово и перевод

@@ -2,7 +2,7 @@ unit lessons;
 
 interface
 
-uses       SysUtils,  Controls, database, Dialogs, Graphics;
+uses       SysUtils,  Controls, database, Dialogs, Graphics, basemanipulation;
 
 type
   worded=record
@@ -19,13 +19,14 @@ type
   end;
  otv=array[0..6] of SlPerSl; //массив,отвечающий за ответы
 
- TYesNo=class
+ TGeneral=class
+     v:array of worded;  //заполнение массива отдельной процедурой
+     constructor Create(countrec:byte);
+ end;
+
+ TYesNo=class(TGeneral)
  public
-
-    //trueanswer:boolean;
-
     promptcolor:Tcolor;
-
  private
     //_answer:boolean;
     _serial:byte;
@@ -34,30 +35,22 @@ type
     word1:string;
     word2:string;
     IsItTrue:boolean;
+    seAndCor:Tgrademanipulation;
  public
-    {property IsItTrue:boolean read _IsItTrue;
-    {property word1:string read _word1;
-    property word2:string read _word2;}
     property serial:byte read _serial;
     property prompt:string read _prompt;
     property GetString:string read _GetString;
     procedure GiveAnswer(answer:boolean);
     procedure Init;
  end;
+ TTest=class(TGeneral)
+    public
+    procedure slovoPer(var w:otv; var ind:byte); //ind-верный вариант
+    procedure PerevodSlo(var w:otv; var ind:byte); //ind-верный вариант
+ end;
+//var
 
-var
-v:array of worded;  //заполнение массива отдельной процедурой
-bmas: array of string; //массив букв или слов
-
-
-procedure slovoPer(var w:otv; var ind:byte); //ind-верный вариант
-procedure PerevodSlo(var w:otv; var ind:byte); //ind-верный вариант
-procedure read1(countrec:byte);
-//procedure writeslovo(var ind:integer;var sl,per:string);
-//procedure pobukvam(st:string); //строки на случай перемешивания слов
-//function fraza(s:string):boolean; //отвечает фраза ли это или слово
-
-
+//bmas: array of string; //массив букв или слов
 
 implementation
 
@@ -73,8 +66,8 @@ begin
     _prompt:='вы правы';
     if IsItTrue=true then
     begin
-      searchandcor(true,'word',word1);
-      searchandcor(true,'translate',word2);
+      seAndCor.searchandcor(true,'word',word1);
+      seAndCor.searchandcor(true,'translate',word2);
     end;
   end else
   begin
@@ -88,6 +81,7 @@ procedure TYesNo.Init;
 var giveTrue:byte;
     l,ll:integer;
 begin
+  seAndCor.Create(DataModule2);
   randomize;
   giveTrue:=random(2);
   l:=random(length(v)); //conjectived word
@@ -111,7 +105,7 @@ begin
 end;
 
 
-procedure read1(countrec:byte);
+constructor TGeneral.Create(countrec:byte);
 var {f:text; ss:string;} i:word;
 procedure zapmas (kl:word);
 begin
@@ -147,18 +141,9 @@ begin
       Next;
     end;
   end;
-
-
 end;
 
-
-
-
-
-
-
-
-procedure PerevodSlo(var w:otv; var ind:byte); //ind-верный вариант; w по сути string
+procedure TTest.PerevodSlo(var w:otv; var ind:byte); //ind-верный вариант; w по сути string
 var l:integer;
     i,g:byte;
     j:set of byte; //распределение ответов
@@ -168,10 +153,10 @@ begin
     j:=[]; jj:=j;
     l:=random(length(v)); //загаданное слово (индекс)
     w[0].perevod:=v[l].perevod; //загаданное слово
-      g:=random(6)+1;  //любому варианту
-       w[g].slovo:=v[l].slovo;  // даем верный ответ
+    g:=random(6)+1;  //любому варианту
+    w[g].slovo:=v[l].slovo;  // даем верный ответ
     ind:=g;
-      j:=j+[g];  jj:=jj+[l];
+    j:=j+[g];  jj:=jj+[l];
     for i:=2 to 6 do  //остальным даем неверные
     begin
       repeat
@@ -187,9 +172,7 @@ begin
     end;
 end;
 
-
-
-procedure slovoPer(var w:otv; var ind:byte); //ind-верный вариант;w record со словом-переводом
+procedure TTest.slovoPer(var w:otv; var ind:byte); //ind-верный вариант;w record со словом-переводом
 var l:integer;
     i,g:byte;
     j:set of byte; //распределение ответов
