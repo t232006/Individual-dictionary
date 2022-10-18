@@ -218,7 +218,7 @@ type
     procedure CheckBox2Click(Sender: TObject);
     procedure Action5Execute(Sender: TObject);
     procedure DBGrid1KeyPress(Sender: TObject; var Key: Char);
-    procedure Button6Click(Sender: TObject);
+    procedure Butt7Click(Sender: TObject);
     procedure SpeedButton9Click(Sender: TObject);
     procedure DBGrid2CellClick(Column: TColumn);
     procedure spb4Click(Sender: TObject);
@@ -368,7 +368,8 @@ begin
     2..4: StatusBar1.Panels[3].Text:='безошибочная серия '+inttostr(kolright)+' слова';
     else StatusBar1.Panels[3].Text:='безошибочная серия '+inttostr(kolright)+' слов';
     end;
-    StatusBar1.Panels[4].Text:='потенциал '+seAndCor.potcount;
+    //seAndCor.calcProgress;
+    StatusBar1.Panels[4].Text:='Потенциал: '+seAndCor.potcount;
 end;
 
 procedure Tform1.stringselect(po:boolean);
@@ -643,26 +644,40 @@ end;
 //-------------------------------------------------------
 procedure TForm1.DragDrop(sender, source: TObject; mm7: boolean);
 var komp:byte;
-    usword:string;
+    usword, soword, seword:string;
 begin
   komp:=strtoint(copy((sender as tmemo).Name,2,2));
   usword := complience.outword(komp, mm7);
+  seword:=(sender as tmemo).Lines.Text;
+  soword:=(source as tmemo).Lines.Text;
   if source<>sender then //чтобы не закидывать в себя
-  if ((source as tmemo).Lines.Text=usword) then
+  if (soword=usword) then
   begin
-    (sender as tmemo).Lines.Text:=usword+ ' = ' +(sender as tmemo).Lines.Text;
+    (sender as tmemo).Lines.Text:=usword+ ' = ' + seword;
     (source as tmemo).Lines.Text:='';
     (sender as tmemo).Color:=clMoneyGreen;
-    SeAndCor.searchandcor(true,'word',usword); //если правильно,добавить балл
+    if mm7 then
+      SeAndCor.searchandcor(true,'translate',seword) //если правильно,добавить балл
+    else
+      SeAndCor.searchandcor(true,'word',seword); //если правильно,добавить балл
     ChangeColrigth(true);
   end else
   begin
-    (sender as tmemo).Lines.Text:=(sender as tmemo).Lines.Text+' = '+(source as tmemo).Lines.Text;
+    (sender as tmemo).Lines.Text:=seword+' = '+soword;
     (source as tmemo).Lines.Text:='';
     (sender as tmemo).Font.Style:=(source as tmemo).Font.Style+[fsstrikeout];
     (sender as tmemo).Color:=8421631;
     //determ; determ; //нужно вычесть 2 очка всем
-    SeAndCor.searchandcor(false,'word',usword);
+    if mm7 then
+    begin
+      SeAndCor.searchandcor(false,'word',soword); //если неправильно,вычесть балл
+      SeAndCor.searchandcor(false,'translate',seword);  //и у того, и у другого
+    end
+    else
+    begin
+      SeAndCor.searchandcor(false,'translate',soword); //если неправильно,вычесть балл
+      SeAndCor.searchandcor(false,'word',seword);   //и у того, и у другого
+    end;
     ChangeColrigth(false);
   end;
     pb.Canvas.FillRect(pb.Canvas.ClipRect);
@@ -1295,7 +1310,7 @@ begin
   end;
 end;
 
-procedure TForm1.Button6Click(Sender: TObject);
+procedure TForm1.Butt7Click(Sender: TObject);
   var //templist:Tstringlist;
       dirbase:string;
 begin
@@ -1377,8 +1392,10 @@ begin
      statusbar1.panels[1].Text:='Выделено слов: '+inttostr(DBGrid2.SelectedRows.Count);
    end else
    begin
-   statusbar1.panels[0].Text:='Всего слов: '+inttostr(DataModule2.vokab.RecordCount);
-   statusbar1.Panels[1].text:='Выделено слов: '+ inttostr(DataModule2.selectsel.RecordCount);
+     statusbar1.panels[0].Text:='Всего слов: '+inttostr(DataModule2.vokab.RecordCount);
+     statusbar1.Panels[1].text:='Выделено слов: '+ inttostr(DataModule2.selectsel.RecordCount);
+     {seAndCor.calcProgress;
+     StatusBar1.Panels[4].Text:='Потенциал: '+seAndCor.potcount;}
    end;
 
 end;

@@ -198,13 +198,15 @@ object DataModule2: TDataModule2
     Top = 280
   end
   object dspotential: TDataSource
-    DataSet = vokab
+    DataSet = potential
     Left = 56
     Top = 304
   end
   object potential: TQuery
+    Active = True
+    CachedUpdates = True
+    AutoRefresh = True
     DatabaseName = 'vokabul'
-    DataSource = dspotential
     SQL.Strings = (
       'select sum(rate) as sumrate from vokab where usersel=true')
     Left = 56

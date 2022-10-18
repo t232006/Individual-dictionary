@@ -10,7 +10,6 @@ type
     private
       _potcount: string;
       _percent: string;
-      reccount: integer;
       DM: TDataModule2;
 
 
@@ -42,18 +41,22 @@ var
   answerscount: integer;
   pc: integer;
   percentNum: real;
+  reccount: integer;
 begin
+    DM.potential.Active:=false; DM.potential.Active:=true;
     answerscount := DM.dspotential.DataSet.Fields[0].AsInteger;
+    reccount := DM.selectsel.RecordCount;
     pc := reccount * 6 - answerscount;
     percentNum := pc / reccount * 100;
     _potcount := IntToStr(pc);
     _percent := FloatToStr(percentNum);
-    reccount := DM.selectsel.RecordCount;
+
 end;
 
 constructor Tgrademanipulation.Create(_DM: TDataModule2);
 begin
     DM:=_DM;
+    calcprogress;
 end;
 
 procedure Tgrademanipulation.searchandcor(add: Boolean; field: string; word: string);

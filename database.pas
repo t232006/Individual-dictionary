@@ -69,7 +69,9 @@ end;
 
 procedure TDataModule2.vokabAfterRefresh(DataSet: TDataSet);
 begin
-form1.statusbar1.panels[0].Text:='Всего слов: '+inttostr(DataModule2.vokab.RecordCount);
+  seAndCor.calcProgress;
+  form1.StatusBar1.Panels[4].Text:='Потенциал: '+seAndCor.potcount;
+  form1.statusbar1.panels[0].Text:='Всего слов: '+inttostr(DataModule2.vokab.RecordCount);
 end;
 
 
