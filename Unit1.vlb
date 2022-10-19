@@ -76,9 +76,6 @@ Coordinates=770,1295,57,36
 [Frame27.BitBtn2]
 Coordinates=246,366,111,58
 
-[StatusBar1]
-Coordinates=792,298,78,58
-
 [PageControl1]
 Coordinates=956,752,93,36
 
@@ -541,4 +538,7 @@ Coordinates=131,502,53,58
 
 []
 Coordinates=1303,706,60,36
+
+[StBar]
+Coordinates=792,298,78,58
 

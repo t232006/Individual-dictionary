@@ -17,7 +17,7 @@ type
     Action1: TAction;
     Action2: TAction;
     Action3: TAction;
-    StatusBar1: TStatusBar;
+    StBar: TStatusBar;
     Action4: TAction;
     FontDialog1: TFontDialog;
     Action5: TAction;
@@ -168,6 +168,12 @@ type
     StaticText4: TStaticText;
     TB: TBitBtn;
     st3: TLabel;
+    progress_Menu: TPopupMenu;
+    N8: TMenuItem;
+    N9: TMenuItem;
+    N10: TMenuItem;
+    N12: TMenuItem;
+    Dpot: TProgressBar;
     procedure rg1Click(Sender: TObject);
     procedure rg2Click(Sender: TObject);
     procedure InitSlovoPer;
@@ -251,8 +257,15 @@ procedure sgMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
     procedure SmallTimerTimer(Sender: TObject);
     procedure sgMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
+    procedure N8Click(Sender: TObject);
+    procedure N9Click(Sender: TObject);
+    procedure N12Click(Sender: TObject);
+    procedure N10Click(Sender: TObject);
+    procedure StBarDrawPanel(StatusBar: TStatusBar; Panel: TStatusPanel;
+      const Rect: TRect);
   private
     { Private declarations }
+    procedure Fill4Status;
     procedure YesNoContinue(b:boolean);
     procedure Keynottab (var msg:TCMDialogKey); message CM_DialogKey;
     function memonumber (name:string):byte;
@@ -364,12 +377,12 @@ begin
     else
         kolright:=0;
     case kolright mod 10 of
-    1:    StatusBar1.Panels[3].Text:='безошибочная серия '+inttostr(kolright)+' слово';
-    2..4: StatusBar1.Panels[3].Text:='безошибочная серия '+inttostr(kolright)+' слова';
-    else StatusBar1.Panels[3].Text:='безошибочная серия '+inttostr(kolright)+' слов';
+    1:    StBar.Panels[3].Text:='безошибочная серия '+inttostr(kolright)+' слово';
+    2..4: StBar.Panels[3].Text:='безошибочная серия '+inttostr(kolright)+' слова';
+    else StBar.Panels[3].Text:='безошибочная серия '+inttostr(kolright)+' слов';
     end;
     //seAndCor.calcProgress;
-    StatusBar1.Panels[4].Text:='Потенциал: '+seAndCor.potcount;
+    Fill4Status;
 end;
 
 procedure Tform1.stringselect(po:boolean);
@@ -475,7 +488,7 @@ end;
 procedure TForm1.PageControl1Change(Sender: TObject);
 var t,t1:byte; //parentcontrol:TWinControl;
 begin
-//    statusbar1.panels[0].Text:='Всего слов: '+inttostr(DataModule2.vokab.RecordCount);
+//    StBar.panels[0].Text:='Всего слов: '+inttostr(DataModule2.vokab.RecordCount);
 //  DataModule2.topicquerly.SQL.Text:='UPDATE vokab SET usersel=true';//если слова не выбраны, то выбрать все слова}
   case  PageControl1.ActivePageIndex of
   0:
@@ -871,7 +884,7 @@ end;
 procedure TForm1.SmallTimerTimer(Sender: TObject);
 begin
   ProgressBar1.StepIt;
-  StatusBar1.Parent:=ProgressBar1;
+  StBar.Parent:=ProgressBar1;
 end;
 
 procedure TForm1.Edit1DragOver(Sender, Source: TObject; X, Y: Integer;
@@ -1007,13 +1020,15 @@ begin
   with DataModule2.selectsel do
   begin
     Open;// ExecSQL;
-    statusbar1.Panels[1].text:='Выделено слов: '+ inttostr(RecordCount);
+    StBar.Panels[1].text:='Выделено слов: '+ inttostr(RecordCount);
+    Fill4Status;
   end;
 end;
 
 procedure TForm1.FormCreate(Sender: TObject);
 var sf:string; fk:1..12;
 begin
+  Dpot.Parent:=StBar;
   assignfile(f,'init.ini');
   reset(f);
   readln(f,sf);
@@ -1327,7 +1342,7 @@ if od1.Execute then
     begin
       synch.Open;
     end;
-    statusbar1.panels[0].Text:='Найдено новых слов: '+inttostr(DataModule2.synch.RecordCount);
+    StBar.panels[0].Text:='Найдено новых слов: '+inttostr(DataModule2.synch.RecordCount);
   finally
   end;
 end;
@@ -1343,11 +1358,24 @@ begin
 end;
 
 
+procedure TForm1.StBarDrawPanel(StatusBar: TStatusBar; Panel: TStatusPanel;
+  const Rect: TRect);
+begin
+  if Panel=StBar.Panels[4] then
+  //with Dpot do
+  begin
+     Dpot.Top:=Rect.Top;
+     Dpot.Left:=Rect.Left;
+     Dpot.Width:=StBar.Panels[4].Width;
+  end;
+
+end;
+
 procedure TForm1.DBGrid2CellClick(Column: TColumn);
 begin
   SpeedButton9.Enabled:=true;
-  statusbar1.panels[1].Text:='Выделено слов: '+inttostr(DBGrid2.SelectedRows.Count);
-
+  StBar.panels[1].Text:='Выделено слов: '+inttostr(DBGrid2.SelectedRows.Count);
+  Fill4Status;
 end;
 
 procedure TForm1.spb4Click(Sender: TObject);
@@ -1387,15 +1415,14 @@ begin
    if PageControl1.ActivePageIndex=7 then
    begin
      try
-     statusbar1.panels[0].Text:='Найдено новых слов: '+inttostr(DataModule2.synch.RecordCount);
+     StBar.panels[0].Text:='Найдено новых слов: '+inttostr(DataModule2.synch.RecordCount);
      except end;
-     statusbar1.panels[1].Text:='Выделено слов: '+inttostr(DBGrid2.SelectedRows.Count);
+     StBar.panels[1].Text:='Выделено слов: '+inttostr(DBGrid2.SelectedRows.Count);
    end else
    begin
-     statusbar1.panels[0].Text:='Всего слов: '+inttostr(DataModule2.vokab.RecordCount);
-     statusbar1.Panels[1].text:='Выделено слов: '+ inttostr(DataModule2.selectsel.RecordCount);
-     {seAndCor.calcProgress;
-     StatusBar1.Panels[4].Text:='Потенциал: '+seAndCor.potcount;}
+     StBar.panels[0].Text:='Всего слов: '+inttostr(DataModule2.vokab.RecordCount);
+     StBar.Panels[1].text:='Выделено слов: '+ inttostr(DataModule2.selectsel.RecordCount);
+     Fill4Status;
    end;
 
 end;
@@ -1440,7 +1467,7 @@ end;
 procedure TForm1.YesNoContinue(b:boolean);
 begin
     YesNo.GiveAnswer(b);
-    Statusbar1.Panels[2].Text:='серия '+inttostr(YesNo.serial);
+    StBar.Panels[2].Text:='серия '+inttostr(YesNo.serial);
     memo4.Font.Color:=YesNo.promptcolor;
     memo4.Text:=YesNo.prompt;
     YesNo.Init;
@@ -1576,6 +1603,43 @@ if gdselected in state then
     end;
 end;
 
+procedure TForm1.Fill4Status;
+//var re:TRect;
+begin
+  with StBar.Panels[4] do
+  begin
+      Dpot.Visible:=false;
+      Style:=psText;
+      case StBar.Tag of
+        0:Text:='Потенциал: '+seAndCor.potcount;
+        1:Text:='Потенциал: '+seAndCor.percent+'%';
+        2:Text:='';
+        3://with StBar do
+        begin
+          Style:=psOwnerDraw;
+          Dpot.Visible:=true;
+          Dpot.Max:=DataModule2.selectsel.RecordCount * 6;
+          Dpot.Position:=strtoint(seAndCor.potcount);
+        end;
+      end;
+   end;
+end;
+
+procedure TForm1.N10Click(Sender: TObject);
+begin
+  seAndCor.calcprogress;
+  StBar.Tag:=3;
+  fill4Status;
+
+end;
+
+procedure TForm1.N12Click(Sender: TObject);
+begin
+  //StBar.Panels[4].Text:='';
+  StBar.tag:=2;
+  fill4Status;
+end;
+
 procedure TForm1.N1Click(Sender: TObject);
 begin
 if Application.MessageBox('Вы действительно хотите обнулить все оценки?','Внимание',MB_YESNO+MB_ICONEXCLAMATION+MB_TASKMODAL)=IDYES then
@@ -1598,6 +1662,22 @@ begin
   else IndexName:='rateind';
   First;
 end;
+end;
+
+procedure TForm1.N8Click(Sender: TObject);
+begin
+  seAndCor.calcprogress;
+  //StBar.Panels[4].Text:='Потенциал: '+seAndCor.potcount;
+  StBar.tag:=0;
+  fill4Status;
+end;
+
+procedure TForm1.N9Click(Sender: TObject);
+begin
+  seAndCor.calcprogress;
+  //StBar.Panels[4].Text:='Потенциал: '+seAndCor.percent;
+  StBar.tag:=1;
+  fill4Status;
 end;
 
 procedure TForm1.nexttackExecute(Sender: TObject);
