@@ -153,6 +153,7 @@ object DataModule2: TDataModule2
     Top = 216
   end
   object selectsel: TQuery
+    Active = True
     DatabaseName = 'vokabul'
     DataSource = dsselect
     SQL.Strings = (

@@ -1029,6 +1029,7 @@ procedure TForm1.FormCreate(Sender: TObject);
 var sf:string; fk:1..12;
 begin
   Dpot.Parent:=StBar;
+  SeAndCor:=Tgrademanipulation.Create(DataModule2);
   assignfile(f,'init.ini');
   reset(f);
   readln(f,sf);
@@ -1078,7 +1079,6 @@ begin
   Action3Execute(sender);
 PageControl1Change(sender);
 posgrid:=0;
-SeAndCor:=Tgrademanipulation.Create(DataModule2);
 if (Screen.Width<form1.Width) or (Screen.Height<form1.Height)
 then form1.BorderStyle:=bsSizeable;
 end;
