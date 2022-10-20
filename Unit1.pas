@@ -1472,6 +1472,7 @@ begin
     memo4.Text:=YesNo.prompt;
     YesNo.Init;
     Memo3.Text:=YesNo.GetString;
+    ChangeColrigth(b);
 end;
 
 procedure TForm1.YesBClick(Sender: TObject);

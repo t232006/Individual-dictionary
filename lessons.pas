@@ -81,7 +81,7 @@ procedure TYesNo.Init;
 var giveTrue:byte;
     l,ll:integer;
 begin
-  seAndCor.Create(DataModule2);
+  seAndCor:=Tgrademanipulation.Create(DataModule2);
   randomize;
   giveTrue:=random(2);
   l:=random(length(v)); //conjectived word
