@@ -36,6 +36,8 @@ type
     dssynch: TDataSource;
     synch: TQuery;
     droprate: TQuery;
+    dspotential: TDataSource;
+    potential: TQuery;
     procedure vokabAfterRefresh(DataSet: TDataSet);
   private
     { Private declarations }
@@ -43,7 +45,7 @@ type
     { Public declarations }
   end;
   procedure edittable(op:boolean);
-  procedure searchandcor(add:boolean; field,word:string);
+
 
 var
   DataModule2: TDataModule2;
@@ -62,20 +64,14 @@ begin
     DataModule2.vokab.RecNo:=no;
 end;
 
-procedure searchandcor(add:boolean; field,word:string);
-begin
-if add then
-DataModule2.addball.SQL.Text:='UPDATE vokab SET rate=rate+1 WHERE (rate<7-1) and (' +field+'='''+word+''')'
-else
-DataModule2.addball.SQL.Text:='UPDATE vokab SET rate=rate-2 WHERE (' +field+'='''+word+''') and (rate>1)';
-DataModule2.addball.ExecSQL;
-end;
 
 {$R *.dfm}
 
 procedure TDataModule2.vokabAfterRefresh(DataSet: TDataSet);
 begin
-form1.statusbar1.panels[0].Text:='Всего слов: '+inttostr(DataModule2.vokab.RecordCount);
+  seAndCor.calcProgress;
+  form1.StBar.Panels[4].Text:='Потенциал: '+seAndCor.potcount;
+  form1.StBar.panels[0].Text:='Всего слов: '+inttostr(DataModule2.vokab.RecordCount);
 end;
 
 

@@ -13,7 +13,9 @@ uses
   frame in 'frame.pas' {Frame2: TFrame},
   helpdict in 'helpdict.pas' {Form2},
   thread2 in 'thread2.pas',
-  PoBukvam in 'PoBukvam.pas';
+  PoBukvam in 'PoBukvam.pas',
+  basemanipulation in 'basemanipulation.pas',
+  cards in 'cards.pas';
 
 {$R *.res}
 

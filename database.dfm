@@ -153,6 +153,7 @@ object DataModule2: TDataModule2
     Top = 216
   end
   object selectsel: TQuery
+    Active = True
     DatabaseName = 'vokabul'
     DataSource = dsselect
     SQL.Strings = (
@@ -194,7 +195,22 @@ object DataModule2: TDataModule2
     SQL.Strings = (
       'UPDATE vokab SET rate=0'
       'WHERE usersel=true')
-    Left = 304
-    Top = 336
+    Left = 352
+    Top = 280
+  end
+  object dspotential: TDataSource
+    DataSet = potential
+    Left = 56
+    Top = 304
+  end
+  object potential: TQuery
+    Active = True
+    CachedUpdates = True
+    AutoRefresh = True
+    DatabaseName = 'vokabul'
+    SQL.Strings = (
+      'select sum(rate) as sumrate from vokab where usersel=true')
+    Left = 56
+    Top = 368
   end
 end
