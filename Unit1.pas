@@ -481,7 +481,7 @@ begin
     SeAndCor.searchandcor(false,'word',o[0].slovo);
     ChangeColrigth(false); //пишет в статусе
   end;
-  rg1.ItemIndex:=-1;
+  //rg1.ItemIndex:=-1;
 
 end;
 
@@ -615,7 +615,7 @@ procedure TForm1.rg2Click(Sender: TObject);
     SeAndCor.searchandcor(false,'translate',o[0].perevod);
     ChangeColrigth(false); //пишет в статусе
   end;
-  rg2.ItemIndex:=-1;
+  //rg2.ItemIndex:=-1;
 end;
 
 procedure TForm1.m1MouseDown(Sender: TObject; Button: TMouseButton;

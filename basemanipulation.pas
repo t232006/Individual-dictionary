@@ -67,9 +67,9 @@ begin
      with DM do
   begin
     if add then
-      addball.SQL.Text:='UPDATE vokab SET rate=rate+1 WHERE (rate<7-1) and (' +field+'='''+word+''')'
+      addball.SQL.Text:='UPDATE vokab SET rate=rate+1 WHERE (rate<7-1) and (' +field+'="'+word+'")'
     else
-      addball.SQL.Text:='UPDATE vokab SET rate=rate-2 WHERE (' +field+'='''+word+''') and (rate>1)';
+      addball.SQL.Text:='UPDATE vokab SET rate=rate-2 WHERE (' +field+'="'+word+'") and (rate>1)';
     addball.ExecSQL;
     calcProgress;
   end;
