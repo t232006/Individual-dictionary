@@ -884,7 +884,7 @@ end;
 procedure TForm1.SmallTimerTimer(Sender: TObject);
 begin
   ProgressBar1.StepIt;
-  StBar.Parent:=ProgressBar1;
+  //StBar.Parent:=ProgressBar1;
 end;
 
 procedure TForm1.Edit1DragOver(Sender, Source: TObject; X, Y: Integer;
@@ -1478,6 +1478,8 @@ begin
     StBar.Panels[2].Text:='серия '+inttostr(YesNo.serial);
     memo4.Font.Color:=YesNo.promptcolor;
     memo4.Text:=YesNo.prompt;
+    if YesNo.prompt='вы неправы' then ProgressBar1.Position:=0;
+
     YesNo.Init;
     Memo3.Text:=YesNo.GetString;
     ChangeColrigth(b);
