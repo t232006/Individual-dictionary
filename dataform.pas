@@ -36,7 +36,7 @@ uses  unit1;
 procedure Tdataformm.FormShow(Sender: TObject);
 begin
     tag:=0;
-    if Form1.checkbox1.Checked then
+    if Form1.selspot.Checked then
     begin
       if dateq.SQL.Count=2 then dateq.SQL.Insert(1,'where usersel=true')
     end else

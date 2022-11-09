@@ -40,7 +40,7 @@ type
     DBMemo1: TDBMemo;
     DBMemo2: TDBMemo;
     rg: TRadioGroup;
-    CheckBox1: TCheckBox;
+    selspot: TCheckBox;
     TabSheet2: TTabSheet;
     Label2: TLabel;
     rg1: TRadioGroup;
@@ -205,7 +205,7 @@ type
     procedure FormConstrainedResize(Sender: TObject; var MinWidth,
       MinHeight, MaxWidth, MaxHeight: Integer);
     procedure FormActivate(Sender: TObject);
-    procedure CheckBox1Click(Sender: TObject);
+    procedure selspotClick(Sender: TObject);
     procedure SpeedButton2Click(Sender: TObject);
     procedure SpeedButton3Click(Sender: TObject);
     procedure SpeedButton5Click(Sender: TObject);
@@ -757,7 +757,7 @@ begin
 with DataModule2.topicquerly do
 begin
   if SQL.Text<>'update vokab set usersel=true where'#$D#$A
-  then if CheckBox1.Checked then SQL.Add('and')//для добавления сложных условий
+  then if selspot.Checked then SQL.Add('and')//для добавления сложных условий
   else SQL.Add('or');
   case combobox1.ItemIndex of
     0: SQL.Add('rate<6');
@@ -965,10 +965,10 @@ begin
      form1.WindowState:=wsMaximized;
 end;
 
-procedure TForm1.CheckBox1Click(Sender: TObject);
+procedure TForm1.selspotClick(Sender: TObject);
 begin
 
-  if CheckBox1.Checked then
+  if selspot.Checked then
   begin
     DataModule2.vokab.Filter:='usersel=true';
     rgClick(sender);
@@ -1020,7 +1020,8 @@ begin
   with DataModule2.selectsel do
   begin
     Open;// ExecSQL;
-    StBar.Panels[1].text:='Выделено слов: '+ inttostr(RecordCount);
+    StBar.Panels[1].text:='Выделено слов: '+ inttostr(DataModule2.selectsel.RecordCount);
+    seAndCor.calcprogress;
     Fill4Status;
   end;
 end;
@@ -1113,7 +1114,12 @@ begin
 try
   begin
   case PageControl1.ActivePageIndex of
-  //0: dbgrid1.SetFocus;
+  0:
+  begin
+     if (ord(key)=32) and not(canedit.Down) and not(search.Focused) then
+      selspot.Checked:=not(selspot.Checked)
+  end;
+
   1: rg1.ItemIndex:=strtoint(key)-1;
   2: rg2.ItemIndex:=strtoint(key)-1;
   4:
@@ -1185,7 +1191,7 @@ try
   end;
   end;
   end;
-  except  //showmessage ('идите на хуй');
+  except
 end;
 end;
 
@@ -1197,7 +1203,7 @@ end;
 procedure TForm1.ComboBox1DropDown(Sender: TObject);
 begin
 ComboBox1.ItemIndex:=-1; //чтобы можно было закрыть без выбора
-CheckBox1Click(sender);
+selspotClick(sender);
 end;
 
 procedure TForm1.Action4Execute(Sender: TObject);
@@ -1380,10 +1386,12 @@ end;
 
 procedure TForm1.spb4Click(Sender: TObject);
 begin
-  if search.Focused then
-    search.SelectAll
-  else
-    begin
+  if PageControl1.ActivePageIndex=0 then
+    if search.Focused then
+      search.SelectAll;
+
+  if PageControl1.ActivePageIndex=8 then
+    try
       with dbgrid2.DataSource.DataSet do
       begin
           first;
@@ -1393,7 +1401,7 @@ begin
             next;
           end;
       end;
-    end;
+     except ShowMessage('Выберите источник') end;
 end;
 
 procedure TForm1.spb6Click(Sender: TObject);
@@ -1549,12 +1557,12 @@ begin
    end;
        if search.Left<=857 then
        begin
-           CheckBox1.Left:=search.Left-120;
-           CheckBox1.Top:=46;
+           selspot.Left:=search.Left-120;
+           selspot.Top:=46;
        end else
        begin
-           CheckBox1.Left:=568;
-           CheckBox1.Top:=16;
+           selspot.Left:=568;
+           selspot.Top:=16;
        end;
 end;
 

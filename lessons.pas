@@ -109,7 +109,7 @@ constructor TGeneral.Create(countrec:byte);
 var {f:text; ss:string;} i:word;
 procedure zapmas (kl:word);
 begin
-    with DataModule2.selectsel do
+    with DataModule2.vokab do
   begin
     v[kl].ind:=kl;
     v[kl].slovo:=Fields[1].AsString;
@@ -122,7 +122,7 @@ end;
 begin
 
     //---------------------------------------
-  with DataModule2.selectsel do
+  with DataModule2.vokab do
   begin
     Open;
     if RecordCount<countrec then

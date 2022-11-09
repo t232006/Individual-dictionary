@@ -385,9 +385,6 @@ Coordinates=724,638,53,58
 [Frame22.BitBtn1]
 Coordinates=142,638,111,58
 
-[CheckBox1]
-Coordinates=1275,10,114,58
-
 [Frame27.BitBtn1]
 Coordinates=861,638,111,58
 
@@ -541,4 +538,7 @@ Coordinates=1303,706,60,36
 
 [StBar]
 Coordinates=792,298,78,58
+
+[selspot]
+Coordinates=1275,10,114,58
 

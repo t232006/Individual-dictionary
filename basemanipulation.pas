@@ -45,6 +45,7 @@ var
   percentNum: integer;
 begin
     DM.potential.Active:=false; DM.potential.Active:=true;
+    DM.selectsel.Active:=false; DM.selectsel.Active:=true;
     answerscount := DM.dspotential.DataSet.Fields[0].AsInteger;
     reccount := DM.selectsel.RecordCount;
     pc := reccount * 6 - answerscount;

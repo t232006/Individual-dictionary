@@ -152,22 +152,7 @@ object DataModule2: TDataModule2
     Left = 280
     Top = 216
   end
-  object selectsel: TQuery
-    Active = True
-    DatabaseName = 'vokabul'
-    DataSource = dsselect
-    SQL.Strings = (
-      'SELECT * FROM vokab WHERE usersel = true')
-    Left = 352
-    Top = 216
-  end
-  object dsselect: TDataSource
-    DataSet = vokab
-    Left = 344
-    Top = 168
-  end
   object dsaddball: TDataSource
-    DataSet = selectsel
     Left = 40
     Top = 168
   end
@@ -212,5 +197,18 @@ object DataModule2: TDataModule2
       'select sum(rate) as sumrate from vokab where usersel=true')
     Left = 56
     Top = 368
+  end
+  object selectsel: TQuery
+    Active = True
+    DatabaseName = 'vokabul'
+    SQL.Strings = (
+      'select * from vokab where usersel=true')
+    Left = 352
+    Top = 224
+  end
+  object dsselectsel: TDataSource
+    DataSet = selectsel
+    Left = 344
+    Top = 168
   end
 end

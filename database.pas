@@ -28,8 +28,6 @@ type
     dsdropch: TDataSource;
     dropch: TQuery;
     vokabDateRec: TDateTimeField;
-    selectsel: TQuery;
-    dsselect: TDataSource;
     dsaddball: TDataSource;
     addball: TQuery;
     vokabFraza: TBooleanField;
@@ -38,6 +36,8 @@ type
     droprate: TQuery;
     dspotential: TDataSource;
     potential: TQuery;
+    selectsel: TQuery;
+    dsselectsel: TDataSource;
     procedure vokabAfterRefresh(DataSet: TDataSet);
   private
     { Private declarations }
