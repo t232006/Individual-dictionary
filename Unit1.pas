@@ -174,6 +174,9 @@ type
     N10: TMenuItem;
     N12: TMenuItem;
     Dpot: TProgressBar;
+    DBText1: TDBText;
+    SpeedButton8: TSpeedButton;
+    sb11: TSpeedButton;
     procedure rg1Click(Sender: TObject);
     procedure rg2Click(Sender: TObject);
     procedure InitSlovoPer;
@@ -263,6 +266,8 @@ procedure sgMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
     procedure N10Click(Sender: TObject);
     procedure StBarDrawPanel(StatusBar: TStatusBar; Panel: TStatusPanel;
       const Rect: TRect);
+    procedure sb11Click(Sender: TObject);
+    procedure SpeedButton8Click(Sender: TObject);
   private
     { Private declarations }
     procedure Fill4Status;
@@ -493,8 +498,7 @@ begin
   case  PageControl1.ActivePageIndex of
   0:
   begin
-    edittable(true);
-    edittable(false); //обновление таблицы
+    baserefrash;
   end;
   1:
   begin
@@ -741,6 +745,22 @@ writeln(f,(Frame21.Panel2.Font.name  ));
 writeln(f,booltostr(n5.Checked));
 writeln(f,booltostr(n6.Checked));
 closefile(f);
+end;
+
+procedure TForm1.sb11Click(Sender: TObject);
+begin
+     if sb11.Down then
+     begin
+      sb11.Caption:='>>';
+      form1.Width:=1225;
+      DBGrid1.Columns[6].Visible:=false
+     end
+     else
+     begin
+     sb11.Caption:='<<';
+     form1.Width:=1275;
+      DBGrid1.Columns[6].Visible:=true;
+     end;
 end;
 
 procedure TForm1.searchKeyPress(Sender: TObject; var Key: Char);
@@ -1240,6 +1260,14 @@ begin
        Style:=FontDialog1.Font.Style;
      end;
    end;
+end;
+
+procedure TForm1.SpeedButton8Click(Sender: TObject);
+var a:string;
+begin
+  a:=DBGrid1.DataSource.DataSet.FieldByName('Number').AsString;
+  Seeking(a);
+  baserefrash;
 end;
 
 procedure TForm1.TB1Click(Sender: TObject);

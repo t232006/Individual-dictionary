@@ -26,8 +26,33 @@ type
 
 
   end;
-
+  procedure Seeking(sNum: string);
+  procedure edittable(op:boolean);
+  procedure baserefrash;
 implementation
+
+procedure edittable(op:boolean);
+var no:integer;
+begin
+   no:=DataModule2.vokab.RecNo;  //остаться на старой записи
+    DataModule2.vokab.Active:=false;
+    DataModule2.vokab.ReadOnly :=not(op);//если редактировать, то не только чтение
+    DataModule2.vokab.Active:=true;
+    DataModule2.vokab.RecNo:=no;
+end;
+
+procedure baserefrash;
+begin
+  edittable(true);
+  edittable(false);
+end;
+
+procedure Seeking(sNum: string);
+  begin
+    Datamodule2.addball.SQL.Text:='UPDATE vokab SET Seeked=Seeked+1 WHERE Number="'+sNum+'"';
+    Datamodule2.addball.ExecSQL;
+
+  end;
 
 {function Tgrademanipulation.drawPot: TProgressBar;
 var

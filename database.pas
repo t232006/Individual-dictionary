@@ -45,7 +45,7 @@ type
   public
     { Public declarations }
   end;
-  procedure edittable(op:boolean);
+  //procedure edittable(op:boolean);
 
 
 var
@@ -54,16 +54,6 @@ var
 implementation
 
 uses Unit1;
-
-procedure edittable(op:boolean);
-var no:integer;
-begin
-   no:=DataModule2.vokab.RecNo;  //остаться на старой записи
-    DataModule2.vokab.Active:=false;
-    DataModule2.vokab.ReadOnly :=not(op);//если редактировать, то не только чтение
-    DataModule2.vokab.Active:=true;
-    DataModule2.vokab.RecNo:=no;
-end;
 
 
 {$R *.dfm}

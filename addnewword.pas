@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, database, StdCtrls, DBCtrls, ExtCtrls, Buttons, Grids, DBGrids,
-  Menus;
+  Menus, basemanipulation;
 
 type
   Taddneword = class(TForm)
