@@ -87,6 +87,11 @@ object DataModule2: TDataModule2
     object vokabFraza: TBooleanField
       FieldName = 'Fraza'
     end
+    object vokabSeeked: TSmallintField
+      AutoGenerateValue = arDefault
+      DefaultExpression = '0'
+      FieldName = 'Seeked'
+    end
   end
   object top: TTable
     Active = True

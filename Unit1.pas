@@ -957,7 +957,7 @@ end;
 procedure TForm1.FormConstrainedResize(Sender: TObject; var MinWidth,
   MinHeight, MaxWidth, MaxHeight: Integer);
 begin
-  MaxWidth:=1201; MaxHeight:=780;
+  MaxWidth:=1271; MaxHeight:=780;
 end;
 
 procedure TForm1.FormActivate(Sender: TObject);
@@ -1325,6 +1325,8 @@ begin
       end;
       4: if IndexName='topicind' then IndexName:='TopicIndD'
       else IndexName:='topicind';
+      6: if IndexName='SeekedInd' then IndexName:='SeekedIndD'
+      else IndexName:='SeekedInd';
       else DataModule2.vokab.IndexName:='';
     end;
       First;
@@ -1545,8 +1547,8 @@ end;
 
 procedure TForm1.FormResize(Sender: TObject);
 begin
- DBGrid1.Height:=Form1.Height-311;
-   if (search.Width<=297) and (search.Width>60) then
+//DBGrid1.Height:=Form1.Height-311;
+   {if (search.Width<=297) and (search.Width>60) then
    begin
     search.Width:=Form1.Width-search.Left-32;
     search.Anchors:=search.Anchors-[akRight];
@@ -1565,7 +1567,7 @@ begin
        begin
            selspot.Left:=568;
            selspot.Top:=16;
-       end;
+       end; }
 end;
 
 

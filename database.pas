@@ -38,6 +38,7 @@ type
     potential: TQuery;
     selectsel: TQuery;
     dsselectsel: TDataSource;
+    vokabSeeked: TSmallintField;
     procedure vokabAfterRefresh(DataSet: TDataSet);
   private
     { Private declarations }
