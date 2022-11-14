@@ -205,8 +205,6 @@ type
       State: TDragState; var Accept: Boolean);
     procedure Frame21BitBtn1Click(Sender: TObject);
     procedure rgClick(Sender: TObject);
-    procedure FormConstrainedResize(Sender: TObject; var MinWidth,
-      MinHeight, MaxWidth, MaxHeight: Integer);
     procedure FormActivate(Sender: TObject);
     procedure selspotClick(Sender: TObject);
     procedure SpeedButton2Click(Sender: TObject);
@@ -749,18 +747,21 @@ end;
 
 procedure TForm1.sb11Click(Sender: TObject);
 begin
+
      if sb11.Down then
      begin
-      sb11.Caption:='>>';
-      form1.Width:=1225;
-      DBGrid1.Columns[6].Visible:=false
+      Constraints.maxWidth:=1275;
+      sb11.Caption:='<<';
+      DBGrid1.Columns[6].Visible:=true
      end
      else
      begin
-     sb11.Caption:='<<';
-     form1.Width:=1275;
-      DBGrid1.Columns[6].Visible:=true;
+      Constraints.MaxWidth:=1225;
+      sb11.Caption:='>>';
+      DBGrid1.Columns[6].Visible:=false;
      end;
+     WindowState:=wsNormal;
+     WindowState:=wsMaximized;
 end;
 
 procedure TForm1.searchKeyPress(Sender: TObject; var Key: Char);
@@ -972,12 +973,6 @@ begin
     end;
     filter:=filtr; //забрали полномочия
   end;
-end;
-
-procedure TForm1.FormConstrainedResize(Sender: TObject; var MinWidth,
-  MinHeight, MaxWidth, MaxHeight: Integer);
-begin
-  MaxWidth:=1271; MaxHeight:=780;
 end;
 
 procedure TForm1.FormActivate(Sender: TObject);
