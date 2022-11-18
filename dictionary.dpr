@@ -15,7 +15,10 @@ uses
   thread2 in 'thread2.pas',
   PoBukvam in 'PoBukvam.pas',
   basemanipulation in 'basemanipulation.pas',
-  cards in 'cards.pas';
+  cards in 'cards.pas',
+  RowColorsUnit in 'RowColorsUnit.pas' {RowColors},
+  coloredRowFrame in 'coloredRowFrame.pas' {ColoredRow: TFrame},
+  saver in 'saver.pas';
 
 {$R *.res}
 
@@ -29,6 +32,7 @@ begin
   Application.CreateForm(Ttopicform, topicform);
   Application.CreateForm(Tdataformm, dataformm);
   Application.CreateForm(TForm2, Form2);
+  Application.CreateForm(TRowColors, RowColors);
   Application.Run;
 
   end.

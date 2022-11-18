@@ -59,10 +59,18 @@ uses Unit1;
 {$R *.dfm}
 
 procedure TDataModule2.vokabAfterRefresh(DataSet: TDataSet);
+var R:Integer;
 begin
   seAndCor.calcProgress;
   form1.StBar.Panels[4].Text:='Потенциал: '+seAndCor.potcount;
-  form1.StBar.panels[0].Text:='Всего слов: '+inttostr(DataModule2.vokab.RecordCount);
+  if (DataSet.Filtered) then
+    begin
+      DataSet.Filtered:=false;
+      R:=DataSet.RecordCount;
+      form1.StBar.panels[0].Text:='Всего слов: '+inttostr(R);
+      DataSet.Filtered:=true;
+    end;
+  form1.StBar.panels[0].Text:='Всего слов: '+inttostr(DataSet.RecordCount);
 end;
 
 

@@ -8,7 +8,7 @@ uses
   ExtCtrls, lessons, PoBukvam, lesson4, database, DBCtrls, addnewword, dataform,
   Buttons, frame, helpdict, Mask, ActnList, ActnMan, ActnColorMaps, ImgList,
   OleCtrls, SHDocVw, Gauges, thread2, DdeMan, Menus, comobj, System.Actions,
-  basemanipulation, cards;
+  basemanipulation, cards, RowColorsUnit, saver;
 
 type
   TForm1 = class(TForm)
@@ -237,7 +237,6 @@ type
       Shift: TShiftState; X, Y: Integer);
 procedure sgMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
     procedure rg3Click(Sender: TObject);
-    procedure FormResize(Sender: TObject);
     procedure DBGrid1DrawColumnCell(Sender: TObject; const Rect2: TRect;
       DataCol: Integer; Column: TColumn; State: TGridDrawState);
     procedure N1Click(Sender: TObject);
@@ -276,7 +275,12 @@ procedure sgMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
     procedure FrameGeneralization(Sender: TObject; bool:boolean);
     procedure DragDrop(sender, source: TObject; mm7: boolean);
   public
-    { Public declarations }
+    color_scale:TColor;
+    TableGreedRow:record
+      //drawTrueBack:boolean;
+      RowBrushColor1:TColor;
+      RowBrushColor2:Tcolor;
+    end;
   end;
 
 var
@@ -291,13 +295,16 @@ var
   kolright:word;
   synchtr:synchthread;
   posgrid:word;
-  color_scale:TColor;
+
   YesNo:TYesNo;
   poBukv:TPoBukvam;
   test:TTest;
   complience:TComplience;
   seAndCor:Tgrademanipulation;
   cards:Tcards;
+
+
+
 
   conteiner:record
     leftnum:byte;
@@ -491,8 +498,7 @@ end;
 procedure TForm1.PageControl1Change(Sender: TObject);
 var t,t1:byte; //parentcontrol:TWinControl;
 begin
-//    StBar.panels[0].Text:='Всего слов: '+inttostr(DataModule2.vokab.RecordCount);
-//  DataModule2.topicquerly.SQL.Text:='UPDATE vokab SET usersel=true';//если слова не выбраны, то выбрать все слова}
+
   case  PageControl1.ActivePageIndex of
   0:
   begin
@@ -500,24 +506,19 @@ begin
   end;
   1:
   begin
-      //read1(6);
       InitSlovoPer;
   end;
   2:
   begin
-    //read1(6);
      InitPerevodSlo;
   end;
   3:
   begin
-    //read1(1);
     InitPobukvam;
   end;
   4:
   begin
-    //read1(6);
     complience:= Tcomplience.Create;
-    //complience.sootv; //заполняет 2 массива ответами
     for t:=1 to 6 do
     begin
         TMemo(FindComponent('m'+IntToStr(t))).lines.text:=complience.o1[t].slovo;
@@ -531,7 +532,6 @@ begin
   end;
   5:
   begin
-     //read1(1);
      YesNo:=TYesNo.Create(1);
   end;
   6:
@@ -550,12 +550,9 @@ begin
             Frame211.Visible:=true;
                   Frame212.Visible:=true;
     end;
-    {read1(t1);
-    card(t1);  }
     cards:=Tcards.create(t1);
     for t:=1 to t1 do
     begin
-        //parentcontrol:=(TFrame(FindComponent('frame2'+inttostr(t))));
         if rg3.ItemIndex=0 then
         begin
         (FindComponent('frame2'+inttostr(t))as tframe2).panel2.lines.text:=cards.o1[t].perevod;
@@ -571,7 +568,6 @@ begin
 
 
         TFrame(FindComponent('frame2'+inttostr(t))).FindChildControl('bitbtn1').Enabled:=true;
-        //TFrame(FindComponent('frame2'+inttostr(t))).FindChildControl('panel2').visible:=false;
     end;
   end;
   7:
@@ -728,21 +724,7 @@ vokab.Close;
 top.Close;
 topicquerly.SQL.Clear;
 end;
-Rewrite(f);
-writeln(f,inttostr(dbgrid1.Font.Size));
-writeln(f,inttostr(  dbgrid1.Font.color));
-writeln(f,inttostr(  dbgrid1.color));
-writeln(f,inttostr(color_scale));
-writeln(f,inttostr(Frame21.Panel1.Color ));
-writeln(f,inttostr(Frame21.Panel1.Font.Color  ));
-writeln(f,inttostr(Frame21.Panel1.Font.size  ));
-writeln(f,(Frame21.Panel1.Font.name  ));
-writeln(f,inttostr(Frame21.Panel2.Font.Color  ));
-writeln(f,inttostr(Frame21.Panel2.Font.size  ));
-writeln(f,(Frame21.Panel2.Font.name  ));
-writeln(f,booltostr(n5.Checked));
-writeln(f,booltostr(n6.Checked));
-closefile(f);
+saveForm;
 end;
 
 procedure TForm1.sb11Click(Sender: TObject);
@@ -1019,9 +1001,10 @@ end;
 
 procedure TForm1.SpeedButton5Click(Sender: TObject);
 begin
-if (ColorDialog1.Execute) then DBGrid1.Color:=ColorDialog1.Color;
-
-//label7.Caption:=inttostr(ColorDialog1.Color);
+  RowColors.ShowModal;
+  TableGreedRow.RowBrushColor1:=RowColors.RowColor1;
+  TableGreedRow.RowBrushColor2:=RowColors.RowColor2;
+  DBGrid1.Color:=RowColors.RowColor1;
 end;
 
 procedure TForm1.Action2Execute(Sender: TObject);
@@ -1046,57 +1029,14 @@ var sf:string; fk:1..12;
 begin
   Dpot.Parent:=StBar;
   SeAndCor:=Tgrademanipulation.Create(DataModule2);
-  assignfile(f,'init.ini');
-  reset(f);
-  readln(f,sf);
-  dbgrid1.Font.size:=strtoint(sf);
-  readln(f,sf);
-  dbgrid1.Font.color:=strtoint(sf);
-  readln(f,sf);
-  dbgrid1.color:=strtoint(sf);
-  readln(f,sf);
-  color_scale:=strtoint(sf);
-  readln(f,sf);
-   for fk:=1 to 12 do
-   begin
-    (FindComponent('frame2'+inttostr(fk)) as tframe2).panel.color:= strtoint(sf);
-   end;
-  readln(f,sf);
-  for fk:=1 to 12 do
-    (FindComponent('frame2'+inttostr(fk)) as tframe2).Panel1.Font.Color:=strtoint(sf);
-
-  readln(f,sf);
-    for fk:=1 to 12 do
-    (FindComponent('frame2'+inttostr(fk)) as tframe2).Panel1.Font.size:=strtoint(sf);
-
-   readln(f,sf);
-    for fk:=1 to 12 do
-    (FindComponent('frame2'+inttostr(fk)) as tframe2).Panel1.Font.name:=sf;
-
-    readln(f,sf);
-  for fk:=1 to 12 do
-    (FindComponent('frame2'+inttostr(fk)) as tframe2).Panel2.Font.Color:=strtoint(sf);
-
-  readln(f,sf);
-    for fk:=1 to 12 do
-    (FindComponent('frame2'+inttostr(fk)) as tframe2).Panel2.Font.size:=strtoint(sf);
-
-   readln(f,sf);
-    for fk:=1 to 12 do
-    (FindComponent('frame2'+inttostr(fk)) as tframe2).Panel2.Font.name:=sf;
-
-   readln(f,sf);
-   n5.Checked:=StrToBool(sf);
-
-   readln(f,sf);
-   n6.Checked:=StrToBool(sf);
-
+  loadForm;
   //-------------------------------
   Action3Execute(sender);
 PageControl1Change(sender);
 posgrid:=0;
 if (Screen.Width<form1.Width) or (Screen.Height<form1.Height)
 then form1.BorderStyle:=bsSizeable;
+StBar.panels[0].Text:='Всего слов: '+inttostr(DataModule2.vokab.RecordCount);
 end;
 
 procedure TForm1.FormKeyPress(Sender: TObject; var Key: Char);
@@ -1453,7 +1393,6 @@ begin
      StBar.panels[1].Text:='Выделено слов: '+inttostr(DBGrid2.SelectedRows.Count);
    end else
    begin
-     StBar.panels[0].Text:='Всего слов: '+inttostr(DataModule2.vokab.RecordCount);
      StBar.Panels[1].text:='Выделено слов: '+ inttostr(DataModule2.selectsel.RecordCount);
      Fill4Status;
    end;
@@ -1568,43 +1507,20 @@ begin
  PageControl1Change(sender);
 end;
 
-procedure TForm1.FormResize(Sender: TObject);
-begin
-//DBGrid1.Height:=Form1.Height-311;
-   {if (search.Width<=297) and (search.Width>60) then
-   begin
-    search.Width:=Form1.Width-search.Left-32;
-    search.Anchors:=search.Anchors-[akRight];
-    search.Anchors:= search.Anchors+[akLeft];
-   end else
-   begin
-     search.Anchors:=search.Anchors+[akRight];
-     search.Anchors:=search.Anchors-[akLeft];
-     if search.Left>=888 then search.Width:=61;
-   end;
-       if search.Left<=857 then
-       begin
-           selspot.Left:=search.Left-120;
-           selspot.Top:=46;
-       end else
-       begin
-           selspot.Left:=568;
-           selspot.Top:=16;
-       end; }
-end;
-
-
 procedure TForm1.DBGrid1DrawColumnCell(Sender: TObject; const Rect2: TRect;
   DataCol: Integer; Column: TColumn; State: TGridDrawState);
   var style,rl,rr,rt,rb:integer; rect1:TRect;
 begin
 //-------------STRIPES-------------//
+//if ((DataCol=0) and not(gdselected in state)) then TableGreedRow.drawTrueBack:=not(TableGreedRow.drawTrueBack);
 if odd(TDBGrid(sender).DataSource.DataSet.RecNo) then
-TDBGrid(Sender).Canvas.Brush.Color:=TDBGrid(Sender).Canvas.Brush.Color+20;
+  TDBGrid(Sender).Canvas.Brush.Color:=TableGreedRow.RowBrushColor1
+else
+  TDBGrid(Sender).Canvas.Brush.Color:=TableGreedRow.RowBrushColor2;
 if gdselected in state then
   begin
-      TDBGrid(Sender).Canvas.Brush.Color:=clHighlight;
-      TDBGrid(Sender).Canvas.Font.Color:=clHighlightText;
+      TDBGrid(Sender).Canvas.Brush.Color:=clBlack;
+      TDBGrid(Sender).Canvas.Font.Color:=clWhite;
   end;
   TDBGrid(Sender).DefaultDrawColumnCell(rect2,datacol,column,state);
   //-------------CHECKBOXES-------------//
@@ -1687,7 +1603,11 @@ end;
 
 procedure TForm1.N4Click(Sender: TObject);
 begin
-  if ColorDialog1.Execute then color_scale:=colorDialog1.color;
+  if ColorDialog1.Execute then
+  begin
+    color_scale:=colorDialog1.color;
+    dbgrid1.Repaint;
+  end;
 end;
 
 procedure TForm1.N7Click(Sender: TObject);
@@ -1726,15 +1646,3 @@ begin
   DBGrid1.Repaint;
 end;
 end.
-
-
-
-
-
-
-
-
-
-
-
-

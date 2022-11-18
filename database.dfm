@@ -194,7 +194,6 @@ object DataModule2: TDataModule2
     Top = 304
   end
   object potential: TQuery
-    Active = True
     CachedUpdates = True
     AutoRefresh = True
     DatabaseName = 'vokabul'
@@ -204,7 +203,6 @@ object DataModule2: TDataModule2
     Top = 368
   end
   object selectsel: TQuery
-    Active = True
     DatabaseName = 'vokabul'
     SQL.Strings = (
       'select * from vokab where usersel=true')
