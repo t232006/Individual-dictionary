@@ -19,6 +19,7 @@ type
     procedure SpeedButton2Click(Sender: TObject);
     procedure SpeedButton1Click(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure DBGrid1CellClick(Column: TColumn);
   private
     { Private declarations }
   public
@@ -44,7 +45,7 @@ procedure Ttopicform.BitBtn1Click(Sender: TObject);
  
 var k:byte;
 begin
-if DataModule2.top.State in [dsedit, dsinsert]
+if DataModule2.topic.State in [dsedit, dsinsert]
 then
 begin
   DataModule2.top.Post;
@@ -59,7 +60,7 @@ begin
       //DataModule2.dropch.ExecSQL;
       //DataModule2.topicquerly.SQL.Clear; //чтобы втрой раз не добавлять ту же строку
       if k>0 then  DataModule2.topicquerly.SQL.Add(' or ');//for separation
-      DataModule2.topicquerly.SQL.Add('topic = '+ DataModule2.top.Fields[0] .AsString );
+      DataModule2.topicquerly.SQL.Add('topic = '+ DataModule2.topic.Fields[0] .AsString );
      
      end;
       DataModule2.topicquerly.ExecSQL;
@@ -80,6 +81,15 @@ begin
 DBGrid1.Options:=DBGrid1.Options+[dgediting];
 DataModule2.top.Insert;
 dbgrid1.SetFocus;
+end;
+
+procedure Ttopicform.DBGrid1CellClick(Column: TColumn);
+begin
+with DataModule2 do
+begin
+       top.FindNearest([topic.Fields[0].asinteger]);
+end;
+
 end;
 
 procedure Ttopicform.FormClose(Sender: TObject; var Action: TCloseAction);

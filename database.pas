@@ -24,7 +24,7 @@ type
     less6: TQuery;
     vokabtopicn: TStringField;
     topicquerly: TQuery;
-    dstopic: TDataSource;
+    dstopicquerly: TDataSource;
     dsdropch: TDataSource;
     dropch: TQuery;
     vokabDateRec: TDateTimeField;
@@ -39,6 +39,8 @@ type
     selectsel: TQuery;
     dsselectsel: TDataSource;
     vokabSeeked: TSmallintField;
+    topic: TQuery;
+    dstopic: TDataSource;
     procedure vokabAfterRefresh(DataSet: TDataSet);
   private
     { Private declarations }

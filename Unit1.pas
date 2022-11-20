@@ -175,7 +175,7 @@ type
     N12: TMenuItem;
     Dpot: TProgressBar;
     DBText1: TDBText;
-    SpeedButton8: TSpeedButton;
+    SpBut8: TSpeedButton;
     sb11: TSpeedButton;
     procedure rg1Click(Sender: TObject);
     procedure rg2Click(Sender: TObject);
@@ -264,7 +264,7 @@ procedure sgMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
     procedure StBarDrawPanel(StatusBar: TStatusBar; Panel: TStatusPanel;
       const Rect: TRect);
     procedure sb11Click(Sender: TObject);
-    procedure SpeedButton8Click(Sender: TObject);
+    procedure SpBut8Click(Sender: TObject);
   private
     { Private declarations }
     procedure Fill4Status;
@@ -732,9 +732,10 @@ begin
 
      if sb11.Down then
      begin
-      Constraints.maxWidth:=1275;
+      Constraints.maxWidth:=1270;
       sb11.Caption:='<<';
-      DBGrid1.Columns[6].Visible:=true
+      DBGrid1.Columns[6].Visible:=true;
+      DbGrid1.Columns[6].Width:=45;
      end
      else
      begin
@@ -744,6 +745,7 @@ begin
      end;
      WindowState:=wsNormal;
      WindowState:=wsMaximized;
+     //label30.Caption:=inttostr(dbgrid1.Columns[6].Width);
 end;
 
 procedure TForm1.searchKeyPress(Sender: TObject; var Key: Char);
@@ -1072,7 +1074,9 @@ try
   0:
   begin
      if (ord(key)=32) and not(canedit.Down) and not(search.Focused) then
-      selspot.Checked:=not(selspot.Checked)
+      selspot.Checked:=not(selspot.Checked);
+     if ord(key)=43 then SpBut8.Click;
+
   end;
 
   1: rg1.ItemIndex:=strtoint(key)-1;
@@ -1197,7 +1201,7 @@ begin
    end;
 end;
 
-procedure TForm1.SpeedButton8Click(Sender: TObject);
+procedure TForm1.SpBut8Click(Sender: TObject);
 var a:string;
 begin
   a:=DBGrid1.DataSource.DataSet.FieldByName('Number').AsString;

@@ -9,6 +9,7 @@ object DataModule2: TDataModule2
   end
   object vokab: TTable
     Active = True
+    AutoCalcFields = False
     AfterInsert = vokabAfterRefresh
     AfterPost = vokabAfterRefresh
     AfterDelete = vokabAfterRefresh
@@ -95,8 +96,9 @@ object DataModule2: TDataModule2
   end
   object top: TTable
     Active = True
+    AutoCalcFields = False
     DatabaseName = 'vokabul'
-    IndexName = 'topnameind'
+    IndexFieldNames = 'Id'
     TableName = 'top.db'
     Left = 224
     Top = 80
@@ -132,13 +134,13 @@ object DataModule2: TDataModule2
   end
   object topicquerly: TQuery
     DatabaseName = 'vokabul'
-    DataSource = dstopic
+    DataSource = dstopicquerly
     SQL.Strings = (
       'update vokab set usersel=true where')
     Left = 224
     Top = 216
   end
-  object dstopic: TDataSource
+  object dstopicquerly: TDataSource
     DataSet = top
     Left = 224
     Top = 160
@@ -213,5 +215,22 @@ object DataModule2: TDataModule2
     DataSet = selectsel
     Left = 344
     Top = 168
+  end
+  object topic: TQuery
+    Active = True
+    AutoCalcFields = False
+    DatabaseName = 'vokabul'
+    SQL.Strings = (
+      'select top.id, top.name, count(vokab.topic)'
+      'from top join vokab'
+      'on vokab.topic=top.id'
+      'group by id, name')
+    Left = 136
+    Top = 200
+  end
+  object dstopic: TDataSource
+    DataSet = topic
+    Left = 136
+    Top = 144
   end
 end

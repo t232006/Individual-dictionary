@@ -4,7 +4,7 @@ object dataformm: Tdataformm
   BorderStyle = bsDialog
   Caption = #1044#1072#1090#1099
   ClientHeight = 447
-  ClientWidth = 277
+  ClientWidth = 230
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -16,7 +16,7 @@ object dataformm: Tdataformm
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
-    Left = 32
+    Left = 8
     Top = 8
     Width = 208
     Height = 13
@@ -29,12 +29,17 @@ object dataformm: Tdataformm
     ParentFont = False
   end
   object BitBtn1: TBitBtn
-    Left = 152
-    Top = 368
+    Left = 127
+    Top = 407
     Width = 89
     Height = 25
     Caption = 'OK'
     Default = True
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
     Glyph.Data = {
       DE010000424DDE01000000000000760000002800000024000000120000000100
       0400000000006801000000000000000000001000000000000000000000000000
@@ -54,18 +59,19 @@ object dataformm: Tdataformm
       0000}
     ModalResult = 1
     NumGlyphs = 2
+    ParentFont = False
     TabOrder = 0
     OnClick = BitBtn1Click
   end
   object DBGrid1: TDBGrid
-    Left = 9
+    Left = 8
     Top = 27
-    Width = 232
-    Height = 326
+    Width = 209
+    Height = 366
     DataSource = dsdateq
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -11
+    Font.Height = -13
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     Options = [dgTitles, dgIndicator, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit, dgMultiSelect, dgTitleClick, dgTitleHotTrack]
@@ -73,9 +79,9 @@ object dataformm: Tdataformm
     TabOrder = 1
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
-    TitleFont.Height = -11
+    TitleFont.Height = -29
     TitleFont.Name = 'MS Sans Serif'
-    TitleFont.Style = []
+    TitleFont.Style = [fsBold]
     OnTitleClick = DBGrid1TitleClick
     Columns = <
       item
@@ -84,7 +90,7 @@ object dataformm: Tdataformm
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Height = -13
-        Font.Name = 'MS Sans Serif'
+        Font.Name = 'Georgia'
         Font.Style = []
         Title.Caption = #1044#1072#1090#1099
         Title.Font.Charset = DEFAULT_CHARSET
@@ -92,14 +98,33 @@ object dataformm: Tdataformm
         Title.Font.Height = -13
         Title.Font.Name = 'MS Sans Serif'
         Title.Font.Style = []
-        Width = 180
+        Width = 104
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'COUNT OF daterec'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Georgia'
+        Font.Style = []
+        Title.Caption = #1050#1086#1083'-'#1074#1086
+        Title.Font.Charset = DEFAULT_CHARSET
+        Title.Font.Color = clWindowText
+        Title.Font.Height = -13
+        Title.Font.Name = 'MS Sans Serif'
+        Title.Font.Style = []
+        Width = 67
         Visible = True
       end>
   end
   object dateq: TQuery
+    Active = True
     DatabaseName = 'vokabul'
     SQL.Strings = (
-      'select distinct daterec from vokab'
+      'select daterec, count(daterec) from vokab'
+      'group by(daterec)'
       'order by daterec desc')
     Left = 88
     Top = 392

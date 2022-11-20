@@ -16,9 +16,9 @@ object topicform: Ttopicform
   PixelsPerInch = 96
   TextHeight = 13
   object SpeedButton1: TSpeedButton
-    Left = 464
+    Left = 392
     Top = 232
-    Width = 81
+    Width = 161
     Height = 25
     Caption = #1076#1086#1073#1072#1074#1080#1090#1100
     Glyph.Data = {
@@ -38,9 +38,9 @@ object topicform: Ttopicform
     OnClick = SpeedButton1Click
   end
   object SpeedButton2: TSpeedButton
-    Left = 465
+    Left = 392
     Top = 192
-    Width = 80
+    Width = 161
     Height = 25
     Caption = #1091#1076#1072#1083#1080#1090#1100
     Glyph.Data = {
@@ -60,9 +60,9 @@ object topicform: Ttopicform
     OnClick = SpeedButton2Click
   end
   object SpeedButton3: TSpeedButton
-    Left = 464
+    Left = 392
     Top = 152
-    Width = 81
+    Width = 161
     Height = 25
     Caption = #1080#1079#1084#1077#1085#1080#1090#1100
     Glyph.Data = {
@@ -82,12 +82,12 @@ object topicform: Ttopicform
     OnClick = SpeedButton3Click
   end
   object DBGrid1: TDBGrid
-    Left = 24
+    Left = 8
     Top = 8
     Width = 361
     Height = 417
     TabStop = False
-    DataSource = DataModule2.dstop
+    DataSource = DataModule2.dstopic
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clBlack
     Font.Height = -19
@@ -101,31 +101,56 @@ object topicform: Ttopicform
     TitleFont.Height = -11
     TitleFont.Name = 'MS Sans Serif'
     TitleFont.Style = []
+    OnCellClick = DBGrid1CellClick
     Columns = <
       item
         Expanded = False
-        FieldName = 'Name'
+        FieldName = 'name'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Height = -19
-        Font.Name = 'MS UI Gothic'
+        Font.Name = 'Georgia'
         Font.Style = [fsItalic]
+        Title.Caption = #1058#1077#1084#1072
         Title.Font.Charset = DEFAULT_CHARSET
         Title.Font.Color = clWindowText
         Title.Font.Height = -20
-        Title.Font.Name = 'MS Sans Serif'
+        Title.Font.Name = 'Arial'
         Title.Font.Style = []
-        Width = 308
+        Width = 274
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'COUNT OF topic'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -19
+        Font.Name = 'Georgia'
+        Font.Style = [fsItalic]
+        Title.Caption = #1050#1086#1083'.'
+        Title.Font.Charset = DEFAULT_CHARSET
+        Title.Font.Color = clWindowText
+        Title.Font.Height = -20
+        Title.Font.Name = 'Arial'
+        Title.Font.Style = []
+        Width = 50
         Visible = True
       end>
   end
   object BitBtn1: TBitBtn
-    Left = 464
+    Left = 392
     Top = 272
-    Width = 81
+    Width = 161
     Height = 25
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
     Kind = bkOK
     NumGlyphs = 2
+    ParentFont = False
     TabOrder = 2
     OnClick = BitBtn1Click
   end
@@ -139,8 +164,8 @@ object topicform: Ttopicform
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -19
-    Font.Name = 'MS Sans Serif'
-    Font.Style = []
+    Font.Name = 'Georgia'
+    Font.Style = [fsItalic]
     ParentFont = False
     ReadOnly = True
     TabOrder = 0
