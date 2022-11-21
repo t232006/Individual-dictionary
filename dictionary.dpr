@@ -18,7 +18,8 @@ uses
   cards in 'cards.pas',
   RowColorsUnit in 'RowColorsUnit.pas' {RowColors},
   coloredRowFrame in 'coloredRowFrame.pas' {ColoredRow: TFrame},
-  saver in 'saver.pas';
+  saver in 'saver.pas',
+  deepSearch in 'deepSearch.pas';
 
 {$R *.res}
 

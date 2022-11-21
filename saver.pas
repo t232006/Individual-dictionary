@@ -33,27 +33,18 @@ begin
       TableGreedRow.RowBrushColor1:=strtoint(sf);
       readln(f,sf);
       TableGreedRow.RowBrushColor2:=strtoint(sf);
+      readln(f,sf);
+      n5.Checked:=strtobool(sf);
+      readln(f,sf);
+      n6.Checked:=strtobool(sf);
 
-
-          n5.checked:=false;
-          n6.checked:=false;
-          n8.checked:=false;
-          n9.checked:=false;
-          n10.checked:=false;
-          n12.checked:=false;
-          readln(f,sf);
-          fk:=strToint(sf);
-           case fk of
-             0:n5.Checked:=true;
-             1:n6.Checked:=true;
-           end;
           readln(f,sf);
           fk:=strToint(sf);
           case fk of
-             0:n8.Checked:=true;
-             1:n9.Checked:=true;
-             2:n10.checked:=true;
-             3:n12.checked:=true;
+             0:Form1.N8Click(Form1);
+             1:Form1.N9Click(Form1);//n9.Checked:=true;
+             2:Form1.N10Click(Form1);//n10.checked:=true;
+             3:Form1.N12Click(Form1);//n12.checked:=true;
            end;
       end;
        readln(f,sf);
@@ -104,7 +95,8 @@ begin
     writeln(f, inttostr(tablegreedrow.Rowbrushcolor1 ));
     writeln(f, inttostr(tablegreedrow.Rowbrushcolor2 ));
 
-    if n5.checked then writeln(f,inttostr(0)) else writeln(f,inttostr(1));
+    writeln(f,booltostr(n5.checked));
+    writeln(f,booltostr(n6.checked));
 
     if n8.checked then writeln(f,inttostr(0)) else
     if n9.checked then writeln(f,inttostr(1)) else

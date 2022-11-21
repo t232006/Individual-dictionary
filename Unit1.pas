@@ -8,7 +8,7 @@ uses
   ExtCtrls, lessons, PoBukvam, lesson4, database, DBCtrls, addnewword, dataform,
   Buttons, frame, helpdict, Mask, ActnList, ActnMan, ActnColorMaps, ImgList,
   OleCtrls, SHDocVw, Gauges, thread2, DdeMan, Menus, comobj, System.Actions,
-  basemanipulation, cards, RowColorsUnit, saver;
+  basemanipulation, cards, RowColorsUnit, saver, deepSearch;
 
 type
   TForm1 = class(TForm)
@@ -177,6 +177,7 @@ type
     DBText1: TDBText;
     SpBut8: TSpeedButton;
     sb11: TSpeedButton;
+    BitBtn2: TBitBtn;
     procedure rg1Click(Sender: TObject);
     procedure rg2Click(Sender: TObject);
     procedure InitSlovoPer;
@@ -265,6 +266,7 @@ procedure sgMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
       const Rect: TRect);
     procedure sb11Click(Sender: TObject);
     procedure SpBut8Click(Sender: TObject);
+    procedure BitBtn2Click(Sender: TObject);
   private
     { Private declarations }
     procedure Fill4Status;
@@ -1438,6 +1440,11 @@ begin
    DBGrid2.Tag:=1; //suspend;
    synchtr.Terminate;
    BitBtn1.Visible:=false;
+end;
+
+procedure TForm1.BitBtn2Click(Sender: TObject);
+begin
+  deepSeek(search.Text);
 end;
 
 procedure TForm1.YesNoContinue(b:boolean);
