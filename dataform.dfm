@@ -29,8 +29,8 @@ object dataformm: Tdataformm
     ParentFont = False
   end
   object BitBtn1: TBitBtn
-    Left = 127
-    Top = 407
+    Left = 133
+    Top = 414
     Width = 89
     Height = 25
     Caption = 'OK'
@@ -124,14 +124,13 @@ object dataformm: Tdataformm
     DatabaseName = 'vokabul'
     SQL.Strings = (
       'select daterec, count(daterec) from vokab'
-      'group by(daterec)'
-      'order by daterec desc')
+      'group by(daterec)')
     Left = 88
     Top = 392
   end
   object dsdateq: TDataSource
     DataSet = dateq
-    Left = 144
+    Left = 40
     Top = 392
   end
 end

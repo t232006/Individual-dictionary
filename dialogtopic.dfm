@@ -140,7 +140,7 @@ object topicform: Ttopicform
   end
   object BitBtn1: TBitBtn
     Left = 392
-    Top = 272
+    Top = 271
     Width = 161
     Height = 25
     Font.Charset = DEFAULT_CHARSET

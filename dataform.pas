@@ -41,7 +41,7 @@ begin
       if dateq.SQL.Count=2 then dateq.SQL.Insert(1,'where usersel=true')
     end else
     begin
-      if dateq.sql.Count=3 then dateq.sql.delete(1);
+      if dateq.sql.Count=1 then dateq.sql.delete(1);
     end;
     dateq.Close;
     dateq.open;
@@ -62,11 +62,16 @@ begin
           dbgrid1.DataSource.DataSet.GotoBookmark(pointer(dbgrid1.selectedrows.items[im]));
           myday:=dateq.Fields[0].AsDateTime;
           smyday:=datetostring(myday);//вставляет нужный разделитель
-          datamodule2.topicquerly.SQL.Add('DateRec= '''+smyday +'''');
+          if im>0 then
+
           datamodule2.topicquerly.SQL.Add('or');
+        datamodule2.topicquerly.SQL.Add('DateRec= '''+smyday +'''');
+
         end;
-      topicquerly.SQL.Delete(topicquerly.SQL.Count-1);//удаляем крайний and
+      {topicquerly.SQL.Delete(topicquerly.SQL.Count-1);}//удаляем крайний and
       topicquerly.SQL.Add(')');
+      topicquerly.ExecSQL;
+      vokab.Refresh;
     end;
  end;
 

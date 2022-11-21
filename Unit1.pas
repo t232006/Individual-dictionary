@@ -795,6 +795,7 @@ end;
 DataModule2.vokab.Refresh;
 Action3Execute(sender);
 DBGrid1.SetFocus;
+
 end;
 
 procedure TForm1.DBGrid1CellClick(Column: TColumn);
