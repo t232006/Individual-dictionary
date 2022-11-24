@@ -34,6 +34,7 @@ object addneword: Taddneword
     Top = 144
     Width = 161
     Height = 20
+    Cursor = crHandPoint
     Caption = #1088#1072#1073#1086#1090#1072#1090#1100' '#1089' '#1090#1077#1084#1072#1084#1080
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clMenuHighlight

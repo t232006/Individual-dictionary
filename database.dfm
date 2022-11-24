@@ -222,7 +222,7 @@ object DataModule2: TDataModule2
     DatabaseName = 'vokabul'
     SQL.Strings = (
       'select top.id, top.name, count(vokab.topic)'
-      'from top join vokab'
+      'from top inner join vokab'
       'on vokab.topic=top.id'
       'group by id, name')
     Left = 136

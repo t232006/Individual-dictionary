@@ -13,13 +13,16 @@ object topicform: Ttopicform
   Font.Style = []
   OldCreateOrder = False
   OnClose = FormClose
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
-  object SpeedButton1: TSpeedButton
+  object AddBut: TSpeedButton
     Left = 392
-    Top = 232
+    Top = 169
     Width = 161
     Height = 25
+    AllowAllUp = True
+    GroupIndex = 2
     Caption = #1076#1086#1073#1072#1074#1080#1090#1100
     Glyph.Data = {
       76010000424D7601000000000000760000002800000020000000100000000100
@@ -35,13 +38,15 @@ object topicform: Ttopicform
       333333333337733333FF3333333C333330003333333733333777333333333333
       3000333333333333377733333333333333333333333333333333}
     NumGlyphs = 2
-    OnClick = SpeedButton1Click
+    OnClick = AddButClick
   end
-  object SpeedButton2: TSpeedButton
+  object DelBut: TSpeedButton
     Left = 392
-    Top = 192
+    Top = 121
     Width = 161
     Height = 25
+    AllowAllUp = True
+    GroupIndex = 2
     Caption = #1091#1076#1072#1083#1080#1090#1100
     Glyph.Data = {
       76010000424D7601000000000000760000002800000020000000100000000100
@@ -57,13 +62,15 @@ object topicform: Ttopicform
       333333377F33333333FF3333C333333330003333733333333777333333333333
       3000333333333333377733333333333333333333333333333333}
     NumGlyphs = 2
-    OnClick = SpeedButton2Click
+    OnClick = DelButClick
   end
-  object SpeedButton3: TSpeedButton
+  object EdBut: TSpeedButton
     Left = 392
-    Top = 152
+    Top = 216
     Width = 161
     Height = 25
+    AllowAllUp = True
+    GroupIndex = 1
     Caption = #1080#1079#1084#1077#1085#1080#1090#1100
     Glyph.Data = {
       76010000424D7601000000000000760000002800000020000000100000000100
@@ -79,7 +86,7 @@ object topicform: Ttopicform
       0FF03333737F37737F373330B00FFFFF0F033337F77F33337F733309030FFFFF
       00333377737FFFFF773333303300000003333337337777777333}
     NumGlyphs = 2
-    OnClick = SpeedButton3Click
+    OnClick = EdButClick
   end
   object DBGrid1: TDBGrid
     Left = 8
@@ -95,7 +102,7 @@ object topicform: Ttopicform
     Font.Style = [fsItalic]
     Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit, dgMultiSelect]
     ParentFont = False
-    TabOrder = 1
+    TabOrder = 0
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
     TitleFont.Height = -11
@@ -159,6 +166,7 @@ object topicform: Ttopicform
     Top = 8
     Width = 161
     Height = 89
+    TabStop = False
     DataField = 'Name'
     DataSource = DataModule2.dstop
     Font.Charset = DEFAULT_CHARSET
@@ -168,6 +176,6 @@ object topicform: Ttopicform
     Font.Style = [fsItalic]
     ParentFont = False
     ReadOnly = True
-    TabOrder = 0
+    TabOrder = 1
   end
 end

@@ -156,13 +156,12 @@ type
     Memo2: TMemo;
     Button2: TSpeedButton;
     TabSheet9: TTabSheet;
-    ProgressBar1: TProgressBar;
+    ProgressBar: TProgressBar;
     YesB: TBitBtn;
     NoB: TBitBtn;
     Timer1: TTimer;
     Memo4: TMemo;
     Memo3: TMemo;
-    SmallTimer: TTimer;
     Label5: TLabel;
     Label29: TLabel;
     StaticText4: TStaticText;
@@ -413,11 +412,14 @@ end;
 
 procedure TForm1.Timer1Timer(Sender: TObject);
 begin
-    timer1.Enabled:=false;
-    TB.Enabled:=true;
-    YesB.Enabled:=false;
-    NoB.Enabled:=false;
-    SmallTimer.Enabled:=false;
+    progressbar.StepIt;
+    if progressbar.Position=ProgressBar.Max then
+     begin
+        timer1.Enabled:=false;
+        TB.Enabled:=true;
+        YesB.Enabled:=false;
+        NoB.Enabled:=false;
+     end;
 end;
 
 procedure Tform1.InitSlovoPer;
@@ -891,7 +893,7 @@ end;
 
 procedure TForm1.SmallTimerTimer(Sender: TObject);
 begin
-  ProgressBar1.StepIt;
+  ProgressBar.StepIt;
   //StBar.Parent:=ProgressBar1;
 end;
 
@@ -1215,14 +1217,13 @@ end;
 procedure TForm1.TB1Click(Sender: TObject);
 begin
  timer1.Enabled:=true;
- SmallTimer.Enabled:=true;
  TB.Enabled:=false;
  YesB.Enabled:=true;
  NoB.Enabled:=true;
 
  YesNo.Init;
  Memo3.Text:=YesNo.GetString;
- ProgressBar1.Position:=0;
+ ProgressBar.Position:=0;
 
 end;
 
@@ -1454,7 +1455,7 @@ begin
     StBar.Panels[2].Text:='серия '+inttostr(YesNo.serial);
     memo4.Font.Color:=YesNo.promptcolor;
     memo4.Text:=YesNo.prompt;
-    if YesNo.prompt='вы неправы' then ProgressBar1.Position:=0;
+    if YesNo.prompt='вы неправы' then ProgressBar.Position:=0;
 
     YesNo.Init;
     Memo3.Text:=YesNo.GetString;

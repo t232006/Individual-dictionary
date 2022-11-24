@@ -9,17 +9,18 @@ uses
 type
   Ttopicform = class(TForm)
     DBGrid1: TDBGrid;
-    SpeedButton1: TSpeedButton;
-    SpeedButton2: TSpeedButton;
-    SpeedButton3: TSpeedButton;
+    AddBut: TSpeedButton;
+    DelBut: TSpeedButton;
+    EdBut: TSpeedButton;
     BitBtn1: TBitBtn;
     DBMemo1: TDBMemo;
-    procedure SpeedButton3Click(Sender: TObject);
+    procedure EdButClick(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
-    procedure SpeedButton2Click(Sender: TObject);
-    procedure SpeedButton1Click(Sender: TObject);
+    procedure DelButClick(Sender: TObject);
+    procedure AddButClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure DBGrid1CellClick(Column: TColumn);
+    procedure FormShow(Sender: TObject);
   private
     { Private declarations }
   public
@@ -33,12 +34,28 @@ var
 implementation
 
 {$R *.dfm}
-
-procedure Ttopicform.SpeedButton3Click(Sender: TObject);
+procedure TopicRefresh;
 begin
-DBGrid1.Options:=DBGrid1.Options+[dgediting];
-//DBGrid1.Options:=DBGrid1.Options-[dgediting];
-DataModule2.top.Edit;
+  datamodule2.topic.Active:=false;
+  datamodule2.topic.Active:=true;
+end;
+
+procedure Ttopicform.EdButClick(Sender: TObject);
+begin
+     if EdBut.Down then
+     with DBMemo1 do
+       begin
+        ReadOnly:=false;
+        SetFocus;
+       end
+     else
+     With DataModule2 do
+     begin
+        top.Post;
+        TopicRefresh;
+        DBmemo1.ReadOnly:=true;
+        DBGrid1.SetFocus;
+     end;
 end;
 
 procedure Ttopicform.BitBtn1Click(Sender: TObject);
@@ -70,17 +87,37 @@ end;
 DBGrid1.Options:=DBGrid1.Options-[dgediting];
 end;
 
-procedure Ttopicform.SpeedButton2Click(Sender: TObject);
+procedure Ttopicform.DelButClick(Sender: TObject);
 begin
-DBGrid1.Options:=DBGrid1.Options+[dgediting];
-DataModule2.top.Delete;
+//DBGrid1.Options:=DBGrid1.Options+[dgediting];
+if DelBut.Down then  DelBut.Caption:='точно удалить?'
+else
+with  DataModule2.top do
+begin
+    DelBut.Caption:='удалить';
+    Delete;
+    TopicRefresh;
+end;
 end;
 
-procedure Ttopicform.SpeedButton1Click(Sender: TObject);
+procedure Ttopicform.AddButClick(Sender: TObject);
 begin
-DBGrid1.Options:=DBGrid1.Options+[dgediting];
-DataModule2.top.Insert;
-dbgrid1.SetFocus;
+  if AddBut.Down then
+  begin
+    DBMemo1.SetFocus;
+    DBMemo1.ReadOnly:=false;
+    DataModule2.top.Insert;
+  end
+  else
+  begin
+    DBMemo1.ReadOnly:=true;
+    if DBMemo1.Text='' then
+      Datamodule2.top.Cancel
+    else
+      Datamodule2.top.Post;
+    TopicRefresh;
+    DBGrid1.SetFocus;
+  end;
 end;
 
 procedure Ttopicform.DBGrid1CellClick(Column: TColumn);
@@ -95,6 +132,11 @@ end;
 procedure Ttopicform.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
       DBGrid1.Options:=DBGrid1.Options-[dgediting];
+end;
+
+procedure Ttopicform.FormShow(Sender: TObject);
+begin
+     TopicRefresh;
 end;
 
 end.
