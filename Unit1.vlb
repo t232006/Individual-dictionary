@@ -235,14 +235,8 @@ Coordinates=671,298,111,58
 [Frame211.BitBtn1]
 Coordinates=1667,570,118,58
 
-[DataModule2.dsdropch]
-Coordinates=0,512,147,102
-
 [Frame210.panel2]
 Coordinates=447,638,115,58
-
-[DataModule2.dsaddball]
-Coordinates=1234,309,150,58
 
 [rg]
 Coordinates=10,570,49,58
@@ -541,4 +535,7 @@ Coordinates=792,298,78,58
 
 [selspot]
 Coordinates=1275,10,114,58
+
+[DataModule2.]
+Coordinates=0,512,147,102
 

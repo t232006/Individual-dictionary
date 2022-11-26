@@ -25,10 +25,8 @@ type
     vokabtopicn: TStringField;
     topicquerly: TQuery;
     dstopicquerly: TDataSource;
-    dsdropch: TDataSource;
     dropch: TQuery;
     vokabDateRec: TDateTimeField;
-    dsaddball: TDataSource;
     addball: TQuery;
     vokabFraza: TBooleanField;
     dssynch: TDataSource;
@@ -41,6 +39,8 @@ type
     vokabSeeked: TSmallintField;
     topic: TQuery;
     dstopic: TDataSource;
+    vokabspot: TBooleanField;
+    dropspot: TQuery;
     procedure vokabAfterRefresh(DataSet: TDataSet);
   private
     { Private declarations }

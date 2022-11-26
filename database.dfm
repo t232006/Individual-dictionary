@@ -93,6 +93,10 @@ object DataModule2: TDataModule2
       DefaultExpression = '0'
       FieldName = 'Seeked'
     end
+    object vokabspot: TBooleanField
+      DefaultExpression = 'false'
+      FieldName = 'spot'
+    end
   end
   object top: TTable
     Active = True
@@ -145,50 +149,39 @@ object DataModule2: TDataModule2
     Left = 224
     Top = 160
   end
-  object dsdropch: TDataSource
-    DataSet = top
-    Left = 280
-    Top = 160
-  end
   object dropch: TQuery
     DatabaseName = 'vokabul'
-    DataSource = dsdropch
     SQL.Strings = (
       'UPDATE vokab'
       'SET usersel=false')
-    Left = 280
-    Top = 216
-  end
-  object dsaddball: TDataSource
-    Left = 40
-    Top = 168
+    Left = 288
+    Top = 368
   end
   object addball: TQuery
     DatabaseName = 'vokabul'
-    DataSource = dsaddball
     Left = 40
     Top = 224
   end
   object dssynch: TDataSource
     DataSet = synch
-    Left = 176
-    Top = 296
+    Left = 144
+    Top = 280
   end
   object synch: TQuery
     DatabaseName = 'vokabul'
     RequestLive = True
     SQL.Strings = (
       '')
-    Left = 176
-    Top = 352
+    Left = 144
+    Top = 328
   end
   object droprate: TQuery
     DatabaseName = 'vokabul'
     SQL.Strings = (
       'UPDATE vokab SET rate=0'
       'WHERE usersel=true')
-    Left = 352
-    Top = 280
+    Left = 336
+    Top = 368
   end
   object dspotential: TDataSource
     DataSet = potential
@@ -208,8 +201,8 @@ object DataModule2: TDataModule2
     DatabaseName = 'vokabul'
     SQL.Strings = (
       'select * from vokab where usersel=true')
-    Left = 352
-    Top = 224
+    Left = 344
+    Top = 232
   end
   object dsselectsel: TDataSource
     DataSet = selectsel
@@ -232,5 +225,13 @@ object DataModule2: TDataModule2
     DataSet = topic
     Left = 136
     Top = 144
+  end
+  object dropspot: TQuery
+    DatabaseName = 'vokabul'
+    SQL.Strings = (
+      'update vokab'
+      'set spot=false')
+    Left = 240
+    Top = 368
   end
 end

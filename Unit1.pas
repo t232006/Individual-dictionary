@@ -176,7 +176,8 @@ type
     DBText1: TDBText;
     SpBut8: TSpeedButton;
     sb11: TSpeedButton;
-    BitBtn2: TBitBtn;
+    deepbut: TSpeedButton;
+    seekBar: TProgressBar;
     procedure rg1Click(Sender: TObject);
     procedure rg2Click(Sender: TObject);
     procedure InitSlovoPer;
@@ -265,7 +266,7 @@ procedure sgMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
       const Rect: TRect);
     procedure sb11Click(Sender: TObject);
     procedure SpBut8Click(Sender: TObject);
-    procedure BitBtn2Click(Sender: TObject);
+    procedure deepbutClick(Sender: TObject);
   private
     { Private declarations }
     procedure Fill4Status;
@@ -1206,6 +1207,25 @@ begin
    end;
 end;
 
+procedure TForm1.deepbutClick(Sender: TObject);
+begin
+  with DataModule2.vokab do
+  begin
+    if deepbut.Down then
+    begin
+      seekBar.Visible:=true;
+      DBNavigator1.Enabled:=false;
+      deepSeek(search.Text);
+      DBNavigator1.Enabled:=true;
+      seekBar.Visible:=false;
+      Filter:='spot=true';
+      Filtered:=true;
+    end else
+      if selspot.Checked then
+        Filter:='usersel=true' else Filtered:=false;
+  end;
+end;
+
 procedure TForm1.SpBut8Click(Sender: TObject);
 var a:string;
 begin
@@ -1442,11 +1462,6 @@ begin
    DBGrid2.Tag:=1; //suspend;
    synchtr.Terminate;
    BitBtn1.Visible:=false;
-end;
-
-procedure TForm1.BitBtn2Click(Sender: TObject);
-begin
-  deepSeek(search.Text);
 end;
 
 procedure TForm1.YesNoContinue(b:boolean);

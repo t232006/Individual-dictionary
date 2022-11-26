@@ -2,10 +2,11 @@ unit deepSearch;
 
 
 interface
-uses database, strUtils;
+uses database, strUtils, basemanipulation;
 function deepSeek(needle: string): integer;
 
 implementation
+uses unit1;
 function deepSeek(needle: string): integer;
 var
     haystack:string;
@@ -15,12 +16,21 @@ var recnum:integer;
 begin
    with DataModule2.vokab do
    begin
-     //first;
+      DataModule2.dropspot.ExecSQL;
+      form1.seekBar.Max:=recordcount-1;
       for recnum := 0 to recordcount-1 do
       begin
+          form1.seekBar.stepIt;
           haystack:=fields[field].asString;
           if AnsiContainsStr(haystack, needle) then
-            break
+            //break
+            begin
+              edittable(true);
+              edit;
+              FieldByName('spot').AsBoolean:=true;
+              post;
+              edittable(false);
+            end
           else
              if not(findnext) then
              first
