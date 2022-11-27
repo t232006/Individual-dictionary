@@ -13,6 +13,7 @@ var
 
 function seeking(field: byte):integer;
 var recnum:integer;
+    no:integer;
 begin
    with DataModule2.vokab do
    begin
@@ -28,8 +29,11 @@ begin
               edittable(true);
               edit;
               FieldByName('spot').AsBoolean:=true;
+              no:=recno;
               post;
+              recno:=no;
               edittable(false);
+              next;
             end
           else
              if not(findnext) then
@@ -41,6 +45,8 @@ begin
 end;
 
 begin
+    if not(needle='') then
+
     if ord(needle[1])<128 then //latin
       result:=seeking(2) else
       result:=seeking(1);

@@ -1219,10 +1219,9 @@ begin
       DBNavigator1.Enabled:=true;
       seekBar.Visible:=false;
       Filter:='spot=true';
-      Filtered:=true;
     end else
       if selspot.Checked then
-        Filter:='usersel=true' else Filtered:=false;
+        Filter:='usersel=true' else Filter:='';
   end;
 end;
 

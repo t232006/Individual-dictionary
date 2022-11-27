@@ -65,13 +65,13 @@ var R:Integer;
 begin
   seAndCor.calcProgress;
   form1.StBar.Panels[4].Text:='Потенциал: '+seAndCor.potcount;
-  if (DataSet.Filtered) then
+  {if (DataSet.Filtered) then
     begin
       DataSet.Filtered:=false;
       R:=DataSet.RecordCount;
       form1.StBar.panels[0].Text:='Всего слов: '+inttostr(R);
       DataSet.Filtered:=true;
-    end;
+    end;  }
   form1.StBar.panels[0].Text:='Всего слов: '+inttostr(DataSet.RecordCount);
 end;
 

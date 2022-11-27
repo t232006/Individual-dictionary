@@ -110,11 +110,11 @@ begin
   end
   else
   begin
-    DBMemo1.ReadOnly:=true;
     if DBMemo1.Text='' then
       Datamodule2.top.Cancel
     else
       Datamodule2.top.Post;
+    DBMemo1.ReadOnly:=true;
     TopicRefresh;
     DBGrid1.SetFocus;
   end;
@@ -124,7 +124,7 @@ procedure Ttopicform.DBGrid1CellClick(Column: TColumn);
 begin
 with DataModule2 do
 begin
-       top.FindNearest([topic.Fields[0].asinteger]);
+       top.FindKey([topic.Fields[0].asinteger]);
 end;
 
 end;
