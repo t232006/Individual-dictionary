@@ -7,8 +7,8 @@ uses
   Dialogs, Grids, ValEdit, ComCtrls, DB, StdCtrls, DBGrids, DBTables,
   ExtCtrls, lessons, PoBukvam, lesson4, database, DBCtrls, addnewword, dataform,
   Buttons, frame, helpdict, Mask, ActnList, ActnMan, ActnColorMaps, ImgList,
-  OleCtrls, SHDocVw, Gauges, thread2, DdeMan, Menus, comobj, System.Actions,
-  basemanipulation, cards, RowColorsUnit, saver, deepSearch;
+  OleCtrls, SHDocVw, Gauges, thread2, DdeMan, Menus, System.Actions,
+  basemanipulation, cards, RowColorsUnit, saver, deepSearch, ToExcelUnit;
 
 type
   TForm1 = class(TForm)
@@ -705,7 +705,6 @@ begin
 
 end;
 
-
 //-----------------------------------------------------------
 
 procedure TForm1.m1DragDrop(Sender, Source: TObject; X, Y: Integer);
@@ -734,7 +733,6 @@ end;
 
 procedure TForm1.sb11Click(Sender: TObject);
 begin
-
      if sb11.Down then
      begin
       Constraints.maxWidth:=1270;
@@ -788,6 +786,7 @@ begin
   if SQL.Text<>'update vokab set usersel=true where'#$D#$A
                      then
   try
+     DataModule2.vokab.Filter:='';
      DataModule2.dropch.ExecSQL;
      ExecSQL;
   except
@@ -797,6 +796,7 @@ begin
 end;
 DataModule2.vokab.Refresh;
 Action3Execute(sender);
+DataModule2.vokab.Filter:=filtr;
 DBGrid1.SetFocus;
 
 end;
@@ -935,7 +935,6 @@ procedure TForm1.rgClick(Sender: TObject);
     system.Delete(filtr,pos('fraza=false',filtr),11 );
     system.Delete(filtr,pos('and',filtr),4);
    end;
-
 
 begin
   with DataModule2.vokab do
@@ -1149,8 +1148,8 @@ try
   5:
   begin
     case ord(key) of
-    49:YesB.OnClick(Sender);
-    48:NoB.OnClick(Sender);
+    49:if timer1.Enabled then YesB.OnClick(Sender);
+    48:if timer1.Enabled then NoB.OnClick(Sender);
     13:TB.OnClick(Sender);
     end;
   end;
@@ -1239,7 +1238,8 @@ begin
  TB.Enabled:=false;
  YesB.Enabled:=true;
  NoB.Enabled:=true;
-
+ YesNo.Reset;
+ StBar.Panels[2].Text:='серия '+inttostr(YesNo.serial);
  YesNo.Init;
  Memo3.Text:=YesNo.GetString;
  ProgressBar.Position:=0;
@@ -1355,7 +1355,6 @@ begin
   synchtr.Resume;
 end;
 
-
 procedure TForm1.StBarDrawPanel(StatusBar: TStatusBar; Panel: TStatusPanel;
   const Rect: TRect);
 begin
@@ -1366,7 +1365,6 @@ begin
      Dpot.Left:=Rect.Left;
      Dpot.Width:=StBar.Panels[4].Width;
   end;
-
 end;
 
 procedure TForm1.DBGrid2CellClick(Column: TColumn);
@@ -1423,36 +1421,11 @@ begin
      StBar.Panels[1].text:='Выделено слов: '+ inttostr(DataModule2.selectsel.RecordCount);
      Fill4Status;
    end;
-
 end;
 
-
 procedure TForm1.SpeedButton10Click(Sender: TObject);
-var sa, sh, ij:variant;
 begin
-  sa:=createOLEobject('excel.application');
-  sa.workbooks.add;
-  sa.visible:=true;
-  sh:=sa.workbooks[1].worksheets[1];
-  with DataModule2.vokab do
-  begin
-      sh.name:=FieldByName('topic').AsString;
-      sh.columns[2].columnwidth:=16;
-      sh.columns[3].columnwidth:=16;
-      first;
-      ij:=2;
-      sh.cells[1,2]:='слово';
-      sh.cells[1,3]:='перевод';
-      while not(eof) do
-      begin
-          sh.cells[ij,2]:=FieldByName('word').AsString;
-          sh.cells[ij,3]:=FieldByName('translate').AsString;
-          next;
-          inc(ij);
-      end;
-
-  end;
-
+   ToExcel;
 end;
 
 procedure TForm1.BitBtn1Click(Sender: TObject);
@@ -1479,7 +1452,6 @@ end;
 procedure TForm1.YesBClick(Sender: TObject);
 begin
     YesNoContinue(true);
-
 end;
 
 procedure TForm1.NoBClick(Sender: TObject);

@@ -71,7 +71,7 @@ begin
       {topicquerly.SQL.Delete(topicquerly.SQL.Count-1);}//удаляем крайний and
       topicquerly.SQL.Add(')');
       topicquerly.ExecSQL;
-      vokab.Refresh;
+      //vokab.Refresh;
     end;
  end;
 

@@ -42,6 +42,7 @@ type
     property GetString:string read _GetString;
     procedure GiveAnswer(answer:boolean);
     procedure Init;
+    procedure Reset;
  end;
  TTest=class(TGeneral)
     public
@@ -56,6 +57,10 @@ implementation
 
 uses DB, DBTables;
 
+procedure TYesNo.Reset();
+begin
+   _serial:=0;
+end;
 
 procedure TYesNo.GiveAnswer(answer: boolean);
 begin
@@ -71,7 +76,7 @@ begin
     end;
   end else
   begin
-    _serial:=0;
+    reset;
     PromptColor:=clred;
     _prompt:='вы неправы';
   end;

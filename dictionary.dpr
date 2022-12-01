@@ -19,7 +19,10 @@ uses
   RowColorsUnit in 'RowColorsUnit.pas' {RowColors},
   coloredRowFrame in 'coloredRowFrame.pas' {ColoredRow: TFrame},
   saver in 'saver.pas',
-  deepSearch in 'deepSearch.pas';
+  deepSearch in 'deepSearch.pas',
+  Vcl.Themes,
+  Vcl.Styles,
+  ToExcelUnit in 'ToExcelUnit.pas';
 
 {$R *.res}
 
