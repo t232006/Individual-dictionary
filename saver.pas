@@ -21,11 +21,9 @@ begin
       assignfile(f,'init.ini');
       reset(f);
       readln(f,sf);
-      dbgrid1.Font.size:=strtoint(sf);
+      Grid.Font.size:=strtoint(sf);
       readln(f,sf);
-      dbgrid1.Font.color:=strtoint(sf);
-      readln(f,sf);
-      dbgrid1.color:=strtoint(sf);
+      Grid.Font.color:=strtoint(sf);
       readln(f,sf);
       color_scale:=strtoint(sf);
 
@@ -87,9 +85,8 @@ begin
   Rewrite(f);
   with form1 do
   begin
-    writeln(f,inttostr(dbgrid1.Font.Size));
-    writeln(f,inttostr(  dbgrid1.Font.color));
-    writeln(f,inttostr(  dbgrid1.color));
+    writeln(f,inttostr(Grid.Font.Size));
+    writeln(f,inttostr(  Grid.Font.color));
     writeln(f,inttostr(color_scale));
 
     writeln(f, inttostr(tablegreedrow.Rowbrushcolor1 ));

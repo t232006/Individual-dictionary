@@ -8,7 +8,8 @@ uses
   ExtCtrls, lessons, PoBukvam, lesson4, database, DBCtrls, addnewword, dataform,
   Buttons, frame, helpdict, Mask, ActnList, ActnMan, ActnColorMaps, ImgList,
   OleCtrls, SHDocVw, Gauges, thread2, DdeMan, Menus, System.Actions,
-  basemanipulation, cards, RowColorsUnit, saver, deepSearch, ToExcelUnit;
+  basemanipulation, cards, RowColorsUnit, saver, deepSearch, ToExcelUnit,
+  squares, Vcl.PlatformDefaultStyleActnCtrls, UpDownHor;
 
 type
   TForm1 = class(TForm)
@@ -23,24 +24,12 @@ type
     Action5: TAction;
     PageControl1: TPageControl;
     TabSheet1: TTabSheet;
-    canedit: TSpeedButton;
-    SpeedButton2: TSpeedButton;
-    SpeedButton3: TSpeedButton;
-    SpeedButton4: TSpeedButton;
-    SpeedButton5: TSpeedButton;
-    Label7: TLabel;
-    lb: TLabel;
-    Image1: TImage;
-    Image2: TImage;
-    DBGrid1: TDBGrid;
+    Grid: TDBGrid;
     DBNavigator1: TDBNavigator;
     Button3: TButton;
-    search: TLabeledEdit;
     ComboBox1: TComboBox;
     DBMemo1: TDBMemo;
     DBMemo2: TDBMemo;
-    rg: TRadioGroup;
-    selspot: TCheckBox;
     TabSheet2: TTabSheet;
     Label2: TLabel;
     rg1: TRadioGroup;
@@ -88,7 +77,6 @@ type
     Frame211: TFrame2;
     Frame212: TFrame2;
     TabSheet7: TTabSheet;
-    WebBrowser1: TWebBrowser;
     TabSheet8: TTabSheet;
     DBGrid2: TDBGrid;
     od1: TOpenDialog;
@@ -114,7 +102,6 @@ type
     N5: TMenuItem;
     N6: TMenuItem;
     N7: TMenuItem;
-    SpeedButton10: TSpeedButton;
     Label10: TLabel;
     Label11: TLabel;
     Label12: TLabel;
@@ -137,12 +124,6 @@ type
     left4: TLabel;
     left5: TLabel;
     left6: TLabel;
-    Label23: TLabel;
-    Label24: TLabel;
-    Label25: TLabel;
-    Label26: TLabel;
-    Label27: TLabel;
-    Label28: TLabel;
     right1: TLabel;
     right2: TLabel;
     right3: TLabel;
@@ -173,11 +154,54 @@ type
     N10: TMenuItem;
     N12: TMenuItem;
     Dpot: TProgressBar;
-    DBText1: TDBText;
-    SpBut8: TSpeedButton;
-    sb11: TSpeedButton;
+    GridPanel1: TGridPanel;
+    Back: TStaticText;
+    Shape1: TShape;
+    StaticText5: TStaticText;
+    StaticText6: TStaticText;
+    ShTableFontColor: TShape;
+    Цвет: TStaticText;
+    StaticText7: TStaticText;
+    Frame31: TFrame3;
+    StaticText9: TStaticText;
+    StaticText13: TStaticText;
+    StaticText12: TStaticText;
+    StaticText10: TStaticText;
+    StaticText14: TStaticText;
+    StaticText15: TStaticText;
+    StaticText16: TStaticText;
+    ShScaleColor: TShape;
+    ChShowNumber: TCheckBox;
+    ChShowScale: TCheckBox;
+    ShCardColor: TShape;
+    LaUpperCard: TPanel;
+    LaBottomCard: TPanel;
+    Frame42: TFrame4;
+    Panel1: TPanel;
+    selspot: TCheckBox;
     deepbut: TSpeedButton;
+    lb: TLabel;
+    canedit: TSpeedButton;
+    SpeedButton8: TSpeedButton;
+    Label7: TLabel;
+    SpeedButton10: TSpeedButton;
+    SpeedButton2: TSpeedButton;
+    SpeedButton3: TSpeedButton;
+    SpeedButton4: TSpeedButton;
+    SpeedButton5: TSpeedButton;
+    sb11: TSpeedButton;
+    rg: TRadioGroup;
+    search: TLabeledEdit;
     seekBar: TProgressBar;
+    SpBut8: TSpeedButton;
+    DBText1: TDBText;
+    Image1: TImage;
+    Image2: TImage;
+    Panel2: TPanel;
+    Panel3: TPanel;
+    Panel4: TPanel;
+    Panel5: TPanel;
+    Panel6: TPanel;
     procedure rg1Click(Sender: TObject);
     procedure rg2Click(Sender: TObject);
     procedure InitSlovoPer;
@@ -193,7 +217,7 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure searchKeyPress(Sender: TObject; var Key: Char);
     procedure ComboBox1CloseUp(Sender: TObject);
-    procedure DBGrid1CellClick(Column: TColumn);
+    procedure GridCellClick(Column: TColumn);
     procedure caneditClick(Sender: TObject);
     procedure stringselect(po:boolean);
     procedure InitPobukvam;
@@ -225,7 +249,7 @@ type
     procedure Frame21BitBtn2Click(Sender: TObject);
     procedure CheckBox2Click(Sender: TObject);
     procedure Action5Execute(Sender: TObject);
-    procedure DBGrid1KeyPress(Sender: TObject; var Key: Char);
+    procedure GridKeyPress(Sender: TObject; var Key: Char);
     procedure Butt7Click(Sender: TObject);
     procedure SpeedButton9Click(Sender: TObject);
     procedure DBGrid2CellClick(Column: TColumn);
@@ -238,18 +262,18 @@ type
       Shift: TShiftState; X, Y: Integer);
 procedure sgMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
     procedure rg3Click(Sender: TObject);
-    procedure DBGrid1DrawColumnCell(Sender: TObject; const Rect2: TRect;
+    procedure GridDrawColumnCell(Sender: TObject; const Rect2: TRect;
       DataCol: Integer; Column: TColumn; State: TGridDrawState);
     procedure N1Click(Sender: TObject);
     procedure N4Click(Sender: TObject);
     procedure N7Click(Sender: TObject);
     procedure N6Click(Sender: TObject);
-    procedure DBGrid1TitleClick(Column: TColumn);
+    procedure GridTitleClick(Column: TColumn);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure nexttackExecute(Sender: TObject);
     procedure DBMemo1KeyPress(Sender: TObject; var Key: Char);
     procedure DBMemo2KeyPress(Sender: TObject; var Key: Char);
-    procedure DBGrid1KeyDown(Sender: TObject; var Key: Word;
+    procedure GridKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure Timer1Timer(Sender: TObject);
     procedure YesBClick(Sender: TObject);
@@ -267,6 +291,22 @@ procedure sgMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
     procedure sb11Click(Sender: TObject);
     procedure SpBut8Click(Sender: TObject);
     procedure deepbutClick(Sender: TObject);
+    procedure TableFontColorExecute(Sender: TObject);
+    procedure ShowNumberExecute(Sender: TObject);
+    procedure ShTableFontColorMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure Frame31Shape1MouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure ShScaleColorMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure N5Click(Sender: TObject);
+    procedure ChShowNumberClick(Sender: TObject);
+    procedure ChShowScaleClick(Sender: TObject);
+    procedure ShCardColorMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure Shape1MouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure Frame42Edit1Change(Sender: TObject);
   private
     { Private declarations }
     procedure Fill4Status;
@@ -347,7 +387,7 @@ begin
   end else
   if (msg.CharCode=VK_TAB) then
       if PageControl1.ActivePageIndex=0 then
-      dbgrid1.SetFocus;
+      Grid.SetFocus;
 //------------------------------------------------------
   if PageControl1.ActivePageIndex=4 then
   begin
@@ -401,13 +441,13 @@ procedure Tform1.stringselect(po:boolean);
 begin
 if po then
   begin
-    DBGrid1.Options:=DBGrid1.Options-[dgRowSelect];
-    DBGrid1.Options:=DBGrid1.Options+[dgEditing];
+    Grid.Options:=Grid.Options-[dgRowSelect];
+    Grid.Options:=Grid.Options+[dgEditing];
   end
 else
   begin
-    DBGrid1.Options:=DBGrid1.Options+[dgRowSelect];
-    DBGrid1.Options:=DBGrid1.Options-[dgEditing];
+    Grid.Options:=Grid.Options+[dgRowSelect];
+    Grid.Options:=Grid.Options-[dgEditing];
   end;
 end;
 
@@ -577,7 +617,7 @@ begin
   end;
   7:
   begin
-    WebBrowser1.Navigate(ExtractFileDir(Application.ExeName)+'\словарь.htm');
+    //WebBrowser1.Navigate(ExtractFileDir(Application.ExeName)+'\словарь.htm');
   end;
   
   end;
@@ -737,14 +777,14 @@ begin
      begin
       Constraints.maxWidth:=1270;
       sb11.Caption:='<<';
-      DBGrid1.Columns[6].Visible:=true;
-      DbGrid1.Columns[6].Width:=45;
+      Grid.Columns[6].Visible:=true;
+      Grid.Columns[6].Width:=45;
      end
      else
      begin
       Constraints.MaxWidth:=1225;
       sb11.Caption:='>>';
-      DBGrid1.Columns[6].Visible:=false;
+      Grid.Columns[6].Visible:=false;
      end;
      WindowState:=wsNormal;
      WindowState:=wsMaximized;
@@ -797,11 +837,11 @@ end;
 DataModule2.vokab.Refresh;
 Action3Execute(sender);
 DataModule2.vokab.Filter:=filtr;
-DBGrid1.SetFocus;
+Grid.SetFocus;
 
 end;
 
-procedure TForm1.DBGrid1CellClick(Column: TColumn);
+procedure TForm1.GridCellClick(Column: TColumn);
 begin
  if column.FieldName='usersel' then
   begin
@@ -820,10 +860,10 @@ end;
 procedure TForm1.caneditClick(Sender: TObject);
 begin
   //stringselect(canedit.down);
-  if canedit.Down then DBGrid1.options := DBGrid1.options +[dgediting] else
-DBGrid1.options := DBGrid1.options -[dgediting];
+  if canedit.Down then Grid.options := Grid.options +[dgediting] else
+Grid.options := Grid.options -[dgediting];
   edittable(canedit.Down);
-  DBGrid1.SetFocus;
+  Grid.SetFocus;
 end;
 
 procedure TForm1.Button1Click(Sender: TObject);
@@ -928,6 +968,17 @@ begin
   FrameGeneralization(sender, false);
 end;
 
+procedure TForm1.Frame31Shape1MouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+  SpeedButton5.Click;
+end;
+
+procedure TForm1.Frame42Edit1Change(Sender: TObject);
+begin
+  Grid.Font.Size:=strtoint(Frame42.Edit1.Text);
+end;
+
 procedure TForm1.rgClick(Sender: TObject);
   procedure delfilt(t:boolean);
    begin
@@ -997,13 +1048,13 @@ end;
 
 procedure TForm1.SpeedButton2Click(Sender: TObject);
 begin
-DBGrid1.Font.Size:=DBGrid1.Font.Size+2;
+Grid.Font.Size:=Grid.Font.Size+2;
 
 end;
 
 procedure TForm1.SpeedButton3Click(Sender: TObject);
 begin
-if DBGrid1.Font.Size>5 then DBGrid1.Font.Size:=DBGrid1.Font.Size-2;
+if Grid.Font.Size>5 then Grid.Font.Size:=Grid.Font.Size-2;
 end;
 
 procedure TForm1.SpeedButton5Click(Sender: TObject);
@@ -1011,7 +1062,36 @@ begin
   RowColors.ShowModal;
   TableGreedRow.RowBrushColor1:=RowColors.RowColor1;
   TableGreedRow.RowBrushColor2:=RowColors.RowColor2;
-  DBGrid1.Color:=RowColors.RowColor1;
+  Frame31.Shape1.brush.Color:=RowColors.RowColor1;
+  Frame31.Shape2.brush.Color:=RowColors.RowColor2;
+  Grid.Color:=RowColors.RowColor1;
+end;
+
+procedure TForm1.ShScaleColorMouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+  n4.Click;
+end;
+
+procedure TForm1.Shape1MouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+    if ColorDialog1.Execute then
+      begin
+      color:=ColorDialog1.Color;
+      shape1.Brush.Color:=color;
+      end;
+end;
+
+procedure TForm1.ShCardColorMouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+  SpeedButton1.Click;
+end;
+
+procedure TForm1.ShowNumberExecute(Sender: TObject);
+begin
+  n6.Click;
 end;
 
 procedure TForm1.Action2Execute(Sender: TObject);
@@ -1032,7 +1112,7 @@ begin
 end;
 
 procedure TForm1.FormCreate(Sender: TObject);
-var sf:string; fk:1..12;
+//var sf:string; fk:1..12;
 begin
   Dpot.Parent:=StBar;
   SeAndCor:=Tgrademanipulation.Create(DataModule2);
@@ -1177,33 +1257,41 @@ end;
 
 procedure TForm1.SpeedButton4Click(Sender: TObject);
 begin
-if ColorDialog1.Execute then DBGrid1.font.Color :=ColorDialog1.Color;
+if ColorDialog1.Execute then
+begin
+  Grid.font.Color := ColorDialog1.Color;
+  ShTableFontColor.brush.Color:=ColorDialog1.Color;
+end;
 end;
 
 procedure TForm1.SpeedButton1Click(Sender: TObject);
 var fk:1..12;
 begin
 if ColorDialog1.Execute then
-  for fk:=1 to 12 do
-   begin
-   (FindComponent('frame2'+inttostr(fk)) as tframe2).Panel.Color:=ColorDialog1.Color; //.Panel2.Color:=ColorDialog1.Color;
-   end;
+  begin
+    for fk:=1 to 12 do
+     (FindComponent('frame2'+inttostr(fk)) as tframe2).Panel.Color:=ColorDialog1.Color; //.Panel2.Color:=ColorDialog1.Color;
+    ShCardColor.Brush.Color:=ColorDialog1.Color;
+  end;
 end;
 
 procedure TForm1.SpeedButton7Click(Sender: TObject);
 var fk:1..12;
 begin
  if FontDialog1.Execute then
-   for fk:=1 to 12 do
    begin
-     with (FindComponent('frame2'+inttostr(fk)) as tframe2).Panel2.Font do
+   for fk:=1 to 12 do
+     (FindComponent('frame2'+inttostr(fk)) as tframe2).Panel2.Font:=FontDialog1.Font;  {do
      begin
        Color:=fontDialog1.Font.Color;
        Name:=FontDialog1.Font.Name;
        Size:=FontDialog1.Font.Size;
        Style:=FontDialog1.Font.Style;
-     end;
+     end;   }
+   LaUpperCard.Font:=FontDialog1.Font;
    end;
+
+
 end;
 
 procedure TForm1.deepbutClick(Sender: TObject);
@@ -1227,7 +1315,7 @@ end;
 procedure TForm1.SpBut8Click(Sender: TObject);
 var a:string;
 begin
-  a:=DBGrid1.DataSource.DataSet.FieldByName('Number').AsString;
+  a:=Grid.DataSource.DataSet.FieldByName('Number').AsString;
   Seeking(a);
   baserefrash;
 end;
@@ -1250,21 +1338,28 @@ procedure TForm1.SpeedButton6Click(Sender: TObject);
 var fk:1..12;
 begin
  if FontDialog1.Execute then
+ begin
    for fk:=1 to 12 do
-   begin
-     with (FindComponent('frame2'+inttostr(fk)) as tframe2).Panel1.Font do
-     begin
-       Color:=fontDialog1.Font.Color;
-       Name:=FontDialog1.Font.Name;
-       Size:=FontDialog1.Font.Size;
-       Style:=FontDialog1.Font.Style;
-     end;
-   end;
+     (FindComponent('frame2'+inttostr(fk)) as tframe2).Panel1.Font:=FontDialog1.Font;
+   LaBottomCard.Font:=FontDialog1.Font;
+ end;
 end;
 
 procedure TForm1.CheckBox2Click(Sender: TObject);
 begin
 if CheckBox2.Checked then st3.Caption:='' else st3.Caption:=Pobukv.sl;
+end;
+
+procedure TForm1.ChShowNumberClick(Sender: TObject);
+begin
+     n6.Checked:=ChShowNumber.Checked;
+     Grid.Repaint;
+end;
+
+procedure TForm1.ChShowScaleClick(Sender: TObject);
+begin
+    n5.Checked:=ChShowScale.Checked;
+    Grid.Repaint;
 end;
 
 procedure TForm1.Action5Execute(Sender: TObject);
@@ -1273,7 +1368,18 @@ begin
   DataModule2.vokab.Delete;
 end;
 
-procedure TForm1.DBGrid1KeyDown(Sender: TObject; var Key: Word;
+procedure TForm1.ShTableFontColorMouseDown(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+begin
+  SpeedButton4.Click;
+end;
+
+procedure TForm1.TableFontColorExecute(Sender: TObject);
+begin
+   SpeedButton4.Click;
+end;
+
+procedure TForm1.GridKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
    if (key=VK_TAB) then
@@ -1287,7 +1393,7 @@ begin
     DBMemo1.SetFocus;
 end;
 
-procedure TForm1.DBGrid1KeyPress(Sender: TObject; var Key: Char);
+procedure TForm1.GridKeyPress(Sender: TObject; var Key: Char);
 begin
 with DataModule2.vokab do begin
 if (key= #13) and (CanModify)
@@ -1298,7 +1404,7 @@ then
 end;
 end;
 
-procedure TForm1.DBGrid1TitleClick(Column: TColumn);
+procedure TForm1.GridTitleClick(Column: TColumn);
 begin
    with DataModule2.vokab do
   begin
@@ -1497,7 +1603,7 @@ end;
 
 procedure TForm1.DBMemo2KeyPress(Sender: TObject; var Key: Char);
 begin
-if key=#9 then DBGrid1.SetFocus;
+if key=#9 then Grid.SetFocus;
 
 end;
 
@@ -1506,7 +1612,7 @@ begin
  PageControl1Change(sender);
 end;
 
-procedure TForm1.DBGrid1DrawColumnCell(Sender: TObject; const Rect2: TRect;
+procedure TForm1.GridDrawColumnCell(Sender: TObject; const Rect2: TRect;
   DataCol: Integer; Column: TColumn; State: TGridDrawState);
   var style,rl,rr,rt,rb:integer; rect1:TRect;
 begin
@@ -1605,8 +1711,15 @@ begin
   if ColorDialog1.Execute then
   begin
     color_scale:=colorDialog1.color;
-    dbgrid1.Repaint;
+    ShScaleColor.brush.color:=colorDialog1.color;
+    Grid.Repaint;
   end;
+end;
+
+procedure TForm1.N5Click(Sender: TObject);
+begin
+  ChShowScale.Checked:=n5.Checked;
+  Grid.Repaint;
 end;
 
 procedure TForm1.N7Click(Sender: TObject);
@@ -1642,6 +1755,7 @@ end;
 
 procedure TForm1.N6Click(Sender: TObject);
 begin
-  DBGrid1.Repaint;
+  ChShowNumber.Checked:=n6.Checked;
+  Grid.Repaint;
 end;
 end.

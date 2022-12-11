@@ -22,7 +22,8 @@ uses
   deepSearch in 'deepSearch.pas',
   Vcl.Themes,
   Vcl.Styles,
-  ToExcelUnit in 'ToExcelUnit.pas';
+  ToExcelUnit in 'ToExcelUnit.pas',
+  squares in 'squares.pas' {Frame3: TFrame};
 
 {$R *.res}
 

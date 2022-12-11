@@ -79,17 +79,11 @@ Coordinates=246,366,111,58
 [PageControl1]
 Coordinates=956,752,93,36
 
-[Image1]
-Coordinates=887,570,57,58
-
 [Frame25.panel1]
 Coordinates=332,434,108,58
 
 [BitBtn1]
 Coordinates=431,502,56,58
-
-[canedit]
-Coordinates=890,752,56,36
 
 [od1]
 Coordinates=563,1295,40,36
@@ -160,9 +154,6 @@ Coordinates=605,434,111,58
 [Label2]
 Coordinates=384,638,53,58
 
-[SpeedButton5]
-Coordinates=325,752,96,36
-
 [ColorDialog1]
 Coordinates=1422,133,89,36
 
@@ -183,9 +174,6 @@ Coordinates=1422,243,57,36
 
 [st1]
 Coordinates=275,752,40,36
-
-[SpeedButton2]
-Coordinates=169,752,96,36
 
 [rg2]
 Coordinates=69,570,49,58
@@ -214,9 +202,6 @@ Coordinates=10,752,73,36
 [m7]
 Coordinates=855,502,64,58
 
-[Image2]
-Coordinates=1252,366,57,58
-
 [Frame24.BitBtn1]
 Coordinates=1669,298,111,58
 
@@ -226,9 +211,6 @@ Coordinates=1422,628,40,36
 [DBMemo1]
 Coordinates=1705,706,75,36
 
-[Label7]
-Coordinates=929,502,53,58
-
 [Frame28.BitBtn1]
 Coordinates=671,298,111,58
 
@@ -237,9 +219,6 @@ Coordinates=1667,570,118,58
 
 [Frame210.panel2]
 Coordinates=447,638,115,58
-
-[rg]
-Coordinates=10,570,49,58
 
 [Frame27.panel1]
 Coordinates=1303,570,108,58
@@ -252,9 +231,6 @@ Coordinates=1566,706,77,36
 
 [TabSheet2]
 Coordinates=1479,706,77,36
-
-[SpeedButton3]
-Coordinates=1373,706,96,36
 
 [DataModule2.top]
 Coordinates=260,10,112,102
@@ -319,9 +295,6 @@ Coordinates=1422,1343,58,36
 [Frame210.BitBtn2]
 Coordinates=128,298,118,58
 
-[SpeedButton10]
-Coordinates=882,706,103,36
-
 [DataModule2.addball]
 Coordinates=741,570,136,58
 
@@ -346,9 +319,6 @@ Coordinates=1632,366,111,58
 [DataModule2.selectsel]
 Coordinates=450,434,145,58
 
-[SpeedButton4]
-Coordinates=628,706,96,36
-
 [Frame23.panel2]
 Coordinates=128,366,108,58
 
@@ -357,9 +327,6 @@ Coordinates=972,434,64,58
 
 [Frame24.panel1]
 Coordinates=505,570,108,58
-
-[WebBrowser1]
-Coordinates=523,706,95,36
 
 [Frame212.Panel]
 Coordinates=256,298,109,58
@@ -437,9 +404,6 @@ Coordinates=584,1391,40,36
 [Frame211.panel2]
 Coordinates=609,502,115,58
 
-[DBGrid1]
-Coordinates=169,706,64,36
-
 [Frame25]
 Coordinates=93,706,66,36
 
@@ -448,9 +412,6 @@ Coordinates=1127,502,53,58
 
 [Frame210]
 Coordinates=10,706,73,36
-
-[search]
-Coordinates=128,570,53,58
 
 [Frame28.panel1]
 Coordinates=1285,298,108,58
@@ -463,9 +424,6 @@ Coordinates=1710,10,111,58
 
 [SpeedButton6]
 Coordinates=1681,638,96,36
-
-[lb]
-Coordinates=1414,502,49,58
 
 [Frame27]
 Coordinates=1605,638,66,36
@@ -528,14 +486,14 @@ Coordinates=1473,502,64,58
 Coordinates=131,502,53,58
 
 []
-Coordinates=1303,706,60,36
+Coordinates=1252,366,57,58
 
 [StBar]
 Coordinates=792,298,78,58
 
-[selspot]
-Coordinates=1275,10,114,58
-
 [DataModule2.]
 Coordinates=0,512,147,102
+
+[Grid]
+Coordinates=169,706,64,36
 
