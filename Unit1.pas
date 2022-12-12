@@ -9,7 +9,7 @@ uses
   Buttons, frame, helpdict, Mask, ActnList, ActnMan, ActnColorMaps, ImgList,
   OleCtrls, SHDocVw, Gauges, thread2, DdeMan, Menus, System.Actions,
   basemanipulation, cards, RowColorsUnit, saver, deepSearch, ToExcelUnit,
-  squares, Vcl.PlatformDefaultStyleActnCtrls, UpDownHor;
+  squares, Vcl.PlatformDefaultStyleActnCtrls, UpDownHor, remaindCard;
 
 type
   TForm1 = class(TForm)
@@ -202,6 +202,7 @@ type
     Panel4: TPanel;
     Panel5: TPanel;
     Panel6: TPanel;
+    cardActivate: TCheckBox;
     procedure rg1Click(Sender: TObject);
     procedure rg2Click(Sender: TObject);
     procedure InitSlovoPer;
@@ -307,6 +308,7 @@ procedure sgMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
     procedure Shape1MouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure Frame42Edit1Change(Sender: TObject);
+    procedure cardActivateClick(Sender: TObject);
   private
     { Private declarations }
     procedure Fill4Status;
@@ -327,6 +329,7 @@ procedure sgMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
 
 var
   Form1: TForm1;
+  card:TCard;
   pravotv:byte;
   i:byte;   //ОСТОРОЖНО!
   s, filtr:string;
@@ -1343,6 +1346,17 @@ begin
      (FindComponent('frame2'+inttostr(fk)) as tframe2).Panel1.Font:=FontDialog1.Font;
    LaBottomCard.Font:=FontDialog1.Font;
  end;
+end;
+
+procedure TForm1.cardActivateClick(Sender: TObject);
+begin
+  if cardActivate.Checked then
+  begin
+    Card:=TCard.Create(Frame21.panel1.Font, Frame21.panel2.Font, Frame21.Panel.Color, nil);
+    card.ShowModal;
+  end
+  else
+    card.Destroy;
 end;
 
 procedure TForm1.CheckBox2Click(Sender: TObject);

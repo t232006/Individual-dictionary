@@ -11,7 +11,7 @@ uses
   dataform in 'dataform.pas' {dataformm},
   remproc in 'remproc.pas',
   frame in 'frame.pas' {Frame2: TFrame},
-  helpdict in 'helpdict.pas' {Form2},
+  helpdict in 'helpdict.pas' {Manual},
   thread2 in 'thread2.pas',
   PoBukvam in 'PoBukvam.pas',
   basemanipulation in 'basemanipulation.pas',
@@ -23,7 +23,9 @@ uses
   Vcl.Themes,
   Vcl.Styles,
   ToExcelUnit in 'ToExcelUnit.pas',
-  squares in 'squares.pas' {Frame3: TFrame};
+  squares in 'squares.pas' {Frame3: TFrame},
+  UpDownHor in 'UpDownHor.pas' {Frame4: TFrame},
+  remaindCard in 'remaindCard.pas' {Card};
 
 {$R *.res}
 
@@ -36,8 +38,9 @@ begin
   Application.CreateForm(Taddneword, addneword);
   Application.CreateForm(Ttopicform, topicform);
   Application.CreateForm(Tdataformm, dataformm);
-  Application.CreateForm(TForm2, Form2);
+  Application.CreateForm(TManual, Manual);
   Application.CreateForm(TRowColors, RowColors);
+  Application.CreateForm(TCard, Card);
   Application.Run;
 
   end.

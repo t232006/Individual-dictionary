@@ -49,6 +49,7 @@ object Frame2: TFrame2
       ParentCtl3D = False
       ReadOnly = True
       TabOrder = 1
+      ExplicitTop = 0
     end
   end
   object BitBtn2: TBitBtn

@@ -7,7 +7,7 @@ uses
   Dialogs, OleCtrls, SHDocVw;
 
 type
-  TForm2 = class(TForm)
+  TManual = class(TForm)
     WebBrowser1: TWebBrowser;
   private
     { Private declarations }
@@ -16,7 +16,7 @@ type
   end;
 
 var
-  Form2: TForm2;
+  Manual: TManual;
 
 implementation
 

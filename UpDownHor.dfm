@@ -444,6 +444,6 @@ object Frame4: TFrame4
     Width = 49
     Height = 21
     TabOrder = 0
-    Text = '7'
+    Text = '14'
   end
 end
