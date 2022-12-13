@@ -52,9 +52,11 @@ begin
 end;
 
 procedure TCard.Frame41Edit1Change(Sender: TObject);
+var k:integer;
 begin
+  k:=integer.Parse(Frame41.Edit1.Text);
   try
-  timer1.Interval:=strtoint(Frame41.Edit1.Text) * 60000;
+  timer1.Interval:=k * 60000;
   finally
 
   end;
