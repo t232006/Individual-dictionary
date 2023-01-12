@@ -1,5 +1,4 @@
 object DataModule2: TDataModule2
-  OldCreateOrder = False
   Height = 454
   Width = 418
   object sdvokab: TDataSource
@@ -168,6 +167,7 @@ object DataModule2: TDataModule2
     Top = 280
   end
   object synch: TQuery
+    AfterOpen = synchAfterOpen
     DatabaseName = 'vokabul'
     RequestLive = True
     SQL.Strings = (

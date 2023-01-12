@@ -49,9 +49,10 @@ begin
 
             if DBGrid2.Tag=1 then break; //condition of stopping the process
             vokab.Insert;
-            dbgrid2.DataSource.DataSet.GotoBookmark(pointer(dbgrid2.SelectedRows.items[k]));
+            dbgrid2.DataSource.DataSet.GotoBookmark(dbgrid2.SelectedRows.items[k]);
             vokab.Fields[1].AsString:=synch.Fields[0].AsString;
             vokab.Fields[2].AsString:=synch.Fields[1].AsString;
+            top.IndexName:='NameInd';
             if top.FindKey([synch.Fields[2].AsString])=false then //topic doesn't exist
             begin
               top.Append; //

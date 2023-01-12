@@ -140,7 +140,6 @@ type
     ProgressBar: TProgressBar;
     YesB: TBitBtn;
     NoB: TBitBtn;
-    Timer1: TTimer;
     Memo4: TMemo;
     Memo3: TMemo;
     Label5: TLabel;
@@ -203,6 +202,7 @@ type
     Panel5: TPanel;
     Panel6: TPanel;
     cardActivate: TCheckBox;
+    Timer1: TTimer;
     procedure rg1Click(Sender: TObject);
     procedure rg2Click(Sender: TObject);
     procedure InitSlovoPer;
@@ -253,7 +253,6 @@ type
     procedure GridKeyPress(Sender: TObject; var Key: Char);
     procedure Butt7Click(Sender: TObject);
     procedure SpeedButton9Click(Sender: TObject);
-    procedure DBGrid2CellClick(Column: TColumn);
     procedure spb4Click(Sender: TObject);
     procedure spb6Click(Sender: TObject);
     procedure FormPaint(Sender: TObject);
@@ -309,9 +308,10 @@ procedure sgMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
       Shift: TShiftState; X, Y: Integer);
     procedure Frame42Edit1Change(Sender: TObject);
     procedure cardActivateClick(Sender: TObject);
+    procedure Fill4Status;
   private
     { Private declarations }
-    procedure Fill4Status;
+
     procedure YesNoContinue(b:boolean);
     procedure Keynottab (var msg:TCMDialogKey); message CM_DialogKey;
     function memonumber (name:string):byte;
@@ -1485,13 +1485,6 @@ begin
      Dpot.Left:=Rect.Left;
      Dpot.Width:=StBar.Panels[4].Width;
   end;
-end;
-
-procedure TForm1.DBGrid2CellClick(Column: TColumn);
-begin
-  SpeedButton9.Enabled:=true;
-  StBar.panels[1].Text:='Выделено слов: '+inttostr(DBGrid2.SelectedRows.Count);
-  Fill4Status;
 end;
 
 procedure TForm1.spb4Click(Sender: TObject);

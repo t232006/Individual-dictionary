@@ -59,7 +59,7 @@ begin
       topicquerly.SQL.Add('(');
       for im := 0 to dbgrid1.selectedrows.Count-1 do
         begin
-          dbgrid1.DataSource.DataSet.GotoBookmark(pointer(dbgrid1.selectedrows.items[im]));
+          dbgrid1.DataSource.DataSet.GotoBookmark(dbgrid1.selectedrows.items[im]);
           myday:=dateq.Fields[0].AsDateTime;
           smyday:=datetostring(myday);//вставляет нужный разделитель
           if im>0 then

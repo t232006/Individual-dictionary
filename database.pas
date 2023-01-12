@@ -42,6 +42,7 @@ type
     vokabspot: TBooleanField;
     dropspot: TQuery;
     procedure vokabAfterRefresh(DataSet: TDataSet);
+    procedure synchAfterOpen(DataSet: TDataSet);
   private
     { Private declarations }
   public
@@ -59,6 +60,16 @@ uses Unit1;
 
 
 {$R *.dfm}
+
+procedure TDataModule2.synchAfterOpen(DataSet: TDataSet);
+begin
+with form1 do
+  begin
+    SpeedButton9.Enabled:=true;
+    StBar.panels[1].Text:='Выделено слов: '+inttostr(DBGrid2.SelectedRows.Count);
+    Fill4Status;
+  end;
+end;
 
 procedure TDataModule2.vokabAfterRefresh(DataSet: TDataSet);
 var R:Integer;

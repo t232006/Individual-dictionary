@@ -73,7 +73,7 @@ begin
     dbgrid1.DataSource.DataSet.DisableControls; //чтобы не перескакивать
      for k:=0 to DBGrid1.SelectedRows.Count-1 do
      begin
-      DBGrid1.DataSource.DataSet.GotoBookmark(pointer(DBGrid1.SelectedRows.items[k]));;
+      DBGrid1.DataSource.DataSet.GotoBookmark(DBGrid1.SelectedRows.items[k]);;
       //DataModule2.dropch.ExecSQL;
       //DataModule2.topicquerly.SQL.Clear; //чтобы втрой раз не добавлять ту же строку
       if k>0 then  DataModule2.topicquerly.SQL.Add(' or ');//for separation
