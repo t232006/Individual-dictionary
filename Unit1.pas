@@ -181,7 +181,6 @@ type
     deepbut: TSpeedButton;
     lb: TLabel;
     canedit: TSpeedButton;
-    SpeedButton8: TSpeedButton;
     Label7: TLabel;
     SpeedButton10: TSpeedButton;
     SpeedButton2: TSpeedButton;
@@ -203,6 +202,8 @@ type
     Panel6: TPanel;
     cardActivate: TCheckBox;
     Timer1: TTimer;
+    N11: TMenuItem;
+    N13: TMenuItem;
     procedure rg1Click(Sender: TObject);
     procedure rg2Click(Sender: TObject);
     procedure InitSlovoPer;
@@ -309,6 +310,8 @@ procedure sgMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
     procedure Frame42Edit1Change(Sender: TObject);
     procedure cardActivateClick(Sender: TObject);
     procedure Fill4Status;
+    procedure N11Click(Sender: TObject);
+    procedure N13Click(Sender: TObject);
   private
     { Private declarations }
 
@@ -1697,6 +1700,12 @@ begin
 
 end;
 
+procedure TForm1.N11Click(Sender: TObject);
+begin
+    grid.Columns[3].Title.Caption:='Релев.';
+    grid.Columns[3].FieldName:='seeked';
+end;
+
 procedure TForm1.N12Click(Sender: TObject);
 begin
   //StBar.Panels[4].Text:='';
@@ -1704,9 +1713,29 @@ begin
   fill4Status;
 end;
 
-procedure TForm1.N1Click(Sender: TObject);
+procedure TForm1.N13Click(Sender: TObject);
 begin
-if Application.MessageBox('Вы действительно хотите обнулить все оценки?','Внимание',MB_YESNO+MB_ICONEXCLAMATION+MB_TASKMODAL)=IDYES then
+    grid.Columns[3].Title.Caption:='оценка';
+    grid.Columns[3].FieldName:='Rate';
+end;
+
+procedure TForm1.N1Click(Sender: TObject);
+var quest:PWideChar; param:string;
+begin
+if n13.Checked then
+begin
+   quest:='Вы действительно хотите обнулить все оценки?';
+   param:='rate';
+end
+
+else
+begin
+   quest:='Вы действительно хотите обнулить релевантность?' ;
+   param:='seeked';
+end;
+DataModule2.droprate.SQL.Text:='UPDATE vokab SET '+param+'=0 WHERE usersel=true';
+
+if Application.MessageBox(quest,'Внимание',MB_YESNO+MB_ICONEXCLAMATION+MB_TASKMODAL)=IDYES then
      begin
       DataModule2.droprate.ExecSQL;
       DataModule2.vokab.Refresh;
@@ -1733,8 +1762,16 @@ procedure TForm1.N7Click(Sender: TObject);
 begin
 with DataModule2.vokab do
 begin
-  if IndexName='rateind' then IndexName:='rateindD'
-  else IndexName:='rateind';
+  if n13.Checked then
+    begin
+      if IndexName='rateind' then IndexName:='rateindD'
+      else IndexName:='rateind';
+    end
+  else
+  begin
+     if IndexName='seekedind' then IndexName:='rateindD'
+      else IndexName:='seekedind';
+  end;
   First;
 end;
 end;
