@@ -26,12 +26,14 @@ begin
       sh.cells[1,3]:='перевод';
       sh.cells[1,4]:='дата';
       sh.cells[1,5]:='тема';
+      sh.cells[1,6]:='искалось';
       while not(eof) do
       begin
           sh.cells[ij,2]:=FieldByName('word').AsString;
           sh.cells[ij,3]:=FieldByName('translate').AsString;
-          sh.cells[ij,4]:=FieldByName('date').AsString;
+          sh.cells[ij,4]:=FieldByName('daterec').AsString;
           sh.cells[ij,5]:=FieldByName('topic').AsString;
+          sh.cells[ij,6]:=FieldByName('seeked').AsString;
           next;
           inc(ij);
       end;
