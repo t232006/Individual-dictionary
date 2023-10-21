@@ -108,7 +108,6 @@ type
     Label13: TLabel;
     Label14: TLabel;
     Label15: TLabel;
-    Label17: TLabel;
     sg: TStringGrid;
     Label16: TLabel;
     Label18: TLabel;
@@ -569,6 +568,7 @@ begin
   end;
   4:
   begin
+    //pb.Canvas.FillRect(pb.Canvas.ClipRect);
     complience:= Tcomplience.Create;
     for t:=1 to 6 do
     begin
@@ -580,6 +580,7 @@ begin
         TMemo(FindComponent('m'+IntToStr(t))).font.style:=TMemo(FindComponent('m'+IntToStr(t))).font.style-[fsstrikeout];
         TMemo(FindComponent('m'+IntToStr(t))).Color:=clWindow;
         end;
+
   end;
   5:
   begin
@@ -671,6 +672,7 @@ procedure TForm1.m1MouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 var ch:char; na:byte;
 begin
+       //pb.Canvas.FillRect(pb.Canvas.ClipRect);
    if not (fsstrikeout in (sender as Tmemo).Font.Style) then
   begin
     (sender as Tmemo).BeginDrag(false,15); //перенос после 15 пик
@@ -742,7 +744,7 @@ begin
     end;
     ChangeColrigth(false);
   end;
-    pb.Canvas.FillRect(pb.Canvas.ClipRect);
+
 End;
 
 procedure TForm1.m7DragDrop(Sender, Source: TObject; X, Y: Integer);
@@ -1135,6 +1137,7 @@ end;
 procedure TForm1.FormKeyPress(Sender: TObject; var Key: Char);
 procedure rectt (col:Tcolor; var tecomp:Tmemo); //draws green bevel
 begin
+        //pb.Canvas.FillRect(pb.Canvas.ClipRect);
     with tecomp do
     begin
       pb.canvas.pen.color:=col;

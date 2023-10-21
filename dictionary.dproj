@@ -90,10 +90,15 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
         <VerInfo_Locale>1033</VerInfo_Locale>
-        <VerInfo_MinorVer>3</VerInfo_MinorVer>
+        <VerInfo_MinorVer>4</VerInfo_MinorVer>
         <VerInfo_MajorVer>3</VerInfo_MajorVer>
+<<<<<<< Updated upstream
         <VerInfo_Keys>CompanyName=;FileVersion=3.3.4.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductVersion=1.0.0.0;Comments=;ProgramID=com.embarcadero.$(MSBuildProjectName);FileDescription=$(MSBuildProjectName);ProductName=$(MSBuildProjectName)</VerInfo_Keys>
         <VerInfo_Release>4</VerInfo_Release>
+=======
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=3.4.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_Release>0</VerInfo_Release>
+>>>>>>> Stashed changes
         <DCC_WriteableConstants>true</DCC_WriteableConstants>
         <BT_BuildType>Debug</BT_BuildType>
     </PropertyGroup>

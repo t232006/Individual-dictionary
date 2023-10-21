@@ -56,6 +56,7 @@ object Card: TCard
   end
   object Timer1: TTimer
     Enabled = False
+    Interval = 840000
     OnTimer = Timer1Timer
     Left = 112
     Top = 240
